@@ -88,6 +88,33 @@ namespace Server.Items
             /* Yellows */
             new CustomHueGroup(1018343, new int[] { 2213, 2214, 2215, 2216, 2217, 2218 })
         }, true);
+        public static readonly CustomHuePicker RunebookDyeTub = new CustomHuePicker(new CustomHueGroup[]
+        {
+            /* Dull Copper */
+            new CustomHueGroup(1018332, new int[] { 2419, 2420, 2421, 2422, 2423, 2424 }),
+            /* Shadow Iron */
+            new CustomHueGroup(1018333, new int[] { 2406, 2407, 2408, 2409, 2410, 2411, 2412 }),
+            /* Copper */
+            new CustomHueGroup(1018334, new int[] { 2413, 2414, 2415, 2416, 2417, 2418 }),
+            /* Bronze */
+            new CustomHueGroup(1018335, new int[] { 2414, 2415, 2416, 2417, 2418 }),
+            /* Glden */
+            new CustomHueGroup(1018336, new int[] { 2213, 2214, 2215, 2216, 2217, 2218 }),
+            /* Agapite */
+            new CustomHueGroup(1018337, new int[] { 2425, 2426, 2427, 2428, 2429, 2430 }),
+            /* Verite */
+            new CustomHueGroup(1018338, new int[] { 2207, 2208, 2209, 2210, 2211, 2212 }),
+            /* Valorite */
+            new CustomHueGroup(1018339, new int[] { 2219, 2220, 2221, 2222, 2223, 2224 }),
+            /* Reds & Blues */
+            new CustomHueGroup("Reds & Blues", new int[] { 2113, 2114, 2115, 2116, 2117, 2118, 2119, 2120, 2121, 2122, 2123, 2124 }),
+            /* Greens & Yellows */
+            new CustomHueGroup("Greens & Yellows", new int[] { 2126, 2127, 2128, 2129, 2130, 2213, 2214, 2215, 2216, 2217, 2218 }),
+            /* Unique 1 */
+            new CustomHueGroup("Unique 1", new int[] { 1150, 1151, 1153, 1154, 1155, 1156, 1157, 1158, 1159, 1160, 1161, 1162 }),
+            /* Unique 2 */
+            new CustomHueGroup("Unique 2", new int[] { 1163, 1164, 1165, 1166, 1167, 1168, 1169, 1170, 1171, 1172, 1173, 1175 })
+        }, true);
 
         public static readonly CustomHuePicker MetallicDyeTub = new CustomHuePicker(new CustomHueGroup[]
         {

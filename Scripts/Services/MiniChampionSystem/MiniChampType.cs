@@ -19,7 +19,9 @@ namespace Server.Engines.MiniChamps
         EnslavedGoblins,
         SkeletalDragon,
         LavaCaldera,
-        MeraktusTheTormented
+        MeraktusTheTormented,
+        UndeadGraveyard,
+		JukaExodusForces
     }
 
     public class MiniChampTypeInfo
@@ -385,6 +387,65 @@ namespace Server.Engines.MiniChamps
                     new MiniChampTypeInfo(1, typeof(Meraktus))
                 )
             ),
+            new MiniChampInfo // Undead Graveyard
+            (
+                null,
+                new MiniChampLevelInfo // Level 1
+                (
+                    new MiniChampTypeInfo(15, typeof(Zombie)),
+                    new MiniChampTypeInfo(15, typeof(Skeleton))
+                ),
+                new MiniChampLevelInfo // Level 2
+                (
+                    new MiniChampTypeInfo(10, typeof(WailingBanshee)),
+                    new MiniChampTypeInfo(10, typeof(Ghoul))
+
+                ),
+                new MiniChampLevelInfo // Level 3
+                (
+                    new MiniChampTypeInfo(5, typeof(Spectre)),
+                    new MiniChampTypeInfo(5, typeof(Wraith)),
+                    new MiniChampTypeInfo(5, typeof(Bogle))
+                ),
+                new MiniChampLevelInfo // Level 4
+                (
+                    new MiniChampTypeInfo(3, typeof(SkeletalKnight)),
+                    new MiniChampTypeInfo(3, typeof(BoneMagi)),
+                    new MiniChampTypeInfo(3, typeof(Mummy))
+                ),
+                new MiniChampLevelInfo // Champion
+                (
+                    new MiniChampTypeInfo(3, typeof(Lich))
+                )
+            ),
+			new MiniChampInfo // JukaExodusForces
+            (
+                null,
+                new MiniChampLevelInfo // Level 1
+                (
+                    new MiniChampTypeInfo(10, typeof(Golem)),
+                    new MiniChampTypeInfo(5, typeof(ArcaneDaemon)),
+                    new MiniChampTypeInfo(10, typeof(GolemController))
+                ),
+                new MiniChampLevelInfo // Level 2
+                (
+                    new MiniChampTypeInfo(10, typeof(JukaWarrior)),
+                    new MiniChampTypeInfo(5, typeof(ChaosDragoon)),
+					new MiniChampTypeInfo(10, typeof(ClockworkScorpion)),
+					new MiniChampTypeInfo(5, typeof(JukaMage))
+                ),
+                new MiniChampLevelInfo // Level 3
+                (
+                    new MiniChampTypeInfo(5, typeof(JukaLord)),
+                    new MiniChampTypeInfo(5, typeof(ExodusMinion)),
+					new MiniChampTypeInfo(5, typeof(ExodusOverseer)),
+					new MiniChampTypeInfo(10, typeof(ChaosDragoonElite))
+                ),
+                new MiniChampLevelInfo // Boss
+                (
+                    new MiniChampTypeInfo(1, typeof(JukaGolemCommander))
+                )
+            )
         };
 
         public static MiniChampInfo GetInfo(MiniChampType type)

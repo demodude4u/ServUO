@@ -265,7 +265,6 @@ namespace Server.Regions
 
             return base.GetLogoutDelay(m);
         }
-
         public override void OnEnter(Mobile m)
         {
             if (m is PlayerMobile && ((PlayerMobile)m).Young)
@@ -275,6 +274,11 @@ namespace Server.Regions
                     m.SendGump(new YoungDungeonWarning());
                 }
             }
+        }
+
+        public override void OnExit(Mobile m)
+        {
+
         }
 
         public override bool AcceptsSpawnsFrom(Region region)

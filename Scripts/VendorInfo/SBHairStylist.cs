@@ -29,11 +29,21 @@ namespace Server.Mobiles
 
         public class InternalBuyInfo : List<GenericBuyInfo> 
         { 
-            public InternalBuyInfo() 
-            { 
-                Add(new GenericBuyInfo("special beard dye", typeof(SpecialBeardDye), 500000, 20, 0xE26, 0)); 
-                Add(new GenericBuyInfo("special hair dye", typeof(SpecialHairDye), 500000, 20, 0xE26, 0)); 
-                Add(new GenericBuyInfo("1041060", typeof(HairDye), 60, 20, 0xEFF, 0)); 
+            public InternalBuyInfo()
+            {
+                Add(new GenericBuyInfo("1041060", typeof(HairDye), 60, 20, 0xEFF, 0));
+                Add(new GenericBuyInfo("Barber Scissors", typeof(BarberScissors), 47, 20, 0xDFC, 0));
+                Add(new GenericBuyInfo("Brush", typeof(Brush), 53, 20, 0x1372, 0));
+                Add(new GenericBuyInfo("Facial Razor", typeof(FacialRazor), 26, 20, 0x9F6, 0));
+                Add(new GenericBuyInfo("Facial Trimmers", typeof(FacialTrimmers), 62, 20, 0xDFC, 0));
+                Add(new GenericBuyInfo("Razor", typeof(Razor), 21, 20, 0xEC4, 0));
+                Add(new GenericBuyInfo("Beard Growth Elixir", typeof(BeardGrowthElixir), 5000, 20, 0xE26, 0));
+                Add(new GenericBuyInfo("Facial Horn Growth Elixir", typeof(FacialHornGrowthElixir), 5000, 20, 0xefc, 0));
+                Add(new GenericBuyInfo("Hair Growth Elixir", typeof(HairGrowthElixir), 5000, 20, 0x5748, 0));
+                Add(new GenericBuyInfo("Mustashe Growth Elixir", typeof(MustasheGrowthElixir), 5000, 20, 0xe26, 0));
+                Add(new GenericBuyInfo("Special Beard Dye", typeof(SpecialBeardDye), 100000, 20, 0xE26, 0)); 
+                Add(new GenericBuyInfo("Special Hair Dye", typeof(SpecialHairDye), 100000, 20, 0xE26, 0));
+
             }
         }
 

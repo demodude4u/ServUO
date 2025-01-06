@@ -681,9 +681,7 @@ namespace Server.Items
                 else
                 {
                     var barrel = new WaterBarrel();
-                    barrel.Movable = false;
-                    barrel.MoveToWorld(Location, Map);
-
+                    from.AddToBackpack(barrel);
                     beverage.Pour_OnTarget(from, barrel);
                     Delete();
                 }

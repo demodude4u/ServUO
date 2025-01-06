@@ -7406,6 +7406,12 @@ namespace Server.Mobiles
 
         public virtual void OnThink()
         {
+			//section for checking to teleport to a control master if following
+			if (this.ControlMaster != null && (this.ControlOrder == OrderType.Follow || this.ControlOrder == OrderType.Come))
+			{
+				if (!this.ControlMaster.InRange(this.Location, 10) && this.Combatant == null)
+					this.MoveToWorld(this.ControlMaster.Location, this.ControlMaster.Map);
+			}
             long tc = Core.TickCount;
 
             if (Paralyzed || Frozen)

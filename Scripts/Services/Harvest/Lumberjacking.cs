@@ -70,11 +70,11 @@ namespace Server.Engines.Harvest
             lumber.EffectDelay = TimeSpan.FromSeconds(1.6);
             lumber.EffectSoundDelay = TimeSpan.FromSeconds(0.9);
 
-            lumber.NoResourcesMessage = 500493; // There's not enough wood here to harvest.
-            lumber.FailMessage = 500495; // You hack at the tree for a while, but fail to produce any useable wood.
-            lumber.OutOfRangeMessage = 500446; // That is too far away.
-            lumber.PackFullMessage = 500497; // You can't place any wood into your backpack!
-            lumber.ToolBrokeMessage = 500499; // You broke your axe.
+            lumber.NoResourcesMessage   = "123|There's not enough wood here to harvest.";
+            lumber.FailMessage          = "234|You hack at the tree for a while, but fail to produce any useable wood.";
+            lumber.OutOfRangeMessage    = "345|That is too far away.";
+            lumber.PackFullMessage      = "456|You can't place any wood into your backpack!";
+            lumber.ToolBrokeMessage     = "45|You broke your axe.";
 
             if (Core.ML)
             {

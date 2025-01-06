@@ -358,10 +358,7 @@ namespace Server.Items
 
         public override void AddUsesRemainingProperties(ObjectPropertyList list)
         {
-            if (Siege.SiegeShard && m_ShowUsesRemaining)
-            {
                 list.Add(1060584, UsesRemaining.ToString()); // uses remaining: ~1_val~
-            }
         }
 
         public override void GetProperties(ObjectPropertyList list)

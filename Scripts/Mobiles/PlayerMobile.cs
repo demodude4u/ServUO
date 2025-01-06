@@ -43,6 +43,7 @@ using Server.Spells.SkillMasteries;
 using Server.Spells.Spellweaving;
 using Server.Engines.SphynxFortune;
 using Server.Engines.VendorSearching;
+using Server.Engines.VeteranRewards;
 using Server.Targeting;
 
 using RankDefinition = Server.Guilds.RankDefinition;
@@ -132,8 +133,17 @@ namespace Server.Mobiles
 			Instances = new List<PlayerMobile>(0x1000);
 		}
 
-		#region Mount Blocking
-		public void SetMountBlock(BlockMountType type, TimeSpan duration, bool dismount)
+        #region Lokai's SkillsCapCustomValue
+
+        private int m_SkillsCapCustomValue;
+
+        [CommandProperty(AccessLevel.Administrator)]
+        public int _SkillsCapCustomValue { get { return m_SkillsCapCustomValue; } set { m_SkillsCapCustomValue = value; } }
+
+        #endregion
+
+        #region Mount Blocking
+        public void SetMountBlock(BlockMountType type, TimeSpan duration, bool dismount)
 		{
 			if (dismount)
 			{
@@ -1218,7 +1228,7 @@ namespace Server.Mobiles
 		{
 			Mobile from = e.Mobile;
 
-			CheckAtrophies(from);
+            CheckAtrophies(from);
 
 			if (AccountHandler.LockdownLevel > AccessLevel.VIP)
 			{
@@ -1259,7 +1269,13 @@ namespace Server.Mobiles
                 ((PlayerMobile)from).ValidateEquipment();
 
                 ReportMurdererGump.CheckMurderer(from);
-			}
+
+
+                #region Lokai's CustomSkillCap
+                if (((PlayerMobile)from)._SkillsCapCustomValue > 0)
+                    from.SkillsCap = ((PlayerMobile)from)._SkillsCapCustomValue;
+                #endregion
+            }
             else if (Siege.SiegeShard && from.Map == Map.Trammel && from.AccessLevel == AccessLevel.Player)
             {
                 from.Map = Map.Felucca;
@@ -2315,28 +2331,32 @@ namespace Server.Mobiles
 			}
 		}
 
-		public override void GetContextMenuEntries(Mobile from, List<ContextMenuEntry> list)
-		{
+        public override void GetContextMenuEntries(Mobile from, List<ContextMenuEntry> list)
+        {
             //base.GetContextMenuEntries(from, list);
 
             list.Add(new PaperdollEntry(this));
 
             if (from == this)
-			{
+            {
                 if (Core.HS && Alive)
                 {
                     list.Add(new SearchVendors(this));
                 }
 
+                list.Add(new CallbackEntry(3006121, PointEntry)); //*Look At*
+                list.Add(new CallbackEntry(1072845, HungerEntry)); //Status
+                list.Add(new CallbackEntry(1072842, VetRewardsEntry)); //Rewards
+
                 BaseHouse house = BaseHouse.FindHouseAt(this);
 
                 if (house != null)
                 {
-					if (house.IsCoOwner(this))
-					{
-						list.Add(new CallbackEntry(6205, ReleaseCoOwnership));
-					}
-				}
+                    if (house.IsCoOwner(this))
+                    {
+                        list.Add(new CallbackEntry(6205, ReleaseCoOwnership));
+                    }
+                }
 
                 if (Core.SA)
                 {
@@ -3098,6 +3118,65 @@ namespace Server.Mobiles
         {
             DisabledPvpWarning = false;
             SendLocalizedMessage(1113798); // Your PvP warning query has been re-enabled.
+        }
+
+        private void PointEntry()
+        {
+			this.SendMessage("What do you want to point at?");
+			this.Target = new Bittiez.Point.PointTarget();
+        }
+
+        private void HungerEntry()
+        {
+            if (this.HasGump(typeof(HungerGump)))
+                this.CloseGump(typeof(HungerGump));
+            this.SendGump(new HungerGump(this));
+        }
+
+        private void VetRewardsEntry()
+        {
+            if (!Alive)
+                return;
+
+            int cur, max, level;
+
+            RewardSystem.ComputeRewardInfo(this, out cur, out max, out level);
+
+            if (level > RewardSystem.SkillCapBonusLevels)
+                level = RewardSystem.SkillCapBonusLevels;
+            else if (level < 0)
+                level = 0;
+
+            if (!Core.SA)
+            {
+                if (RewardSystem.SkillCapRewards)
+                {
+                    int newLevel = RewardSystem.SkillCap + (int)((float)level * RewardSystem.SkillCapBonusIncrement);
+                    if (newLevel > RewardSystem.SkillCap + RewardSystem.SkillCapBonus)
+                    {
+                        newLevel = RewardSystem.SkillCap + RewardSystem.SkillCapBonus;
+                    }
+                    SkillsCap = newLevel;
+                }
+                else
+                {
+                    SkillsCap = RewardSystem.SkillCap;
+                }
+            }
+            else
+            {
+                SkillsCap = RewardSystem.SkillCap + RewardSystem.SkillCapBonus;
+            }
+
+            if (Core.ML && HasStatReward && RewardSystem.HasHalfLevel(this))
+            {
+                SendGump(new StatRewardGump(this));
+            }
+
+            if (cur < max)
+                SendGump(new RewardNoticeGump(this));
+			else
+				SendMessage("You don't have any pending rewards.");
         }
 
         private delegate void ContextCallback();
@@ -4502,7 +4581,12 @@ namespace Server.Mobiles
 
 			switch (version)
 			{
+                case 41:
+                    m_SkillsCapCustomValue = reader.ReadInt();
+                    goto case 38;
                 case 40: // Version 40, moved gauntlet points, virtua artys and TOT turn ins to PointsSystem
+                    m_SkillsCapCustomValue = 0;
+                    goto case 38;
                 case 39: // Version 39, removed ML quest save/load
                 case 38:
                     NextGemOfSalvationUse = reader.ReadDateTime();
@@ -4968,7 +5052,9 @@ namespace Server.Mobiles
 
 			base.Serialize(writer);
 
-			writer.Write(40); // version
+			writer.Write(41); // version
+
+            writer.Write((int)m_SkillsCapCustomValue);
 
             writer.Write((DateTime)NextGemOfSalvationUse);
 
@@ -5373,6 +5459,13 @@ namespace Server.Mobiles
 			if (PlayerProperties != null)
 			{
 				PlayerProperties(new PlayerPropertiesEventArgs(this, list));
+			}
+			
+			if (JailUtility.Convicts.ContainsKey(this.Serial.Value))
+			{
+				JailStatus js = JailUtility.Convicts[this.Serial.Value];
+				int minutes = (int)((TimeSpan)(js.FredomTime - DateTime.UtcNow)).TotalMinutes;
+				list.Add(string.Format("JAILED by {0} for another {1} minutes.", js.Jailor, minutes));
 			}
 		}
 

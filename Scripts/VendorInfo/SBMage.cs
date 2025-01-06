@@ -42,6 +42,11 @@ namespace Server.Mobiles
 
                 Add(new GenericBuyInfo("1041072", typeof(MagicWizardsHat), 11, 10, 0x1718, Utility.RandomDyedHue()));
 
+                Add(new GenericBuyInfo(typeof(PowerScroll), 100000, 20, 0x14F0, 0x481, new object[] { SkillName.Magery, 105 }));
+                Add(new GenericBuyInfo(typeof(PowerScroll), 250000, 20, 0x14F0, 0x481, new object[] { SkillName.Magery, 110 }));
+                Add(new GenericBuyInfo(typeof(PowerScroll), 750000, 20, 0x14F0, 0x481, new object[] { SkillName.Magery, 115 }));
+                Add(new GenericBuyInfo(typeof(PowerScroll), 1500000, 20, 0x14F0, 0x481, new object[] { SkillName.Magery, 120 }));
+
                 Add(new GenericBuyInfo(typeof(RecallRune), 15, 10, 0x1F14, 0));
 
                 Add(new GenericBuyInfo(typeof(RefreshPotion), 15, 10, 0xF0B, 0, true));

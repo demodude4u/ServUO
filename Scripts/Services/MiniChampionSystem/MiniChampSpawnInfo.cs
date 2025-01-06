@@ -44,7 +44,7 @@ namespace Server.Engines.MiniChamps
 
                     killed = true;
                 }
-                else if (!creature.InRange(Owner.Location, Owner.SpawnRange + 10))
+                else if (!creature.InRange(Owner.Location, Owner.SpawnRange + 40))
                 {
                     // bring to home
                     Map map = Owner.Map;
@@ -69,7 +69,7 @@ namespace Server.Engines.MiniChamps
                 Map map = Owner.Map;
                 Point3D loc = map.GetSpawnPosition(Owner.Location, Owner.SpawnRange);
 
-                if (Owner.BossSpawnPoint != Point3D.Zero)
+                if (Owner.BossSpawnPoint != Point3D.Zero && Owner.Level >= 4)
                 {
                     loc = Owner.BossSpawnPoint;
                 }

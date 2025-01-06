@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
+using Server;
 using Server.Gumps;
 using Server.Targeting;
+using Server.Mobiles;
 
 namespace Server.Spells.Eighth
 {
@@ -47,7 +50,58 @@ namespace Server.Spells.Eighth
             }
             else if (m.Alive)
             {
-                this.Caster.SendLocalizedMessage(501041); // Target is not dead.
+				if (m is BaseCreature && Caster.CanBeBeneficial(m, true, true))
+				{
+					Caster.DoBeneficial(m);
+					BaseCreature bc = m as BaseCreature;
+					Mobile master = bc.ControlMaster;
+					if (master != null && Caster == master)
+                    {
+						bc.PlaySound(0x214);
+						bc.FixedEffect(0x376A, 10, 16);
+                        bc.ResurrectPet();
+                    }
+                    else if (master != null && master.InRange(bc, 3))
+                    {
+                        Caster.SendMessage(0, "The owner has been asked to sanctify the resurrection.");
+
+						bc.PlaySound(0x214);
+						bc.FixedEffect(0x376A, 10, 16);
+                        master.CloseGump(typeof(PetResurrectGump));
+                        master.SendGump(new PetResurrectGump(Caster, bc));
+                    }
+                    else
+                    {
+                        bool found = false;
+
+                        var friends = bc.Friends;
+
+                        for (int i = 0; friends != null && i < friends.Count; ++i)
+                        {
+                            Mobile friend = friends[i];
+
+                            if (friend.InRange(bc, 3))
+                            {
+                                Caster.SendMessage(0,"The owner has been asked to sanctify the resurrection.");
+
+                                friend.CloseGump(typeof(PetResurrectGump));
+                                friend.SendGump(new PetResurrectGump(Caster, bc));
+								bc.PlaySound(0x214);
+								bc.FixedEffect(0x376A, 10, 16);
+
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found)
+                        {
+                            Caster.SendMessage(0, "Neither the owner or friends of the pet are nearby to sanctify the resurrection.");
+                        }
+                    }
+				}
+				else
+					this.Caster.SendLocalizedMessage(501041); // Target is not dead.
             }
             else if (!this.Caster.InRange(m, 1))
             {

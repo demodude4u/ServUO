@@ -141,7 +141,7 @@ namespace Server.Items
                     {
                         if (!from.InRange(m_Tub.GetWorldLocation(), 1) || !from.InRange(item.GetWorldLocation(), 1))
                             from.SendLocalizedMessage(500446); // That is too far away.
-                        else if (item.Parent is Mobile)
+                        else if (item.Parent is Mobile && item != from.Backpack)
                             from.SendLocalizedMessage(500861); // Can't Dye clothing that is being worn.
                         else if (((IDyable)item).Dye(from, m_Tub))
                             from.PlaySound(0x23E);
@@ -161,13 +161,20 @@ namespace Server.Items
                                 if (item.Parent == null)
                                 {
                                     BaseHouse house = BaseHouse.FindHouseAt(item);
-
-                                    if (!house.IsCoOwner(from))
-                                        from.SendLocalizedMessage(501023); // You must be the owner to use this item.
-                                    else if (house == null || (!house.IsLockedDown(item) && !house.IsSecure(item)) && (!(item is AddonComponent) || !house.Addons.ContainsKey(((AddonComponent)item).Addon)))
-                                        from.SendLocalizedMessage(501022); // Furniture must be locked down to paint it.
-                                    else
-                                        okay = true;
+									
+                                    if (house != null)
+									{
+										if (!house.IsCoOwner(from))
+											from.SendLocalizedMessage(501023); // You must be the owner to use this item.
+										else if (house == null || (!house.IsLockedDown(item) && !house.IsSecure(item)) && (!(item is AddonComponent) || !house.Addons.ContainsKey(((AddonComponent)item).Addon)))
+											from.SendLocalizedMessage(501022); // Furniture must be locked down to paint it.
+										else
+											okay = true;
+									}
+									else if (from.AccessLevel >= AccessLevel.GameMaster)
+										okay = true;
+									else
+										from.SendMessage("Furniture must be locked down in your house to paint.");
                                 }
                                 else
                                 {

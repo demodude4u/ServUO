@@ -31,8 +31,9 @@ namespace Server.Mobiles
 
         public class InternalBuyInfo : List<GenericBuyInfo> 
         { 
-            public InternalBuyInfo(BaseVendor owner) 
-            { 
+            public InternalBuyInfo(BaseVendor owner)
+            {
+                Add(new GenericBuyInfo(typeof(ToolHouse), 999, 20, 0x9A8, 38));
                 Add(new GenericBuyInfo(typeof(Clock), 22, 20, 0x104B, 0));
                 Add(new GenericBuyInfo(typeof(Nails), 3, 20, 0x102E, 0));
                 Add(new GenericBuyInfo(typeof(ClockParts), 3, 20, 0x104F, 0, true));

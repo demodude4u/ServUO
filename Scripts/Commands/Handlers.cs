@@ -50,6 +50,8 @@ namespace Server.Commands
             Register("Move", AccessLevel.GameMaster, new CommandEventHandler(Move_OnCommand));
             Register("Client", AccessLevel.Counselor, new CommandEventHandler(Client_OnCommand));
 
+            Register("MoveAlot", AccessLevel.GameMaster, new CommandEventHandler(MoveAlot_OnCommand));
+
             Register("SMsg", AccessLevel.Counselor, new CommandEventHandler(StaffMessage_OnCommand));
             Register("SM", AccessLevel.Counselor, new CommandEventHandler(StaffMessage_OnCommand));
             Register("S", AccessLevel.Counselor, new CommandEventHandler(StaffMessage_OnCommand));
@@ -574,6 +576,13 @@ namespace Server.Commands
         private static void Move_OnCommand(CommandEventArgs e)
         {
             e.Mobile.Target = new PickMoveTarget();
+        }
+
+        [Usage("MoveAlot")]
+        [Description("Repositions a targeted item or mobile.")]
+        private static void MoveAlot_OnCommand(CommandEventArgs e)
+        {
+            e.Mobile.Target = new PickMoveAlotTarget();
         }
 
         [Usage("Save")]

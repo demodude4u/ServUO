@@ -8,7 +8,9 @@ namespace Server.Items
         public GlacialStaff()
         {
             Hue = 0x480;
-            WeaponAttributes.HitHarm = 5 * Utility.RandomMinMax(1, 5);
+            WeaponAttributes.HitLeechMana = 5;
+            WeaponAttributes.HitLightning = 15;
+            Attributes.SpellChanneling = 1;
             WeaponAttributes.MageWeapon = Utility.RandomMinMax(5, 10);
             AosElementDamages[AosElementAttribute.Cold] = 20 + (5 * Utility.RandomMinMax(0, 6));
         }

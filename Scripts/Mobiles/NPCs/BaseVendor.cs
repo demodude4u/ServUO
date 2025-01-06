@@ -34,7 +34,7 @@ namespace Server.Mobiles
         public static int BuyItemChange = Config.Get("Vendors.BuyItemChange", 1000);
         public static int SellItemChange = Config.Get("Vendors.SellItemChange", 1000);
         public static int EconomyStockAmount = Config.Get("Vendors.EconomyStockAmount", 500);
-        public static TimeSpan DelayRestock = TimeSpan.FromMinutes(Config.Get("Vendors.RestockDelay", 60));
+        public static TimeSpan DelayRestock = TimeSpan.FromMinutes(Config.Get("Vendors.RestockDelay", 30));
         public static int MaxSell = Config.Get("Vendors.MaxSell", 500);
 
 		public static List<BaseVendor> AllVendors { get; private set; }
@@ -68,7 +68,7 @@ namespace Server.Mobiles
 
         public virtual bool ChangeRace { get { return true; } }
 
-		public override bool IsInvulnerable { get { return true; } }
+		public override bool IsInvulnerable { get { return false; } }
 
 		public virtual DateTime NextTrickOrTreat { get; set; }
         public virtual double GetMoveDelay { get { return (double)Utility.RandomMinMax(30, 120); } }

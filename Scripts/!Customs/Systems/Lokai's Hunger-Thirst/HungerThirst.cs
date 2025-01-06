@@ -1,0 +1,173 @@
+using System;
+using Server.Gumps;
+using Server.Items;
+using Server.Network;
+using Server.Mobiles;
+using Server.Commands;
+using Server.Targeting;
+using Server.Multis;
+
+namespace Server.Misc
+{
+    public class HungerThirst
+    {
+        public static void Initialize()
+        {
+			//EventSink.OnConsume += new OnConsumeEventHandler(EventSink_OnConsumeThirstCheck);
+            EventSink.HungerChanged += new HungerChangedEventHandler(EventSink_HungerChangedCheck);
+        }
+
+		/*
+        private static void EventSink_OnConsumeThirstCheck(OnConsumeEventArgs args)
+        {
+			Mobile consumer = args.Consumer;
+			Item consumed = args.Consumed;
+			
+			if (consumed is BaseBeverage)
+			{
+				CheckThirst(consumer);
+			}
+		}
+		*/
+
+        private static void EventSink_HungerChangedCheck(HungerChangedEventArgs args)
+        {
+			Mobile mobile = args.Mobile;
+			
+			if (mobile is PlayerMobile && mobile.NetState != null) CheckHunger(mobile);
+		}
+		
+		public static void CheckHunger(Mobile mobile)
+		{
+			string hunger = "";
+			if (mobile.Hunger == 0) hunger = "You are starving and will find it very hard to learn new skills!";
+			else if (mobile.Hunger < 5) hunger = "You are extremely hungry and will have trouble learning skills.";
+			else if (mobile.Hunger < 10) hunger = "You are very hungry and might have a bit of trouble with skills.";
+			else if (mobile.Hunger < 15) hunger = "You are hungry and a bit distracted.";
+			else if (mobile.Hunger > 95) hunger = "You are stuffed, but satisfied!";
+			if (mobile.Hunger < 15 || mobile.Hunger > 95) mobile.SendMessage(hunger);
+			
+			string thirst = "";
+			if (mobile.Thirst == 0) thirst = "You are dying of thirst and will find it very hard to learn new skills!";
+			else if (mobile.Thirst < 5) thirst = "You are extremely thirsty and will have trouble learning skills.";
+			else if (mobile.Thirst < 10) thirst = "You are very thirsty and might have a bit of trouble with skills.";
+			else if (mobile.Thirst < 15) thirst = "You are thirsty and a bit distracted.";
+			else if (mobile.Thirst > 95) thirst = "You can't drink another drop, but you are satisfied!";
+			if (mobile.Thirst < 15 || mobile.Thirst > 95) mobile.SendMessage(thirst);
+		}
+		
+		public static void CheckThirst(Mobile mobile)
+		{
+			string thirst = "";
+			if (mobile.Thirst == 0) thirst = "You are dying of thirst and will find it very hard to learn new skills!";
+			else if (mobile.Thirst < 5) thirst = "You are extremely thirsty and will have trouble learning skills.";
+			else if (mobile.Thirst < 10) thirst = "You are very thirsty and might have a bit of trouble with skills.";
+			else if (mobile.Thirst < 15) thirst = "You are thirsty and a bit distracted.";
+			else if (mobile.Thirst > 95) thirst = "You can't drink another drop, but you are satisfied!";
+			if (mobile.Thirst < 15 || mobile.Thirst > 95) mobile.SendMessage(thirst);
+		}
+    }
+
+    public class HungerGump : Gump
+    {
+        public static void Initialize()
+        {
+            CommandSystem.Register("Hunger", AccessLevel.Player, new CommandEventHandler(Hunger_OnCommand));
+            CommandSystem.Register("ViewHunger", AccessLevel.GameMaster, new CommandEventHandler(ViewHunger_OnCommand));
+        }
+
+        private const int GreenHue = 0x40;
+        private const int RedHue = 0x21;
+        private const int BlueHue = 0x777;
+        private Mobile m_GM;
+        private Mobile m_From;
+
+        [Usage("ViewHunger")]
+        [Description("Allows GM to view the HungerGump for any Mobile.")]
+        public static void ViewHunger_OnCommand(CommandEventArgs e)
+        {
+            Mobile caller = e.Mobile;
+            caller.Target = new InternalTarget();
+        }
+
+        private class InternalTarget : Target
+        {
+            public InternalTarget() : base(-1, true, TargetFlags.None) { }
+            protected override void OnTarget(Mobile from, object o) { if (o is Mobile) from.SendGump(new HungerGump(from, (Mobile)o)); }
+        }
+		
+        [Usage("Hunger")]
+        [Description("Makes a call to the Hunger gump.")]
+        public static void Hunger_OnCommand(CommandEventArgs e)
+        {
+            Mobile caller = e.Mobile;
+
+            if (caller.HasGump(typeof(HungerGump)))
+                caller.CloseGump(typeof(HungerGump));
+            caller.SendGump(new HungerGump(caller));
+        }
+
+        public HungerGump(Mobile from) : this(from, from) { }
+
+        public HungerGump(Mobile gm, Mobile from)
+            : base(0, 0)
+        {
+            Closable = true;
+            Disposable = true;
+            Dragable = true;
+            Resizable = false;
+
+            m_GM = gm;
+            m_From = from;
+
+            AddPage(0);
+            AddBackground(0, 0, 575, 450, 30536);
+			
+			string hunger = "";
+			if (from.Hunger == 0) hunger = "You are starving and will find it very hard to learn new skills!";
+			else if (from.Hunger < 5) hunger = "You are extremely hungry and will have trouble learning skills.";
+			else if (from.Hunger < 10) hunger = "You are very hungry and might have a bit of trouble with skills.";
+			else if (from.Hunger < 15) hunger = "You are hungry and a bit distracted.";
+			else if (from.Hunger > 95) hunger = "You are stuffed, but satisfied!";
+			
+			string thirst = "";
+			if (from.Thirst == 0) thirst = "You are dying of thirst and will find it very hard to learn new skills!";
+			else if (from.Thirst < 5) thirst = "You are extremely thirsty and will have trouble learning skills.";
+			else if (from.Thirst < 10) thirst = "You are very thirsty and might have a bit of trouble with skills.";
+			else if (from.Thirst < 15) thirst = "You are thirsty and a bit distracted.";
+			else if (from.Thirst > 95) thirst = "You can't drink another drop, but you are satisfied!";
+
+            AddLabel(85, 50, 1160, string.Format("Your capacity for knowledge is currently {0} skill points", from.SkillsCap / 10));
+            AddItem(35, 50, 8827);
+
+            AddLabel(85, 100, 1160, string.Format("Your current fame is : {0}", from.Fame));
+            AddItem(35, 100, 41625, 54);
+
+            AddLabel(85, 150, 1160, string.Format("Your current karma is : {0}", from.Karma));
+            AddItem(35, 150, 41623, 39);
+
+            AddLabel(85, 200, 1160, string.Format("Short Term Murders : {0}", from.ShortTermMurders));
+            AddItem(35, 200, 4654);
+
+            AddLabel(300, 200, 1160, string.Format("Account Housing / Limit : {0} / {1}", BaseHouse.GetAccountHouseCount(from), BaseHouse.GetAccountHouseLimit(from)));
+            AddItem(35, 200, 4654);
+
+            AddLabel(85, 250, 1160, string.Format("Long Term Murders : {0}", from.Kills));
+            AddItem(35, 250, 4650);
+			
+            AddItem(35, 300, 2451);
+            AddHtml(85, 300, 170, 20, String.Format("<BASEFONT COLOR=#00FFFF>Hunger level: </BASEFONT>"), false, false);
+            AddLabel(210, 300, from.Hunger < 15 ? RedHue : GreenHue, String.Format("{0} / 100", from.Hunger));
+            AddLabel(85, 320, from.Hunger < 15 ? RedHue : GreenHue, hunger);
+			
+            AddItem(35, 350, 4089);
+			AddHtml(85, 350, 170, 20, String.Format("<BASEFONT COLOR=#00FFFF>Thirst level: </BASEFONT>"), false, false);
+            AddLabel(210, 350, from.Thirst < 15 ? RedHue : GreenHue, String.Format("{0} / 100", from.Thirst));
+            AddLabel(85, 370, from.Thirst < 15 ? RedHue : GreenHue, thirst);
+        }
+
+        public override void OnResponse(Network.NetState sender, RelayInfo info)
+        {
+        }
+    }
+}

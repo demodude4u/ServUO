@@ -314,11 +314,18 @@ namespace Server.Items
 
                 if (m_Open && link != null && !link.Open)
                     link.Open = true;
+				else if(link != null)
+					link.Open = false;
             }
         }
 
         public virtual void OnOpened(Mobile from)
         {
+            if (this.Link != null)
+            {
+                this.Link.Open =
+                      false;
+            }
         }
 
         public virtual void OnClosed(Mobile from)

@@ -247,7 +247,7 @@ namespace Server.Items
 
                             foreach (var sk in Selected)
                             {
-                                sk.Base = 90;
+                                sk.Base = 100;
                             }
 
                             User.RawStr = Str;

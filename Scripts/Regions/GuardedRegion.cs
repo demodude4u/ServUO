@@ -68,11 +68,11 @@ namespace Server.Regions
 			{
 				if (Map == Map.Ilshenar || Map == Map.Malas)
 				{
-					return typeof(ArcherGuard);
+					return typeof(SEAssaultGuard);
 				}
 				else
 				{
-					return typeof(WarriorGuard);
+					return typeof(AssaultGuard);
 				}
 			}
 		}
@@ -123,14 +123,14 @@ namespace Server.Regions
 
 		public override void MakeGuard(Mobile focus)
 		{
-			BaseGuard useGuard = null;
+			CrimeGuard useGuard = null;
             IPooledEnumerable eable = focus.GetMobilesInRange(8);
 
             foreach (Mobile m in eable)
 			{
-				if (m is BaseGuard)
+				if (m is CrimeGuard)
 				{
-					BaseGuard g = (BaseGuard)m;
+					CrimeGuard g = (CrimeGuard)m;
 
 					if (g.Focus == null) // idling
 					{
@@ -144,11 +144,14 @@ namespace Server.Regions
 
 			if (useGuard == null)
 			{
+				Type of_Guard = m_GuardType;
+				if (focus.ShortTermMurders > 0)
+					of_Guard = typeof(MurderGuard);
 				m_GuardParams[0] = focus;
 
 				try
 				{
-					Activator.CreateInstance(m_GuardType, m_GuardParams);
+					Activator.CreateInstance(of_Guard, m_GuardParams);
 				}
 				catch
 				{ }
@@ -159,28 +162,30 @@ namespace Server.Regions
 			}
 		}
 
-		public override void OnEnter(Mobile m)
-		{
-			if (IsDisabled())
-			{
-				return;
-			}
+        public override void OnEnter(Mobile m)
+        {
+            base.OnEnter(m);
+            if (IsDisabled())
+            {
+                return;
+            }
 
-			if (!AllowReds && m.Murderer)
-			{
-				CheckGuardCandidate(m);
-			}
-		}
+            if (!AllowReds && m.Murderer)
+            {
+                CheckGuardCandidate(m);
+            }
+        }
 
-		public override void OnExit(Mobile m)
-		{
-			if (IsDisabled())
-			{
-				return;
-			}
-		}
+        public override void OnExit(Mobile m)
+        {
+            base.OnExit(m);
+            if (IsDisabled())
+            {
+                return;
+            }
+        }
 
-		public override void OnSpeech(SpeechEventArgs args)
+        public override void OnSpeech(SpeechEventArgs args)
 		{
 			base.OnSpeech(args);
 
@@ -353,7 +358,7 @@ namespace Server.Regions
 
 		public bool IsGuardCandidate(Mobile m)
 		{
-			if (m is BaseGuard || m.GuardImmune || !m.Alive || m.IsStaff() || m.Blessed || (m is BaseCreature && ((BaseCreature)m).IsInvulnerable) ||
+			if (m is CrimeGuard || m.GuardImmune || !m.Alive || m.IsStaff() || m.Blessed || (m is BaseCreature && ((BaseCreature)m).IsInvulnerable) ||
 				IsDisabled())
 			{
 				return false;

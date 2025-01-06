@@ -1,0 +1,91 @@
+using System;
+using Server;
+using Server.Mobiles;
+using Server.Items;
+
+namespace Server.Mobiles
+{
+    public class WanderingVendor : BaseCreature
+    {
+        private static readonly string[] MaleNames = { "John", "Paul", "George", "Ringo" };
+        private static readonly string[] FemaleNames = { "Jane", "Mary", "Lisa", "Sarah" };
+        private static readonly string[] Surnames = { "Smith", "Johnson", "Brown", "Williams" };
+
+        [Constructable]
+        public WanderingVendor() : base(AIType.AI_Vendor, FightMode.None, 10, 1, 0.2, 0.4)
+        {
+            Name = GenerateRandomName();
+            Title = "the shopkeeper";
+            Body = Utility.RandomBool() ? 0x190 : 0x191; // Randomly male or female
+            Hue = Utility.RandomSkinHue();
+
+            // Equip the NPC with standard shopkeeper clothes
+            AddItem(new FancyShirt(Utility.RandomNeutralHue()));
+            AddItem(new LongPants(Utility.RandomNeutralHue()));
+            AddItem(new Shoes(Utility.RandomNeutralHue()));
+
+            SetSkill(SkillName.ItemID, 75.0, 98.0);
+            SetSkill(SkillName.ArmsLore, 36.0, 68.0);
+            SetSkill(SkillName.Parry, 45.0, 68.0);
+            SetSkill(SkillName.Tactics, 65.0, 87.0);
+
+            CantWalk = false; // Allows the NPC to walk around
+        }
+
+        private string GenerateRandomName()
+        {
+            string firstName = Body == 0x190 ? MaleNames[Utility.Random(MaleNames.Length)] : FemaleNames[Utility.Random(FemaleNames.Length)];
+            string surname = Surnames[Utility.Random(Surnames.Length)];
+            return $"{firstName} {surname}";
+        }
+
+        public override void OnThink()
+        {
+            base.OnThink();
+            // Check for players nearby
+            IPooledEnumerable eable = GetMobilesInRange(3); // Range of 3 tiles
+            foreach (Mobile m in eable)
+            {
+                if (m is PlayerMobile)
+                {
+                    Say("Hello there! How can I assist you today?");
+                    eable.Free();
+                    return;
+                }
+            }
+            eable.Free();
+        }
+
+        public override void OnDoubleClick(Mobile from)
+        {
+            base.OnDoubleClick(from);
+            from.SendGump(new VendorGump());
+        }
+
+        public WanderingVendor(Serial serial) : base(serial)
+        {
+        }
+
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write((int)0); // version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
+
+    public class VendorGump : Gump
+    {
+        public VendorGump() : base(50, 50)
+        {
+            AddPage(0);
+            AddBackground(0, 0, 260, 120, 5054);
+            AddLabel(20, 20, 0, "I am just a placeholder vendor.");
+        }
+    }
+}

@@ -51,7 +51,7 @@ namespace Server.Items
         {
             base.GetProperties(list);
 
-            list.Add(1041492); // This is half a prize ticket! Double-click this ticket and target any other ticket marked NEW PLAYER and get a prize! This ticket will only work for YOU, so don't give it away!
+            //list.Add(1041492); // This is half a prize ticket! Double-click this ticket and target any other ticket marked NEW PLAYER and get a prize! This ticket will only work for YOU, so don't give it away!
         }
 
         public override void Serialize(GenericWriter writer)
@@ -84,19 +84,7 @@ namespace Server.Items
 
         public override void OnDoubleClick(Mobile from)
         {
-            if (from != this.m_Owner)
-            {
-                from.SendLocalizedMessage(501926); // This isn't your ticket! Shame on you! You have to use YOUR ticket.
-            }
-            else if (!this.IsChildOf(from.Backpack))
-            {
-                from.SendLocalizedMessage(1042001); // That must be in your pack for you to use it.
-            }
-            else
-            {
-                from.SendLocalizedMessage(501927); // Target any other ticket marked NEW PLAYER to win a prize.
-                from.Target = new InternalTarget(this);
-            }
+            from.SendGump(new InternalGump(from, this));
         }
 
         private class InternalTarget : Target

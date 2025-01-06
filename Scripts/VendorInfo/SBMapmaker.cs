@@ -48,6 +48,7 @@ namespace Server.Mobiles
                 Add(typeof(MapmakersPen), 4);
                 Add(typeof(BlankMap), 2);
                 Add(typeof(CityMap), 3);
+                Add(typeof(SeaChart), 3);
                 Add(typeof(LocalMap), 3);
                 Add(typeof(WorldMap), 3);
                 Add(typeof(PresetMapEntry), 3);

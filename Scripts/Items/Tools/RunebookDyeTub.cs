@@ -55,7 +55,7 @@ namespace Server.Items
         {
             get
             {
-                return CustomHuePicker.LeatherDyeTub;
+                return CustomHuePicker.RunebookDyeTub;
             }
         }
         [CommandProperty(AccessLevel.GameMaster)]

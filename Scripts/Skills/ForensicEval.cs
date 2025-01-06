@@ -166,6 +166,10 @@ namespace Server.SkillHandlers
                             }
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("You notice nothing usual");
+                    }
                 }
             }
         }

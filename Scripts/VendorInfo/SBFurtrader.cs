@@ -31,7 +31,9 @@ namespace Server.Mobiles
         { 
             public InternalBuyInfo() 
             {
-                Add(new GenericBuyInfo(typeof(Hides), 3, 40, 0x1079, 0, true)); 
+                Add(new GenericBuyInfo(typeof(Hides), 3, 40, 0x1079, 0, true));
+                Add(new GenericBuyInfo(typeof(SpinedHides), 8, 40, 0x1079, 2220, true));
+                Add(new GenericBuyInfo(typeof(HornedHides), 12, 40, 0x1079, 2117, true));
             }
         }
 
@@ -39,7 +41,9 @@ namespace Server.Mobiles
         { 
             public InternalSellInfo() 
             { 
-                Add(typeof(Hides), 2); 
+                Add(typeof(Hides), 2);
+                Add(typeof(SpinedHides), 4);
+                Add(typeof(HornedHides), 7);
             }
         }
     }

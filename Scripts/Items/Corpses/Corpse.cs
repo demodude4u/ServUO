@@ -118,7 +118,7 @@ namespace Server.Items
         public static readonly TimeSpan MonsterLootRightSacrifice = TimeSpan.FromMinutes(2.0);
 
         public static readonly TimeSpan InstancedCorpseTime = TimeSpan.FromMinutes(3.0);
-
+        
         [CommandProperty(AccessLevel.GameMaster)]
         public virtual bool InstancedCorpse
         {
@@ -132,7 +132,7 @@ namespace Server.Items
                 return (DateTime.UtcNow < (m_TimeOfDeath + InstancedCorpseTime));
             }
         }
-
+        /*
         private Dictionary<Item, InstancedItemInfo> m_InstancedItems;
 
         public bool HasAssignedInstancedLoot { get; private set; }
@@ -318,12 +318,12 @@ namespace Server.Items
             ColUtility.Free(stackables);
             ColUtility.Free(unstackables);
         }
-
+        */
         public void AddCarvedItem(Item carved, Mobile carver)
         {
             DropItem(carved);
 
-            if (InstancedCorpse)
+            /*if (InstancedCorpse)
             {
                 if (m_InstancedItems == null)
                 {
@@ -334,7 +334,7 @@ namespace Server.Items
                 {
                     m_InstancedItems.Add(carved, new InstancedItemInfo(carved, carver));
                 }
-            }
+            }*/
         }
 
         public override bool IsDecoContainer { get { return false; } }
@@ -553,7 +553,7 @@ namespace Server.Items
                     }
                 }
 
-                if (!owner.Player)
+                /*if (!owner.Player)
                 {
                     c.AssignInstancedLoot();
                     c.HasAssignedInstancedLoot = true;
@@ -566,7 +566,7 @@ namespace Server.Items
                     {
                         c.RestoreEquip = pm.EquipSnapshot;
                     }
-                }
+                }*/
             }
             else
             {

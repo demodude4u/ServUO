@@ -20,6 +20,24 @@ namespace Server.Regions
                 this.m_EntranceMap = entrMap;
         }
 
+        public override void OnEnter(Mobile m)
+        {
+            if (this.Name != "")
+            {
+                m.SendMessage(1161, "You have entered " + this.Name);
+            }
+        }
+
+        public override void OnExit(Mobile m)
+        {
+            if (this.Name != "")
+            {
+                m.SendMessage(38, "You are leaving " + this.Name);
+            }
+
+            base.OnExit(m);
+        }
+
         [CommandProperty(AccessLevel.GameMaster)]
         public override bool YoungProtected
         {

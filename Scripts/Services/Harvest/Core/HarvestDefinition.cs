@@ -1,5 +1,7 @@
+using Server.Items;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Server.Engines.Harvest
 {
@@ -48,7 +50,24 @@ namespace Server.Engines.Harvest
             if (message is int)
                 from.SendLocalizedMessage((int)message);
             else if (message is string)
-                from.SendMessage((string)message);
+            {
+                string[] parts = ((string)message).Split('|');
+                int hue = 0;
+                if (parts.Length == 2)
+                {
+                    try
+                    {
+                        hue = int.Parse(parts[0]);
+                        from.SendMessage(hue, parts[1]);
+                    }
+                    catch
+                    {
+                        from.SendMessage((string)message);
+                    }
+                }
+                else
+                    from.SendMessage((string)message);
+            }
         }
 
         public HarvestBank GetBank(Map map, int x, int y)

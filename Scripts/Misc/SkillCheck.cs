@@ -226,6 +226,10 @@ namespace Server.Misc
             gc /= 4;
 
             gc *= skill.Info.GainFactor;
+			
+			#region HungerThirst system
+			gc *= GetHungerFactor(from);
+			#endregion
 
             if (gc < 0.01)
                 gc = 0.01;
@@ -236,6 +240,18 @@ namespace Server.Misc
             return gc;
         }
         #endregion
+		
+		#region HungerThirst system
+		private static double GetHungerFactor(Mobile m)
+		{
+				 if (m.Hunger ==  0 || m.Thirst ==  0) return 0.60;
+			else if (m.Hunger <  5 || m.Thirst <  5) return 0.70;
+			else if (m.Hunger <  10 || m.Thirst <  10) return 0.80;
+			else if (m.Hunger <  15 || m.Thirst <  15) return 0.90;
+			else if (m.Hunger > 95 || m.Thirst >  95) return 1.00;
+			else return 1.15;
+		}
+		#endregion
 
         public static bool CheckSkill(Mobile from, Skill skill, object obj, double chance)
 		{
@@ -269,6 +285,16 @@ namespace Server.Misc
             gc /= 2;
 
             gc *= skill.Info.GainFactor;
+			
+			#region HungerThirst system
+			
+			if (from is PlayerMobile && from.NetState != null)
+			{
+				/*Console.WriteLine("{0} GC before Hunger ({1}) Thirst ({2}) - (Change {3}): {4}", from.Name, from.Hunger, from.Thirst, GetHungerFactor(from), gc);
+				gc *= GetHungerFactor(from);
+				Console.WriteLine("{0} GC after Hunger ({1}) Thirst ({2}) - (Change {3}): {4}", from.Name, from.Hunger, from.Thirst, GetHungerFactor(from), gc);
+			*/}
+			#endregion
 
             if (gc < 0.01)
                 gc = 0.01;

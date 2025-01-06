@@ -121,6 +121,7 @@ namespace Server.Mobiles
             AddLoot(LootPack.Rich);
             AddLoot(LootPack.Average, 2);
             AddLoot(LootPack.MedScrolls, 2);
+            AddLoot(LootPack.HighScrolls);
         }
 
         public override void Serialize(GenericWriter writer)

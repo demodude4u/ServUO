@@ -403,6 +403,7 @@ namespace Server.Engines.Craft
             #endregion
 
             #region Misc
+            AddCraft(typeof(Sprinkler), 1044050, "sprinkler", 78.2, 107.6, typeof(IronIngot), 1044036, 7, 1044037);
             AddCraft(typeof(KeyRing), 1044050, 1024113, 10.0, 60.0, typeof(IronIngot), 1044036, 2, 1044037);
             AddCraft(typeof(Candelabra), 1044050, 1022599, 55.0, 105.0, typeof(IronIngot), 1044036, 4, 1044037);
             AddCraft(typeof(Scales), 1044050, 1026225, 60.0, 110.0, typeof(IronIngot), 1044036, 4, 1044037);

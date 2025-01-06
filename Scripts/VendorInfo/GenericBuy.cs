@@ -54,7 +54,7 @@ namespace Server.Mobiles
             }
             else
             {
-                m_MaxAmount = m_Amount = amount;
+                m_MaxAmount = m_Amount = 200;
             }
 
             if(Siege.SiegeShard)

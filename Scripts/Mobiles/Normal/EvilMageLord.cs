@@ -1,20 +1,20 @@
 using System;
 using Server.Items;
 
-namespace Server.Mobiles 
-{ 
-    [CorpseName("an evil mage lord corpse")] 
-    public class EvilMageLord : BaseCreature 
-    { 
-        [Constructable] 
+namespace Server.Mobiles
+{
+    [CorpseName("an evil mage lord corpse")]
+    public class EvilMageLord : BaseCreature
+    {
+        [Constructable]
         public EvilMageLord()
             : base(AIType.AI_Mage, FightMode.Closest, 10, 1, 0.2, 0.4)
-        { 
+        {
             Name = NameList.RandomName("evil mage lord");
             Body = Utility.RandomList(125, 126);
 
-            PackItem(new Robe(Utility.RandomMetalHue())); 
-            PackItem(new WizardsHat(Utility.RandomMetalHue())); 
+            PackItem(new Robe(Utility.RandomMetalHue()));
+            PackItem(new WizardsHat(Utility.RandomMetalHue()));
 
             SetStr(81, 105);
             SetDex(191, 215);
@@ -43,14 +43,16 @@ namespace Server.Mobiles
             Karma = -10500;
 
             VirtualArmor = 16;
-			switch (Utility.Random(16))
+            switch (Utility.Random(16))
             {
                 case 0: PackItem(new BloodOathScroll()); break;
                 case 1: PackItem(new CurseWeaponScroll()); break;
                 case 2: PackItem(new StrangleScroll()); break;
                 case 3: PackItem(new LichFormScroll()); break;
-			}
+            }
             PackReg(23);
+
+            // Randomly pack either Shoes or Sandals
             if (Utility.RandomBool())
                 PackItem(new Shoes());
             else
@@ -69,7 +71,7 @@ namespace Server.Mobiles
 
         public EvilMageLord(Serial serial)
             : base(serial)
-        { 
+        {
         }
 
         public override bool CanRummageCorpses
@@ -107,16 +109,39 @@ namespace Server.Mobiles
             AddLoot(LootPack.MedScrolls, 2);
         }
 
-        public override void Serialize(GenericWriter writer) 
-        { 
-            base.Serialize(writer); 
-            writer.Write((int)0); 
+        public override void OnDeath(Container c)
+        {
+            base.OnDeath(c);
+
+            // Find the pair of sandals in the container, if present
+            foreach (Item item in c.Items)
+            {
+                if (item is Sandals)
+                {
+                    Sandals sandals = (Sandals)item;
+
+                    // 10% chance to apply a random hue
+                    if (Utility.RandomDouble() < 0.35) // 35% chance
+                    {
+                        sandals.Hue = Utility.RandomMinMax(1, 100);
+                    }
+
+                    // Break after finding the first pair of sandals
+                    break;
+                }
+            }
         }
 
-        public override void Deserialize(GenericReader reader) 
-        { 
-            base.Deserialize(reader); 
-            int version = reader.ReadInt(); 
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write((int)0);
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
         }
     }
 }

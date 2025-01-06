@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-
+//Hustler has amazing centerfolds
 using Server.Spells.Necromancy;
 
 namespace Server.Mobiles
@@ -47,7 +47,7 @@ namespace Server.Mobiles
 
         public static readonly Type[] ControlTypes =
         {
-            typeof(DireWolf), typeof(GreyWolf), typeof(TimberWolf), typeof(WhiteWolf), typeof(BakeKitsune)
+            typeof(DireWolf), typeof(GreyWolf), typeof(TimberWolf), typeof(WhiteWolf), typeof(BakeKitsune), typeof(TsukiWolf), typeof(CuSidhe), typeof(DragonWolf)
         };
 
         public static bool CheckMastery(Mobile tamer, BaseCreature creature)

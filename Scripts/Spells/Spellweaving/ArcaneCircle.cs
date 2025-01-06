@@ -52,7 +52,7 @@ namespace Server.Spells.Spellweaving
                 return false;
             }
 
-            if (GetArcanists().Count < 2)
+            if (GetArcanists().Count < 1)
             {
                 Caster.SendLocalizedMessage(1080452); //There are not enough spellweavers present to create an Arcane Focus.
                 return false;
@@ -69,17 +69,33 @@ namespace Server.Spells.Spellweaving
                 Caster.PlaySound(0x5C0);
 
                 List<Mobile> Arcanists = GetArcanists();
+				int defaultvalue = 3;
+				if (Arcanists.Count <= 1)
+				{
+					TimeSpan duration = TimeSpan.FromHours(Math.Max(1, (int)(Caster.Skills.Spellweaving.Value / 24)));
 
-                TimeSpan duration = TimeSpan.FromHours(Math.Max(1, (int)(Caster.Skills.Spellweaving.Value / 24)));
+					duration += TimeSpan.FromHours(Math.Min(6, 3));
 
-                duration += TimeSpan.FromHours(Math.Min(6, Arcanists.Count));
+					int strengthBonus = 3;
 
-                int strengthBonus = Math.Min(IsBonus(Caster.Location, Caster.Map) ? 6 : 5, Arcanists.Sum(m => GetStrength(m))); // Math.Min(Arcanists.Count, IsBonus(Caster.Location, Caster.Map) ? 6 : 5);	//The Sanctuary is a special, single location place
+					for (int i = 0; i < Arcanists.Count; i++)
+					{
+						GiveArcaneFocus(Arcanists[i], duration, strengthBonus);
+					}
+				}
+				else
+				{
+					TimeSpan duration = TimeSpan.FromHours(Math.Max(1, (int)(Caster.Skills.Spellweaving.Value / 24)));
 
-                for (int i = 0; i < Arcanists.Count; i++)
-                {
-                    GiveArcaneFocus(Arcanists[i], duration, strengthBonus);
-                }
+					duration += TimeSpan.FromHours(Math.Min(6, Arcanists.Count));
+
+					int strengthBonus = Math.Min(IsBonus(Caster.Location, Caster.Map) ? 6 : 5, Arcanists.Sum(m => GetStrength(m))); // Math.Min(Arcanists.Count, IsBonus(Caster.Location, Caster.Map) ? 6 : 5);	//The Sanctuary is a special, single location place
+
+					for (int i = 0; i < Arcanists.Count; i++)
+					{
+						GiveArcaneFocus(Arcanists[i], duration, strengthBonus);
+					}
+				}
             }
 
             FinishSequence();

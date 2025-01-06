@@ -111,8 +111,22 @@ namespace Server.Items
                 from.SendLocalizedMessage(1042010); // You must have the object in your backpack to use it.
                 return;
             }
+			
+			if (obj is BootsOfHaste)
+			{
+				BootsOfHaste boots = obj as BootsOfHaste;
+				if ( boots != null && boots.Parent != from)
+					from.SendMessage(0, "This gem could recharge your boots of haste, but you must first equip them.");
+				else if (boots != null)
+				{
+					boots.AddCharge(300);
+					from.SendMessage(0, "You recharge your boots of haste with the arcane gem.");
+					from.PlaySound(0x1E9);
+					Consume();
+				}
+			}
 
-            if (obj is IArcaneEquip && obj is Item)
+            else if (obj is IArcaneEquip && obj is Item)
             {
                 Item item = (Item)obj;
                 CraftResource resource = CraftResource.None;

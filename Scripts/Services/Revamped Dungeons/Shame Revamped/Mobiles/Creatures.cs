@@ -64,6 +64,11 @@ namespace Server.Mobiles
 
             if (0.05 > Utility.RandomDouble() && Region.Find(c.Location, c.Map).IsPartOf("Shame"))
                 c.DropItem(new ShameCrystal());
+
+            // Always add FertileDirt with a random quantity between 1 and 10
+            int quantity = Utility.RandomMinMax(1, 10);
+            FertileDirt fertileDirt = new FertileDirt(quantity);
+            c.DropItem(fertileDirt);
         }
 
         public override void GenerateLoot()

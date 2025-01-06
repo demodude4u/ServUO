@@ -13,7 +13,7 @@ namespace Server.Misc
         public static Timer Timer { get; private set; }
         public static bool DoneWarning { get; private set; }
 
-        public static bool Enabled = Config.Get("AutoRestart.Enabled", false);
+        public static bool Enabled = Config.Get("AutoRestart.Enabled", true);
         public static int Hour = Config.Get("AutoRestart.Hour", 12);
         public static int Minutes = Config.Get("AutoRestart.Minute", 0);
         public static int Frequency = Config.Get("AutoRestart.Frequency", 24);
@@ -42,8 +42,8 @@ namespace Server.Misc
 
                 BeginTimer();
 
-                Utility.WriteConsoleColor(ConsoleColor.Magenta, "[Auto Restart] Configured for {0}:{1}:00, every {2} hours!", RestartTime.Hour, RestartTime.Minute, Frequency);
-                Utility.WriteConsoleColor(ConsoleColor.Magenta, "[Auto Restart] Next Shard Restart: {0}", RestartTime.ToString());
+                Utility.WriteConsoleColor(ConsoleColor.Magenta, "Daily is scheduled for {0}:{1}:00, every {2} hours!", RestartTime.Hour, RestartTime.Minute, Frequency);
+                Utility.WriteConsoleColor(ConsoleColor.Magenta, "Next Shard Restart: {0}", RestartTime.ToString());
             }
         }
 
@@ -59,7 +59,7 @@ namespace Server.Misc
 
                 StopTimer();
 
-                Timer.DelayCall(TimeSpan.FromSeconds(1), () =>
+                Timer.DelayCall(TimeSpan.FromSeconds(10), () =>
                     {
                         AutoSave.Save();
 

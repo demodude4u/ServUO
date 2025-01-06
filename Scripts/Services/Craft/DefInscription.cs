@@ -386,7 +386,7 @@ namespace Server.Engines.Craft
                 AddRes(index, typeof(RecallRune), 1044447, 3, 1044253);
                 AddRes(index, typeof(RecallScroll), 1044445, 3, 1044253);
                 AddRes(index, typeof(GateTravelScroll), 1044446, 3, 1044253);
-                AddRecipe(index, (int)InscriptionRecipes.RunicAtlas);
+                //AddRecipe(index, (int)InscriptionRecipes.RunicAtlas);
             }
             #endregion
 

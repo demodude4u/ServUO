@@ -119,7 +119,7 @@ namespace Server.Engines.Harvest
             }
 
             oreAndStone.RaceBonus = Core.ML;
-            oreAndStone.RandomizeVeins = Core.ML;
+            oreAndStone.RandomizeVeins = false;
 
             Definitions.Add(oreAndStone);
             #endregion

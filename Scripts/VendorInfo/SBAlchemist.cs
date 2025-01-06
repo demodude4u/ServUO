@@ -89,23 +89,26 @@ namespace Server.Mobiles
                 Add(typeof(MortarPestle), 4);
                 Add(typeof(HairDye), 19);
 
-                Add(typeof(NightSightPotion), 7);
-                Add(typeof(AgilityPotion), 7);
-                Add(typeof(StrengthPotion), 7);
-                Add(typeof(RefreshPotion), 7);
-                Add(typeof(LesserCurePotion), 7);
-				Add(typeof(CurePotion), 11);
-				Add(typeof(GreaterCurePotion), 15);
-                Add(typeof(LesserHealPotion), 7);
-				Add(typeof(HealPotion), 11);
-				Add(typeof(GreaterHealPotion), 15);
-				Add(typeof(LesserPoisonPotion), 7);
-				Add(typeof(PoisonPotion), 9);
-				Add(typeof(GreaterPoisonPotion), 13);
-				Add(typeof(DeadlyPoisonPotion), 21);
-				Add(typeof(LesserExplosionPotion), 10);
-				Add(typeof(ExplosionPotion), 15);
-				Add(typeof(GreaterExplosionPotion), 25);
+                Add(typeof(RefreshPotion), 15);
+                Add(typeof(TotalRefreshPotion), 45);
+                Add(typeof(LesserHealPotion), 12);
+                Add(typeof(HealPotion), 21);
+                Add(typeof(GreaterHealPotion), 39);
+				Add(typeof(LesserCurePotion), 12);
+                Add(typeof(CurePotion), 21);
+                Add(typeof(GreaterCurePotion), 35);
+                Add(typeof(AgilityPotion), 15);
+				Add(typeof(GreaterAgilityPotion), 30);
+				Add(typeof(StrengthPotion), 17);
+				Add(typeof(GreaterStrengthPotion), 30);
+				Add(typeof(LesserPoisonPotion), 12);
+				Add(typeof(PoisonPotion), 17);
+				Add(typeof(GreaterPoisonPotion), 26);
+				Add(typeof(DeadlyPoisonPotion), 44);
+				Add(typeof(LesserExplosionPotion), 21);
+				Add(typeof(ExplosionPotion), 30);
+                Add(typeof(GreaterExplosionPotion), 53);
+                Add(typeof(NightSightPotion), 12);
             }
         }
     }

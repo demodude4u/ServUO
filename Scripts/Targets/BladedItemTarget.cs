@@ -140,12 +140,14 @@ namespace Server.Targets
                     {
                         bank.Consume(5, from);
 
-                        Item item = new Kindling();
+                        Item item = new Stick();
 
                         if (from.PlaceInBackpack(item))
                         {
-                            from.SendLocalizedMessage(500491); // You put some kindling into your backpack.
-                            from.SendLocalizedMessage(500492); // An axe would probably get you more wood.
+                            from.SendMessage("You cut a stick from the tree and place it into your pack");
+                            
+                            //from.SendLocalizedMessage(500491); // You put some kindling into your backpack.
+                            //from.SendLocalizedMessage(500492); // An axe would probably get you more wood.
                         }
                         else
                         {

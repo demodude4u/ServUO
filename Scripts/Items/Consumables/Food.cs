@@ -171,6 +171,7 @@ namespace Server.Items
 		public override void AddNameProperty(ObjectPropertyList list)
 		{
 			base.AddNameProperty(list);
+            list.Add("Nourishment: {0}", FillFactor);
 
 			if (!String.IsNullOrEmpty(EngravedText))
 			{
@@ -218,7 +219,7 @@ namespace Server.Items
 
         public static bool FillHunger(Mobile from, int fillFactor)
         {
-            if (from.Hunger >= 20)
+            if (from.Hunger >= 100)
             {
                 from.SendLocalizedMessage(500867); // You are simply too full to eat any more!
                 return false;
@@ -229,9 +230,9 @@ namespace Server.Items
             if (from.Stam < from.StamMax)
                 from.Stam += Utility.Random(6, 3) + fillFactor / 5;
 
-            if (iHunger >= 20)
+            if (iHunger >= 100)
             {
-                from.Hunger = 20;
+                from.Hunger = 100;
                 from.SendLocalizedMessage(500872); // You manage to eat the food, but you are stuffed!
             }
             else
@@ -244,6 +245,14 @@ namespace Server.Items
                     from.SendLocalizedMessage(500869); // You eat the food, and begin to feel more satiated.
                 else if (iHunger < 15)
                     from.SendLocalizedMessage(500870); // After eating the food, you feel much less hungry.
+                else if (iHunger < 95)
+				{
+					List<string> eatString = new List<string>(){"Mmmm...","Aaahh!","Yummy!","Nommph!"};
+					Random randNum = new Random();
+					int aRandomPos = randNum.Next(eatString.Count);
+					string currString = eatString[aRandomPos];
+                    from.SendMessage(currString);
+				}
                 else
                     from.SendLocalizedMessage(500871); // You feel quite full after consuming the food.
             }
@@ -329,7 +338,7 @@ namespace Server.Items
             }
         }
     }
-
+    #region BreadLoaf
     public class BreadLoaf : Food
     {
         public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
@@ -367,7 +376,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion BreadLoaf
+    #region Bacon
     public class Bacon : Food
     {
         [Constructable]
@@ -403,7 +413,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion Bacon
+    #region SlabOfBacon
     public class SlabOfBacon : Food
     {
         [Constructable]
@@ -439,7 +450,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion SlabOfBacon
+    #region FishSteak
     public class FishSteak : Food
     {
         public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
@@ -484,7 +496,56 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
+    #endregion FishSteak
+    #region CharredFishSteak
+    public class CharredFishSteak : Food
+    {
+        public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
 
+        public override double DefaultWeight
+        {
+            get
+            {
+                return 0.1;
+            }
+        }
+
+        [Constructable]
+        public CharredFishSteak()
+            : this(1)
+        {
+        }
+
+        [Constructable]
+        public CharredFishSteak(int amount)
+            : base(amount, 0x97B)
+        {
+            Name = "Charred Fish Steak";
+            Hue = 0x3D0;
+            FillFactor = 1;
+        }
+
+        public CharredFishSteak(Serial serial)
+            : base(serial)
+        {
+        }
+
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+
+            writer.Write((int)0); // version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+
+            int version = reader.ReadInt();
+        }
+    }
+    #endregion CharredFishSteak
+    #region CheeseWheel
     public class CheeseWheel : Food
     {
         public override double DefaultWeight
@@ -527,7 +588,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion CheeseWheel
+    #region CheeseWedge
     public class CheeseWedge : Food
     {
         public override double DefaultWeight
@@ -570,7 +632,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion CheeseWedge
+    #region CheeseSlice
     public class CheeseSlice : Food
     {
         public override double DefaultWeight
@@ -613,7 +676,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion CheeseSlice
+    #region FrenchBread
     public class FrenchBread : Food
     {
         [Constructable]
@@ -649,7 +713,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion FrenchBread
+    #region FriedEggs
     public class FriedEggs : Food
     {
         public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
@@ -687,7 +752,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion FriedEggs
+    #region CookedBird
     public class CookedBird : Food
     {
         public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
@@ -725,7 +791,49 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
+    #endregion CookedBird
+    #region CharredCookedBird
+    public class CharredCookedBird : Food
+    {
+        public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
 
+        [Constructable]
+        public CharredCookedBird()
+            : this(1)
+        {
+        }
+
+        [Constructable]
+        public CharredCookedBird(int amount)
+            : base(amount, 0x9B7)
+        {
+            Name = "Charred Cooked Bird";
+            Hue = 0x3D0;
+            Weight = 1.0;
+            FillFactor = 3;
+        }
+
+        public CharredCookedBird(Serial serial)
+            : base(serial)
+        {
+        }
+
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+
+            writer.Write((int)0); // version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+
+            int version = reader.ReadInt();
+        }
+    }
+    #endregion CharredCookedBird
+    #region RoastPig
     public class RoastPig : Food
     {
         [Constructable]
@@ -761,7 +869,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion RoastPig
+    #region Sausage
     public class Sausage : Food
     {
         [Constructable]
@@ -797,7 +906,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion Sausage
+    #region Ham
     public class Ham : Food
     {
         [Constructable]
@@ -833,7 +943,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion Ham
+    #region Cake
     public class Cake : Food
     {
         [Constructable]
@@ -864,7 +975,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion Cake
+    #region ribs
     public class Ribs : Food
     {
         public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
@@ -902,7 +1014,49 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
+    #endregion ribs
+    #region charredribs
+    public class CharredRibs : Food
+    {
+        public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
 
+        [Constructable]
+        public CharredRibs()
+            : this(1)
+        {
+        }
+
+        [Constructable]
+        public CharredRibs(int amount)
+            : base(amount, 0x9F2)
+        {
+            Name = "charred cut of ribs";
+            Hue = 0x3D0;
+            Weight = 1.0;
+            FillFactor = 2;
+        }
+
+        public CharredRibs(Serial serial)
+            : base(serial)
+        {
+        }
+
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+
+            writer.Write((int)0); // version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+
+            int version = reader.ReadInt();
+        }
+    }
+    #endregion charredribs
+    #region Cookies
     public class Cookies : Food
     {
         [Constructable]
@@ -933,7 +1087,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion Cookies
+    #region Muffins
     public class Muffins : Food
     {
         [Constructable]
@@ -967,7 +1122,8 @@ namespace Server.Items
                 Stackable = true;
         }
     }
-
+    #endregion Muffins
+    #region CheesePizza
     [TypeAlias("Server.Items.Pizza")]
     public class CheesePizza : Food
     {
@@ -1007,7 +1163,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion CheesePizza
+    #region SausagePizza
     public class SausagePizza : Food
     {
         public override int LabelNumber
@@ -1046,8 +1203,9 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
-    #if false
+    #endregion SausagePizza
+    #region ????
+#if false
 	public class Pizza : Food
 	{
 		[Constructable]
@@ -1076,8 +1234,9 @@ namespace Server.Items
 			int version = reader.ReadInt();
 		}
 	}
-    #endif
-
+#endif
+    #endregion????
+    #region FruitPie
     public class FruitPie : Food
     {
         public override int LabelNumber
@@ -1116,7 +1275,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion FruitPie
+    #region MeatPie
     public class MeatPie : Food
     {
         public override int LabelNumber
@@ -1155,7 +1315,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion MeatPie
+    #region PumpkinPie
     public class PumpkinPie : Food
     {
         public override int LabelNumber
@@ -1194,7 +1355,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion PumpkinPie
+    #region ApplePie
     public class ApplePie : Food
     {
         public override int LabelNumber
@@ -1233,7 +1395,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion ApplePie
+    #region PeachCobbler
     public class PeachCobbler : Food
     {
         public override int LabelNumber
@@ -1272,7 +1435,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion PeachCobbler
+    #region Quiche
     public class Quiche : Food
     {
         public override int LabelNumber
@@ -1311,7 +1475,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion Quiche
+    #region LambLeg
     public class LambLeg : Food
     {
         public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
@@ -1349,7 +1514,49 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
+    #endregion LambLeg
+    #region CharredLambLeg
+    public class CharredLambLeg : Food
+    {
+        public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
 
+        [Constructable]
+        public CharredLambLeg()
+            : this(1)
+        {
+        }
+
+        [Constructable]
+        public CharredLambLeg(int amount)
+            : base(amount, 0x160a)
+        {
+            Name = "Charred Leg of Lamb";
+            Hue = 0x3D0;
+            Weight = 2.0;
+            FillFactor = 2;
+        }
+
+        public CharredLambLeg(Serial serial)
+            : base(serial)
+        {
+        }
+
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+
+            writer.Write((int)0); // version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+
+            int version = reader.ReadInt();
+        }
+    }
+    #endregion CharredLambLeg
+    #region ChickenLeg
     public class ChickenLeg : Food
     {
         public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
@@ -1387,7 +1594,49 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
+    #endregion ChickenLeg
+    #region CharredChickenLeg
+    public class CharredChickenLeg : Food
+    {
+        public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
 
+        [Constructable]
+        public CharredChickenLeg()
+            : this(1)
+        {
+        }
+
+        [Constructable]
+        public CharredChickenLeg(int amount)
+            : base(amount, 0x1608)
+        {
+            Name = "Charred Chicken Leg";
+            Hue = 0x3D0;
+            Weight = 1.0;
+            FillFactor = 1;
+        }
+
+        public CharredChickenLeg(Serial serial)
+            : base(serial)
+        {
+        }
+
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+
+            writer.Write((int)0); // version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+
+            int version = reader.ReadInt();
+        }
+    }
+    #endregion CharredChickenLeg
+    #region Honeydew Melon
     [FlipableAttribute(0xC74, 0xC75)]
     public class HoneydewMelon : Food
     {
@@ -1424,7 +1673,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion HoneydewMelon
+    #region YellowGourd
     [FlipableAttribute(0xC64, 0xC65)]
     public class YellowGourd : Food
     {
@@ -1461,7 +1711,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion YellowGourd
+    #region GreenGourd
     [FlipableAttribute(0xC66, 0xC67)]
     public class GreenGourd : Food
     {
@@ -1498,7 +1749,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion GreenGourd
+    #region EarOfCorn
     [FlipableAttribute(0xC7F, 0xC81)]
     public class EarOfCorn : Food
     {
@@ -1535,7 +1787,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion EarOfCorn
+    #region Turnip
     public class Turnip : Food
     {
         [Constructable]
@@ -1571,7 +1824,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion Turnip
+    #region SheafOfHay
     public class SheafOfHay : Item
     {
         [Constructable]
@@ -1600,7 +1854,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion SheafOfHay
+    #region ThreeTieredCake
     public class ThreeTieredCake : Item, IQuality
     {
         private ItemQuality _Quality;
@@ -1691,7 +1946,8 @@ namespace Server.Items
             _Pieces = reader.ReadInt();
         }
     }
-
+    #endregion ThreeTieredCake
+    #region Hamburger
     public class Hamburger : Food
     {
         public override int LabelNumber { get { return 1125202; } } // hamburger
@@ -1728,7 +1984,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion Hamburger
+    #region HotDog
     [Flipable(0xA0D8, 0xA0D9)]
     public class HotDog : Food
     {
@@ -1766,7 +2023,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion HotDog
+    #region CookableSausage
     [Flipable(0xA0D6, 0xA0D7)]
     public class CookableSausage : Food
     {
@@ -1798,7 +2056,8 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-
+    #endregion CookableSausage
+    #region PulledPorkPlatter
     public class PulledPorkPlatter : Food
     {
         public override int LabelNumber { get { return 1123351; } } // Pulled Pork Platter
@@ -1830,7 +2089,8 @@ namespace Server.Items
 
         }
     }
-
+    #endregion PulledPorkPlatter
+    #region PulledPorkSandwich
     public class PulledPorkSandwich : Food
     {
         public override int LabelNumber { get { return 1123352; } } // Pulled Pork Sandwich
@@ -1861,4 +2121,5 @@ namespace Server.Items
 
         }
     }
+    #endregion PulledPorkSandwich
 }

@@ -22,10 +22,11 @@ namespace Server.Engines.Points
 		
 		public override void SendMessage(PlayerMobile from, double old, double points, bool quest)
 		{
-			from.SendLocalizedMessage(1153423, ((int)points).ToString()); // You have gained ~1_AMT~ Dungeon Crystal Points of Despise.
-		}
-		
-		public override TextDefinition GetTitle(PlayerMobile from)
+            from.SendLocalizedMessage(1153423, ((int)points).ToString()); // You have gained ~1_AMT~ Dungeon Crystal Points of Despise.
+            from.SendMessage("You now have {0} points.", (int)GetPoints(from));
+        }
+
+        public override TextDefinition GetTitle(PlayerMobile from)
 		{
 			return new TextDefinition(1123418);
 		}

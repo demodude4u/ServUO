@@ -4087,7 +4087,14 @@ namespace Server.Multis
         public static int GetAccountHouseLimit(Mobile m)
         {
             var max = AccountHouseLimit;
-            
+
+            // LOKAI HOUSE LIMIT INCREASE SYSTEM
+
+            max += HousingLimit.GetLimitIncrease(m);
+            if (max >= HousingLimit.MAX) max = HousingLimit.MAX;
+
+            // LOKAI HOUSE LIMIT INCREASE SYSTEM
+
             return max;
         }
 

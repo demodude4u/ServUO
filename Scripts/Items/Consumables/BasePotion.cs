@@ -125,7 +125,8 @@ namespace Server.Items
                     return true;
             }
 
-            return (handOne == null || handTwo == null);
+            //return (handOne == null || handTwo == null);
+            return (handOne == null || handTwo == null || m.Map != Map.Felucca);
         }
 
         public override void OnDoubleClick(Mobile from)

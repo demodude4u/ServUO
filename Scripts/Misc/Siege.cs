@@ -15,7 +15,7 @@ namespace Server
 {
 	public static class Siege
 	{
-		public static bool SiegeShard = Config.Get("Siege.IsSiege", false);
+		public static bool SiegeShard = Config.Get("Siege.IsSiege", true);
 		public static int CharacterSlots = Config.Get("Siege.CharacterSlots", 1);
 		public static string FilePath = Path.Combine("Saves", "Siege.bin");
 

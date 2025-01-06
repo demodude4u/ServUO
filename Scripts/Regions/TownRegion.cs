@@ -16,7 +16,12 @@ namespace Server.Regions
 
         public override void OnEnter(Mobile m)
         {
-            base.OnEnter(m);
+			if (this.Name != "")
+            {
+                m.SendMessage(1161,"You have entered " + this.Name);
+            }
+            
+			base.OnEnter(m);
 
             if (ViceVsVirtueSystem.EnhancedRules && 
                 IsVvVBattleRegion() &&
@@ -32,6 +37,11 @@ namespace Server.Regions
 
         public override void OnExit(Mobile m)
         {
+	        if (this.Name != "")
+            {
+                m.SendMessage(38,"You are leaving " + this.Name);
+            }
+			
             base.OnExit(m);
 
             if (IsVvVBattleRegion() && m is PlayerMobile && m.HasGump(typeof(BattleWarningGump)))

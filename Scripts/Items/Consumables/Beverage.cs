@@ -965,6 +965,24 @@ namespace Server.Items
                     Delete();
             }
         }
+		
+        [CommandProperty(AccessLevel.GameMaster)]
+		public int QuenchFactor
+		{
+			get 
+			{
+				switch( Content )
+				{
+					case BeverageType.Ale: return -4;
+					case BeverageType.Cider: return -7;
+					case BeverageType.Liquor: return -10;
+					case BeverageType.Milk: return 20;
+					case BeverageType.Wine: return -2;
+					case BeverageType.Water: return 10;
+				}
+				return 1;
+			}
+		}
 
         [CommandProperty(AccessLevel.GameMaster)]
         public int Quantity
@@ -1032,6 +1050,8 @@ namespace Server.Items
             {
                 list.Add(GetQuantityDescription());
             }
+			
+			if (Quantity > 0) list.Add("Quench Factor: {0}", QuenchFactor);
         }
 
         public override void AddCraftedProperties(ObjectPropertyList list)
@@ -1148,6 +1168,15 @@ namespace Server.Items
                     }
                 }
             }
+			else if (
+				(targ is Static && (((Static)targ).ItemID  == 0x0E7B || ((Static)targ).ItemID == 0x154D))
+					||
+				(targ is StaticTarget && (((StaticTarget)targ).ItemID == 0x0E7B || ((StaticTarget)targ).ItemID == 0x154D)) )
+			{
+                Content = BeverageType.Water;
+				Quantity = MaxQuantity;
+				from.SendLocalizedMessage(1010089); // You fill the container with water.
+			}
             else if (targ is Item)
             {
                 Item item = (Item)targ;
@@ -1419,8 +1448,15 @@ namespace Server.Items
             }
             else if (from == targ)
             {
-                if (from.Thirst < 20)
-                    from.Thirst += 1;
+			
+				#region HungerThirst system
+                if (from.Thirst < 100)
+				{
+                    from.Thirst += QuenchFactor;
+					if (from.Thirst > 100) from.Thirst = 100;
+					Server.Misc.HungerThirst.CheckThirst(from);
+				}
+				#endregion
 
                 if (ContainsAlchohol)
                 {

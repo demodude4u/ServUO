@@ -6,6 +6,8 @@ namespace Server.Mobiles
     [CorpseName("an energy vortex corpse")]
     public class EnergyVortex : BaseCreature
     {
+        private static readonly int[] BodyTypes = { 0xDC, 0xD, 0xE, 0xF, 0x10 };
+
         [Constructable]
         public EnergyVortex() : this(false)
         {
@@ -21,11 +23,12 @@ namespace Server.Mobiles
             {
                 // Llama vortex!
                 Body = 0xDC;
-                Hue = 0x76;
+                Hue = 1376;
             }
             else
             {
-                Body = 164;
+                Body = Utility.RandomList(BodyTypes); // Assign a random body type
+                Hue = 1376; // Set the hue to 0x813
             }
 
             bool weak = summoned && Siege.SiegeShard;
