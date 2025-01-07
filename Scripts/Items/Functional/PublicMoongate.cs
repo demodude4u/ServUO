@@ -22,7 +22,7 @@ namespace Server.Items
 		{
 			Moongates = new List<PublicMoongate>();
 		}
-
+        //blah blah blah
 		public static void Initialize()
 		{
 			CommandSystem.Register("MoonGen", AccessLevel.Administrator, MoonGen_OnCommand);
