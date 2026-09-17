@@ -75,12 +75,16 @@ namespace Server.Gumps
             
         }
 
-        private static bool LoadClilocs()
-        {
-            bool success = true;
-			
+		private static bool LoadClilocs()
+		{
 			ClilocHash = Read("cliloc.enu", Core.FindDataFile("cliloc.enu"));
-            ClilocList = new List<int>();
+			ClilocList = new List<int>();
+
+			if (ClilocHash == null)
+			{
+				return false;
+			}
+
 			try
 			{
 				for (int x = 500000; x < 3011032; x++)
@@ -91,8 +95,12 @@ namespace Server.Gumps
 					}
 				}
 			}
-			catch { success = false; }
-            return success;
+			catch
+			{
+				return false;
+			}
+
+			return true;
         }
 
         //read operation, which loads all the data into the specified cliloc entry hashtable
@@ -105,23 +113,37 @@ namespace Server.Gumps
                 using (FileStream stream = new FileStream(_FilePath,FileMode.Open,FileAccess.Read,FileShare.Read))
                 {
                     BinaryReader reader = new BinaryReader(stream);
-                    for (int i = 0; i < 6; i++){reader.ReadByte();}
-                    System.Text.Encoding encoding = System.Text.Encoding.UTF8;
-                    int index = 0;
-					
-                    while (index != MaxEntry)
-                    {
-						try {
-							index = reader.ReadInt32();
+					reader.ReadBytes(6);
+					System.Text.Encoding encoding = System.Text.Encoding.UTF8;
+
+					while (stream.Position < stream.Length)
+					{
+						try
+						{
+							int index = reader.ReadInt32();
 							reader.ReadByte();
 							short strlen = reader.ReadInt16();
-							byte[] buffer = new byte[strlen];
-							reader.Read(buffer,0,strlen);
+
+							if (strlen < 0)
+							{
+								break;
+							}
+
+							byte[] buffer = reader.ReadBytes(strlen);
+
+							if (buffer.Length != strlen)
+							{
+								break;
+							}
+
 							string text = encoding.GetString(buffer);
-							clilocs.Add(index,new CliLocEntry(index,text));
+							clilocs[index] = new CliLocEntry(index, text);
 						}
-						catch{}
-                    }
+						catch (EndOfStreamException)
+						{
+							break;
+						}
+					}
                 }
             }
             else

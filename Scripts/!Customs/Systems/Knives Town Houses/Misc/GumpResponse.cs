@@ -15,7 +15,6 @@ namespace Knives.TownHouses
             m_Successor = PacketHandlers.GetHandler(0xB1);
 
             PacketHandlers.Register(0xB1, 0, true, DisplayGumpResponse);
-            PacketHandlers.Register6017(0xB1, 0, true, DisplayGumpResponse);
         }
 
         public static void DisplayGumpResponse(NetState state, PacketReader pvSrc)
@@ -83,38 +82,7 @@ namespace Knives.TownHouses
             if (th == null || th.ForSaleSign == null)
                 return true;
 
-            if (gump is HouseGumpAOS)
-            {
-                int val = id - 1;
-
-                if (val < 0)
-                    return true;
-
-                int type = val % 15;
-                int index = val / 15;
-
-                if (th.ForSaleSign.ForcePublic && type == 3 && index == 12 && th.Public)
-                {
-                    m.SendMessage("This house cannot be private.");
-                    m.SendGump(gump);
-                    return false;
-                }
-
-                if (th.ForSaleSign.ForcePrivate && type == 3 && index == 13 && !th.Public)
-                {
-                    m.SendMessage("This house cannot be public.");
-                    m.SendGump(gump);
-                    return false;
-                }
-
-                if (th.ForSaleSign.NoTrade && type == 6 && index == 1)
-                {
-                    m.SendMessage("This house cannot be traded.");
-                    m.SendGump(gump);
-                    return false;
-                }
-            }
-            else if (gump is HouseGump)
+            if (gump is HouseGump)
             {
                 if (th.ForSaleSign.ForcePublic && id == 17 && th.Public)
                 {

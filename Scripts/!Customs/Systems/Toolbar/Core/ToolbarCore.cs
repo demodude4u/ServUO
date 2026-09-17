@@ -1,7 +1,6 @@
 ﻿#region References
 using System;
-
-using CustomsFramework;
+using System.Collections.Generic;
 
 using Server;
 using Server.Commands;
@@ -12,21 +11,76 @@ using Services.Toolbar.Gumps;
 
 namespace Services.Toolbar.Core
 {
-	public class ToolbarCore : BaseCore
+	public static class ToolbarCore
 	{
 		public const string SystemVersion = "2.3";
 		public const string ReleaseDate = "October 28, 2013";
 
-		public static ToolbarCore Instance { get; private set; }
+		private const string PersistencePath = "Saves/Toolbar.bin";
+		private static readonly Dictionary<Serial, ToolbarInfo> _Toolbars = new Dictionary<Serial, ToolbarInfo>();
 
 		public static void Initialize()
 		{
-			Instance = World.GetCore(typeof(ToolbarCore)) as ToolbarCore ?? new ToolbarCore();
-
 			CommandHandlers.Register("Toolbar", AccessLevel.VIP, Toolbar_OnCommand);
 
+			EventSink.WorldLoad += Load;
+			EventSink.WorldSave += e => Persistence.Serialize(PersistencePath, Save);
 			EventSink.Login += OnLogin;
 			EventSink.PlayerDeath += OnPlayerDeath;
+		}
+
+		public static ToolbarModule GetModule(Mobile mobile)
+		{
+			return new ToolbarModule(mobile);
+		}
+
+		internal static ToolbarInfo GetToolbarInfo(Mobile mobile)
+		{
+			if (!_Toolbars.TryGetValue(mobile.Serial, out var info))
+			{
+				info = ToolbarInfo.CreateNew(mobile);
+				_Toolbars[mobile.Serial] = info;
+			}
+
+			return info;
+		}
+
+		internal static void SetToolbarInfo(Mobile mobile, ToolbarInfo info)
+		{
+			_Toolbars[mobile.Serial] = info;
+		}
+
+		private static void Save(GenericWriter writer)
+		{
+			writer.Write(0); // version
+			writer.Write(_Toolbars.Count);
+
+			foreach (var entry in _Toolbars)
+			{
+				writer.Write(entry.Key);
+				entry.Value.Serialize(writer);
+			}
+		}
+
+		private static void Load()
+		{
+			_Toolbars.Clear();
+			Persistence.Deserialize(PersistencePath, reader =>
+			{
+				var version = reader.ReadInt();
+
+				if (version != 0)
+				{
+					return;
+				}
+
+				var count = reader.ReadInt();
+
+				for (var i = 0; i < count; i++)
+				{
+					_Toolbars[reader.ReadInt()] = new ToolbarInfo(reader);
+				}
+			});
 		}
 
 		private static void OnLogin(LoginEventArgs e)
@@ -57,40 +111,10 @@ namespace Services.Toolbar.Core
 
 		public static void SendToolbar(Mobile m)
 		{
-			ToolbarModule module = m.GetModule(typeof(ToolbarModule)) as ToolbarModule ?? new ToolbarModule(m);
+			var module = GetModule(m);
 
 			m.CloseGump(typeof(ToolbarGump));
 			m.SendGump(new ToolbarGump(module.ToolbarInfo, m));
-		}
-
-		public ToolbarCore()
-		{
-			Enabled = true;
-		}
-
-		public ToolbarCore(CustomSerial serial)
-			: base(serial)
-		{ }
-
-		public override string Name { get { return @"Toolbar Core"; } }
-		public override string Description { get { return @"Core that maintains the [Toolbar system."; } }
-		public override string Version { get { return SystemVersion; } }
-		public override AccessLevel EditLevel { get { return AccessLevel.Developer; } }
-		public override Gump SettingsGump { get { return null; } }
-
-
-		public override void Serialize(GenericWriter writer)
-		{
-			base.Serialize(writer);
-
-			writer.WriteVersion(0);
-		}
-
-		public override void Deserialize(GenericReader reader)
-		{
-			base.Deserialize(reader);
-
-			reader.ReadInt();
 		}
 	}
 }

@@ -398,11 +398,6 @@ namespace Server.Commands
                 m_Timer.Stop();
         }
 
-        public override void OnSingleClick(Mobile from)
-        {
-            this.LabelTo(from, this.Name);
-        }
-
         public Puke(Serial serial)
             : base(serial)
         {

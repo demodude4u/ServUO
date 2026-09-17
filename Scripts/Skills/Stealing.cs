@@ -261,19 +261,16 @@ namespace Server.SkillHandlers
 
                             if (root is FillableContainer)
                             {
-								caught = Utility.Random(100) < ContainerStealCaughtChance(skillValue);
-                                //caught = (Utility.Random((int)(skillValue / 2.5)) == 0); // 1 of 48 chance at 120
+                                caught = (Utility.Random((int)(skillValue / 2.5)) == 0); // 1 of 48 chance at 120
                             }
                             else
                             {
-								caught = Utility.Random(100) < OpenStealCaughtChance(skillValue);
-                                //caught = (skillValue < Utility.Random(150));
+                                caught = (skillValue < Utility.Random(150));
                             }
                         }
                         else
                         {
-                            double skillValue = m_Thief.Skills[SkillName.Stealing].Value;
-							caught = Utility.Random(100) < OpenStealCaughtChance(skillValue);
+                            caught = false;
                         }
 
                         if (stolen != null)
@@ -284,7 +281,7 @@ namespace Server.SkillHandlers
                             ItemFlags.SetStealable(stolen, false);
                             stolen.Movable = true;
 
-                            InvokeItemStolen(new ItemStolenEventArgs(stolen, m_Thief));
+                            InvokeItemStoken(new ItemStolenEventArgs(stolen, m_Thief));
 
                             if (si != null)
                             {
@@ -494,7 +491,7 @@ namespace Server.SkillHandlers
             return TimeSpan.FromSeconds(10.0);
         }
 
-        public static void InvokeItemStolen(ItemStolenEventArgs e)
+        public static void InvokeItemStoken(ItemStolenEventArgs e)
         {
             if (ItemStolen != null)
             {

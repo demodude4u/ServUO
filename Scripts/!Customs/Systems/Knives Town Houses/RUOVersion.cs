@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Server;
 using Server.Commands;
 using Server.Multis;
-using Server.Multis.Deeds;
 #endregion
 
 namespace Knives.TownHouses
@@ -80,11 +79,6 @@ namespace Knives.TownHouses
 		public VersionHouse(Serial serial)
 			: base(serial)
 		{ }
-
-		public override HouseDeed GetDeed()
-		{
-			return null;
-		}
 
 		// ReSharper disable RedundantOverridenMember
 		public override void Serialize(GenericWriter writer)

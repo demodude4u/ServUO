@@ -30,12 +30,6 @@ namespace Server.Items
             list.Add("Lockpick and Remove Trap Trainer, Double click to set for your skill level.");
         }
 
-        public override void OnSingleClick(Mobile from)
-        {
-            base.OnSingleClick(from);
-            this.LabelTo(from, "Lockpick and Remove Trap Trainer, Double click to set for your skill level.");
-        }
-		
 		public override void Open(Mobile from)
 		{
 			double lockpicking = from.Skills[SkillName.Lockpicking].Value;

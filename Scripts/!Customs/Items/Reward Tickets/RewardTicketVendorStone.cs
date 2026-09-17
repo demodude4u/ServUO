@@ -188,23 +188,6 @@ namespace Server.Items
 			}
 		}
 
-		public override void OnSingleClick( Mobile from )
-		{
-			base.OnSingleClick( from );
-
-			if ( Stone != null && !Stone.Deleted )
-			{
-				if ( Stone.Name != null )
-					LabelTo( from, "Stone Ball, Connected to: "+ Stone.Name );
-				else
-					LabelTo( from, "Stone Ball, Connected to: !SET THE STONE'S NAME!" );
-			}
-			else
-			{
-				LabelTo( from, "Stone Ball, Connected to: None" );
-			}
-		}
-
 		public override void GetProperties( ObjectPropertyList list )
 		{
 			base.GetProperties( list );

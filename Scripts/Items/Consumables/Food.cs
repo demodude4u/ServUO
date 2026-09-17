@@ -1480,6 +1480,44 @@ namespace Server.Items
     #endregion ChickenLeg
     #region CharredChickenLeg
 
+    public class CharredChickenLeg : Food
+    {
+        public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
+
+        [Constructable]
+        public CharredChickenLeg()
+            : this(1)
+        {
+        }
+
+        [Constructable]
+        public CharredChickenLeg(int amount)
+            : base(amount, 0x1608)
+        {
+            Name = "charred chicken leg";
+            Hue = 0x3D0;
+            Weight = 1.0;
+            FillFactor = 2;
+        }
+
+        public CharredChickenLeg(Serial serial)
+            : base(serial)
+        {
+        }
+
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(0); // version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            reader.ReadInt();
+        }
+    }
+
     [Flipable(0xC74, 0xC75)]
     public class HoneydewMelon : Food
     {

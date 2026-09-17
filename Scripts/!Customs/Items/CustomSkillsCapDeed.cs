@@ -2,7 +2,6 @@ using Server.Gumps;
 using Server.Mobiles;
 using System;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace Server.Items
 {
@@ -57,8 +56,6 @@ namespace Server.Items
         {
             if (okay)
             {
-                if (from is PlayerMobile)
-                    ((PlayerMobile)from)._SkillsCapCustomValue = m_NewValue;
                 from.SkillsCap = m_NewValue;
                 from.SendMessage("Your skills cap has been changed to {0}!", m_NewValue.ToString());
                 Delete();

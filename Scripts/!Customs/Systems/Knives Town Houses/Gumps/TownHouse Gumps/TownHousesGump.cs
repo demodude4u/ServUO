@@ -162,7 +162,7 @@ namespace Knives.TownHouses
 
 			NewGump();
 
-			Owner.SendGump(new HouseGumpAOS(0, Owner, (BaseHouse)obj));
+			Owner.SendGump(new HouseGump(HouseGumpPage.Security, Owner, (BaseHouse)obj));
 		}
 
 		private void New()

@@ -27,4 +27,20 @@
   <ItemGroup>
     <Reference Include="System.Web" />
   </ItemGroup>
+
+  <!--
+    These legacy packages redeclare classes now supplied by ServUO.  The current
+    upstream implementations own the persisted type names, so the old copies
+    remain in the repository for reference but are not compiled.
+  -->
+  <ItemGroup>
+    <Compile Remove="!Customs\Items\AdvanceInteriorDecorator.cs" />
+    <Compile Remove="!Customs\Items\Custom Moongates\PublicMoongate.cs" />
+    <Compile Remove="!Customs\Mobiles\SBBeekeeper.cs" />
+    <Compile Remove="!Customs\Commands\movealot\MoveTarget.cs" />
+    <Compile Remove="!Customs\Commands\movealot\PickMoveTarget.cs" />
+    <Compile Remove="!Customs\Systems\Barber Shop\Limited Hair Dyes\HairDye.cs" />
+    <Compile Remove="!Customs\Systems\Barber Shop\Limited Hair Dyes\SpecialHairDye.cs" />
+    <Compile Remove="!Customs\Systems\Barber Shop\Limited Hair Dyes\SpecialBeardDye.cs" />
+  </ItemGroup>
 </Project>

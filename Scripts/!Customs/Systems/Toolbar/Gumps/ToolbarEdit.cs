@@ -105,7 +105,7 @@ namespace Services.Toolbar.Gumps
 					goto case 0;
 				case 12: // Apply
 					{
-						ToolbarModule module = m.GetModule(typeof(ToolbarModule)) as ToolbarModule ?? new ToolbarModule(m);
+						ToolbarModule module = ToolbarCore.GetModule(m);
 
 						module.ToolbarInfo.Entries = AnalyzeEntries();
 						

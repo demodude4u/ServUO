@@ -43,13 +43,6 @@ namespace Server.Items
 			LabelToAffix( m, 1017323, AffixType.Append, ": " + m_UsesRemaining.ToString() ); // Durability
 		}
 
-		public override void OnSingleClick( Mobile from )
-		{
-			DisplayDurabilityTo( from );
-
-			base.OnSingleClick( from );
-		}
-
 		public override void OnDoubleClick(Mobile from)
 		{
 			from.PrivateOverheadMessage( 0, 1154, false,  "This tool is used to harvest resources from a beehive.", from.NetState );				

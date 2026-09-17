@@ -36,15 +36,8 @@ namespace Server.Items
         {
             if (this.IsChildOf(from.Backpack))
             {
-                if (from is PlayerMobile)
-                {
-                    PlayerMobile pm = from as PlayerMobile;
-                    if (pm._SkillsCapCustomValue > 0) pm._SkillsCapCustomValue += m_NewValue;
-                    else pm._SkillsCapCustomValue = from.SkillsCap + m_NewValue;
-
-                    from.SkillsCap = pm._SkillsCapCustomValue;
-                    from.SendMessage("Your skills cap has increased by {0} to {1}!", m_NewValue, from.SkillsCap);
-                }
+                from.SkillsCap += m_NewValue;
+                from.SendMessage("Your skills cap has increased by {0} to {1}!", m_NewValue, from.SkillsCap);
                 Delete();
             }
             else

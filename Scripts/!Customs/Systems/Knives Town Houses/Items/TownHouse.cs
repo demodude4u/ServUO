@@ -5,7 +5,6 @@ using System.Linq;
 
 using Server;
 using Server.Multis;
-using Server.Multis.Deeds;
 using Server.Targeting;
 #endregion
 
@@ -74,11 +73,6 @@ namespace Knives.TownHouses
 			: base(serial)
 		{
 			AllTownHouses.Add(this);
-		}
-
-		public override HouseDeed GetDeed()
-		{
-			return null;
 		}
 
 		public void InitSectorDefinition()
@@ -190,7 +184,7 @@ namespace Knives.TownHouses
 			}
 		}
 
-		public override int GetNewVendorSystemMaxVendors()
+		public override int GetVendorSystemMaxVendors()
 		{
 			return 50;
 		}

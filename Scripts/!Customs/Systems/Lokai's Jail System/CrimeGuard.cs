@@ -43,11 +43,6 @@ namespace Server.Mobiles
         {
         }
 		
-        public override bool Payday(BaseHire m) 
-        {
-			return false;
-		}
-
         public override void OnSpeech(SpeechEventArgs e) 
         {
 			

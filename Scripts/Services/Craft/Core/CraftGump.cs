@@ -59,7 +59,7 @@ namespace Server.Engines.Craft
             if (craftSystem.GumpTitleNumber > 0)
                 AddHtmlLocalized(10, 12, 510, 20, craftSystem.GumpTitleNumber, LabelColor, false, false);
             else
-            AddHtml(10, 12, 510, 20, MakeTitle(craftSystem.GumpTitleString), false, false);
+                AddHtml(10, 12, 510, 20, craftSystem.GumpTitleString, false, false);
 
             AddHtmlLocalized(10, 37, 200, 22, 1044010, LabelColor, false, false); // <CENTER>CATEGORIES</CENTER>
             AddHtmlLocalized(215, 37, 305, 22, 1044011, LabelColor, false, false); // <CENTER>SELECTIONS</CENTER>

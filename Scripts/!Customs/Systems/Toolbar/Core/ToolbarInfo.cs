@@ -1,8 +1,6 @@
 ﻿#region References
 using System.Collections.Generic;
 
-using CustomsFramework;
-
 using Server;
 using Server.Commands;
 #endregion
@@ -225,7 +223,7 @@ namespace Services.Toolbar.Core
 
 		public void Serialize(GenericWriter writer)
 		{
-			writer.WriteVersion(0);
+			writer.Write(0);
 
 			writer.Write(_Font);
 			writer.Write(_Phantom);

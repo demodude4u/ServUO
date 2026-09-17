@@ -14,6 +14,7 @@ using Server.Engines.SphynxFortune;
 using Server.Engines.VendorSearching;
 using Server.Engines.VoidPool;
 using Server.Engines.VvV;
+using Server.Engines.VeteranRewards;
 using Server.Guilds;
 using Server.Gumps;
 using Server.Items;
@@ -2969,45 +2970,7 @@ namespace Server.Mobiles
             if (!Alive)
                 return;
 
-            int cur, max, level;
-
-            RewardSystem.ComputeRewardInfo(this, out cur, out max, out level);
-
-            if (level > RewardSystem.SkillCapBonusLevels)
-                level = RewardSystem.SkillCapBonusLevels;
-            else if (level < 0)
-                level = 0;
-
-            if (!Core.SA)
-            {
-                if (RewardSystem.SkillCapRewards)
-                {
-                    int newLevel = RewardSystem.SkillCap + (int)((float)level * RewardSystem.SkillCapBonusIncrement);
-                    if (newLevel > RewardSystem.SkillCap + RewardSystem.SkillCapBonus)
-                    {
-                        newLevel = RewardSystem.SkillCap + RewardSystem.SkillCapBonus;
-                    }
-                    SkillsCap = newLevel;
-                }
-                else
-                {
-                    SkillsCap = RewardSystem.SkillCap;
-                }
-            }
-            else
-            {
-                SkillsCap = RewardSystem.SkillCap + RewardSystem.SkillCapBonus;
-            }
-
-            if (Core.ML && HasStatReward && RewardSystem.HasHalfLevel(this))
-            {
-                SendGump(new StatRewardGump(this));
-            }
-
-            if (cur < max)
-                SendGump(new RewardNoticeGump(this));
-			else
-				SendMessage("You don't have any pending rewards.");
+            SendGump(new RewardChoiceGump(this));
         }
 
         private delegate void ContextCallback();
