@@ -1,4 +1,3 @@
-using System;
 using Server.Items;
 
 namespace Server.Mobiles
@@ -7,34 +6,34 @@ namespace Server.Mobiles
     {
         [Constructable]
         public GargishWarrior()
-            : base(AIType.AI_Animal, FightMode.None, 10, 1, 0.2, 0.4)
+            : base(AIType.AI_Melee, FightMode.None, 10, 1, 0.2, 0.4)
         {
-            this.Name = "Warrior";
-            if (this.Female = Utility.RandomBool())
+            Name = "Warrior";
+            if (Female = Utility.RandomBool())
             {
-                this.Body = 667;
-                this.HairItemID = 17067;
-                this.HairHue = 1762;
-                this.AddItem(new FemaleGargishPlateChest());
-                this.AddItem(new FemaleGargishPlateKilt());
-                this.AddItem(new FemaleGargishPlateLegs());
-                this.AddItem(new FemaleGargishPlateArms());
-                this.AddItem(new PlateTalons());
-               
-                this.AddItem(new GlassSword());
+                Body = 667;
+                HairItemID = 17067;
+                HairHue = 1762;
+				SetWearable(new FemaleGargishPlateChest(), dropChance: 1);
+                SetWearable(new FemaleGargishPlateKilt(), dropChance: 1);
+                SetWearable(new FemaleGargishPlateLegs(), dropChance: 1);
+                SetWearable(new FemaleGargishPlateArms(), dropChance: 1);
+                SetWearable(new PlateTalons(), dropChance: 1);
+
+                SetWearable(new GlassSword(), dropChance: 1);
             }
             else
             {
-                this.Body = 666;
-                this.HairItemID = 16987;
-                this.HairHue = 1801;
-                this.AddItem(new GargishPlateChest());
-                this.AddItem(new GargishPlateKilt());
-                this.AddItem(new GargishPlateLegs());
-                this.AddItem(new GargishPlateArms());
-                this.AddItem(new PlateTalons());
-           
-                this.AddItem(new GlassSword());
+                Body = 666;
+                HairItemID = 16987;
+                HairHue = 1801;
+				SetWearable(new GargishPlateChest(), dropChance: 1);
+                SetWearable(new GargishPlateKilt(), dropChance: 1);
+                SetWearable(new GargishPlateLegs(), dropChance: 1);
+                SetWearable(new GargishPlateArms(), dropChance: 1);
+                SetWearable(new PlateTalons(), dropChance: 1);
+
+                SetWearable(new GlassSword(), dropChance: 1);
             }
         }
 
@@ -47,7 +46,7 @@ namespace Server.Mobiles
         {
             base.Serialize(writer);
 
-            writer.Write((int)0); // version
+            writer.Write(0); // version
         }
 
         public override void Deserialize(GenericReader reader)

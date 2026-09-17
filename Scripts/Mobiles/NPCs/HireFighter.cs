@@ -1,22 +1,21 @@
-using System;
 using Server.Items;
 
-namespace Server.Mobiles 
+namespace Server.Mobiles
 {
-    public class HireFighter : BaseHire 
+    public class HireFighter : BaseHire
     {
-        [Constructable] 
+        [Constructable]
         public HireFighter()
         {
             SpeechHue = Utility.RandomDyedHue();
             Hue = Utility.RandomSkinHue();
 
-            if (Female = Utility.RandomBool()) 
+            if (Female = Utility.RandomBool())
             {
                 Body = 0x191;
                 Name = NameList.RandomName("female");
             }
-            else 
+            else
             {
                 Body = 0x190;
                 Name = NameList.RandomName("male");
@@ -44,35 +43,35 @@ namespace Server.Mobiles
             Fame = 100;
             Karma = 100;
 
-            switch ( Utility.Random(2)) 
+            switch (Utility.Random(2))
             {
                 case 0:
-                    AddItem(new Shoes(Utility.RandomNeutralHue()));
+					SetWearable(new Shoes(), Utility.RandomNeutralHue(), 1);
                     break;
                 case 1:
-                    AddItem(new Boots(Utility.RandomNeutralHue()));
+					SetWearable(new Boots(), Utility.RandomNeutralHue(), 1);
                     break;
             }
-			
-            AddItem(new Shirt());
+
+			SetWearable(new Shirt());
 
             // Pick a random sword
-            switch ( Utility.Random(5)) 
+            switch (Utility.Random(5))
             {
                 case 0:
-                    AddItem(new Longsword());
+					SetWearable(new Longsword(), dropChance: 1);
                     break;
                 case 1:
-                    AddItem(new Broadsword());
+					SetWearable(new Broadsword(), dropChance: 1);
                     break;
                 case 2:
-                    AddItem(new VikingSword());
+					SetWearable(new VikingSword(), dropChance: 1);
                     break;
                 case 3:
-                    AddItem(new BattleAxe());
+					SetWearable(new BattleAxe(), dropChance: 1);
                     break;
                 case 4:
-                    AddItem(new TwoHandedAxe());
+					SetWearable(new TwoHandedAxe(), dropChance: 1);
                     break;
             }
 
@@ -82,76 +81,76 @@ namespace Server.Mobiles
                 switch (Utility.Random(8))
                 {
                     case 0:
-                        AddItem(new BronzeShield());
+						SetWearable(new BronzeShield(), dropChance: 1);
                         break;
                     case 1:
-                        AddItem(new HeaterShield());
+						SetWearable(new HeaterShield(), dropChance: 1);
                         break;
                     case 2:
-                        AddItem(new MetalKiteShield());
+						SetWearable(new MetalKiteShield(), dropChance: 1);
                         break;
                     case 3:
-                        AddItem(new MetalShield());
+						SetWearable(new MetalShield(), dropChance: 1);
                         break;
                     case 4:
-                        AddItem(new WoodenKiteShield());
+						SetWearable(new WoodenKiteShield(), dropChance: 1);
                         break;
                     case 5:
-                        AddItem(new WoodenShield());
+						SetWearable(new WoodenShield(), dropChance: 1);
                         break;
                     case 6:
-                        AddItem(new OrderShield());
+						SetWearable(new OrderShield(), dropChance: 1);
                         break;
                     case 7:
-                        AddItem(new ChaosShield());
+						SetWearable(new ChaosShield(), dropChance: 1);
                         break;
                 }
             }
-		  
-            switch( Utility.Random(5) )
+
+            switch (Utility.Random(5))
             {
                 case 0:
                     break;
                 case 1:
-                    AddItem(new Bascinet());
+					SetWearable(new Bascinet(), dropChance: 1);
                     break;
                 case 2:
-                    AddItem(new CloseHelm());
+					SetWearable(new CloseHelm(), dropChance: 1);
                     break;
                 case 3:
-                    AddItem(new NorseHelm());
+					SetWearable(new NorseHelm(), dropChance: 1);
                     break;
                 case 4:
-                    AddItem(new Helmet());
+					SetWearable(new Helmet(), dropChance: 1);
                     break;
             }
             // Pick some armour
-            switch( Utility.Random(4) )
+            switch (Utility.Random(4))
             {
                 case 0: // Leather
-                    AddItem(new LeatherChest());
-                    AddItem(new LeatherArms());
-                    AddItem(new LeatherGloves());
-                    AddItem(new LeatherGorget());
-                    AddItem(new LeatherLegs());
+                    SetWearable(new LeatherChest(), dropChance: 1);
+                    SetWearable(new LeatherArms(), dropChance: 1);
+                    SetWearable(new LeatherGloves(), dropChance: 1);
+					SetWearable(new LeatherGorget(), dropChance: 1);
+					SetWearable(new LeatherLegs(), dropChance: 1);
                     break;
                 case 1: // Studded Leather
-                    AddItem(new StuddedChest());
-                    AddItem(new StuddedArms());
-                    AddItem(new StuddedGloves());
-                    AddItem(new StuddedGorget());
-                    AddItem(new StuddedLegs());
+                    SetWearable(new StuddedChest(), dropChance: 1);
+                    SetWearable(new StuddedArms(), dropChance: 1);
+                    SetWearable(new StuddedGloves(), dropChance: 1);
+                    SetWearable(new StuddedGorget(), dropChance: 1);
+					SetWearable(new StuddedLegs(), dropChance: 1);
                     break;
                 case 2: // Ringmail
-                    AddItem(new RingmailChest());
-                    AddItem(new RingmailArms());
-                    AddItem(new RingmailGloves());
-                    AddItem(new RingmailLegs());
+                    SetWearable(new RingmailChest(), dropChance: 1);
+                    SetWearable(new RingmailArms(), dropChance: 1);
+                    SetWearable(new RingmailGloves(), dropChance: 1);
+					SetWearable(new RingmailLegs(), dropChance: 1);
                     break;
                 case 3: // Chain
-                    AddItem(new ChainChest());
-                    //AddItem(new ChainCoif());
-                    AddItem(new ChainLegs());
+					SetWearable(new ChainChest(), dropChance: 1);
+					//SetWearable(new ChainCoif(), dropChance: 1);
+					SetWearable(new ChainLegs(), dropChance: 1);
                     break;
             }
 
@@ -163,21 +162,15 @@ namespace Server.Mobiles
         {
         }
 
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
-        public override void Serialize(GenericWriter writer) 
+        public override bool ClickTitle => false;
+        public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)0);// version 
+            writer.Write(0);// version 
         }
 
-        public override void Deserialize(GenericReader reader) 
+        public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
 

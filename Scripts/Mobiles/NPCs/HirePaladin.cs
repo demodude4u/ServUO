@@ -1,22 +1,21 @@
-using System;
 using Server.Items;
 
-namespace Server.Mobiles 
+namespace Server.Mobiles
 {
-    public class HirePaladin : BaseHire 
+    public class HirePaladin : BaseHire
     {
-        [Constructable] 
+        [Constructable]
         public HirePaladin()
         {
             SpeechHue = Utility.RandomDyedHue();
             Hue = Utility.RandomSkinHue();
 
-            if (Female = Utility.RandomBool()) 
+            if (Female = Utility.RandomBool())
             {
                 Body = 0x191;
                 Name = NameList.RandomName("female");
             }
-            else 
+            else
             {
                 Body = 0x190;
                 Name = NameList.RandomName("male");
@@ -27,21 +26,21 @@ namespace Server.Mobiles
             HairHue = Race.RandomHairHue();
             Race.RandomFacialHair(this);
 
-            switch( Utility.Random(5) )
+            switch (Utility.Random(5))
             {
                 case 0:
                     break;
                 case 1:
-                    AddItem(new Bascinet());
+					SetWearable(new Bascinet(), dropChance: 1);
                     break;
                 case 2:
-                    AddItem(new CloseHelm());
+					SetWearable(new CloseHelm(), dropChance: 1);
                     break;
                 case 3:
-                    AddItem(new NorseHelm());
+					SetWearable(new NorseHelm(), dropChance: 1);
                     break;
                 case 4:
-                    AddItem(new Helmet());
+					SetWearable(new Helmet(), dropChance: 1);
                     break;
             }
 
@@ -63,15 +62,15 @@ namespace Server.Mobiles
             Fame = 100;
             Karma = 250;
 
-            AddItem(new Shoes(Utility.RandomNeutralHue()));
-            AddItem(new Shirt());
-            AddItem(new VikingSword());
-            AddItem(new MetalKiteShield());
- 
-            AddItem(new PlateChest());
-            AddItem(new PlateLegs());
-            AddItem(new PlateArms());
-            AddItem(new LeatherGorget());
+            SetWearable(new Shoes(), Utility.RandomNeutralHue(), 1);
+            SetWearable(new Shirt(), dropChance: 1);
+            SetWearable(new VikingSword(), dropChance: 1);
+			SetWearable(new MetalKiteShield(), dropChance: 1);
+
+            SetWearable(new PlateChest(), dropChance: 1);
+            SetWearable(new PlateLegs(), dropChance: 1);
+            SetWearable(new PlateArms(), dropChance: 1);
+			SetWearable(new LeatherGorget(), dropChance: 1);
             PackGold(20, 100);
         }
 
@@ -80,21 +79,15 @@ namespace Server.Mobiles
         {
         }
 
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
-        public override void Serialize(GenericWriter writer) 
+        public override bool ClickTitle => false;
+        public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)0);// version 
+            writer.Write(0);// version 
         }
 
-        public override void Deserialize(GenericReader reader) 
+        public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
 

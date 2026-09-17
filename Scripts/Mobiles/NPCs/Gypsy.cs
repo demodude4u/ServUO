@@ -1,4 +1,3 @@
-using System;
 using Server.Items;
 
 namespace Server.Mobiles
@@ -7,13 +6,13 @@ namespace Server.Mobiles
     {
         [Constructable]
         public Gypsy()
-            : base(AIType.AI_Animal, FightMode.None, 10, 1, 0.2, 0.4)
+            : base(AIType.AI_Melee, FightMode.None, 10, 1, 0.2, 0.4)
         {
             InitStats(31, 41, 51);
 
             SpeechHue = Utility.RandomDyedHue();
 
-			SetSkill(SkillName.Begging, 64.0, 100.0);
+            SetSkill(SkillName.Begging, 64.0, 100.0);
             SetSkill(SkillName.Cooking, 65, 88);
             SetSkill(SkillName.Snooping, 65, 88);
             SetSkill(SkillName.Stealing, 65, 88);
@@ -24,23 +23,23 @@ namespace Server.Mobiles
             {
                 Body = 0x191;
                 Name = NameList.RandomName("female");
-                AddItem(new Kilt(Utility.RandomDyedHue()));
-                AddItem(new Shirt(Utility.RandomDyedHue()));
-                AddItem(new ThighBoots());
+                SetWearable(new Kilt(), Utility.RandomDyedHue(), 1);
+                SetWearable(new Shirt(), Utility.RandomDyedHue(), 1);
+				SetWearable(new ThighBoots(), dropChance: 1);
                 Title = "the gypsy";
             }
             else
             {
                 Body = 0x190;
                 Name = NameList.RandomName("male");
-                AddItem(new ShortPants(Utility.RandomNeutralHue()));
-                AddItem(new Shirt(Utility.RandomDyedHue()));
-                AddItem(new Sandals());
+				SetWearable(new ShortPants(), Utility.RandomNeutralHue(), 1);
+                SetWearable(new Shirt(), Utility.RandomDyedHue(), 1);
+                SetWearable(new Sandals(), dropChance: 1);
                 Title = "the gypsy";
             }
 
-            AddItem(new Bandana(Utility.RandomDyedHue()));
-            AddItem(new Dagger());
+			SetWearable(new Bandana(), Utility.RandomDyedHue(), 1);
+			SetWearable(new Dagger(), dropChance: 1);
 
             Utility.AssignRandomHair(this);
 
@@ -48,9 +47,7 @@ namespace Server.Mobiles
 
             pack.DropItem(new Gold(250, 300));
 
-            pack.Movable = false;
-
-            this.AddItem(pack);
+			SetWearable(pack);
         }
 
         public Gypsy(Serial serial)
@@ -58,25 +55,13 @@ namespace Server.Mobiles
         {
         }
 
-        public override bool CanTeach
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool CanTeach => true;
+        public override bool ClickTitle => false;
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)0); // version 
+            writer.Write(0); // version 
         }
 
         public override void Deserialize(GenericReader reader)

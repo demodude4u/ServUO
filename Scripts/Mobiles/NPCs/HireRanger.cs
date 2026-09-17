@@ -1,26 +1,25 @@
-using System;
 using Server.Items;
 
-namespace Server.Mobiles 
+namespace Server.Mobiles
 {
-    public class HireRanger : BaseHire 
+    public class HireRanger : BaseHire
     {
-        [Constructable] 
+        [Constructable]
         public HireRanger()
         {
             SpeechHue = Utility.RandomDyedHue();
             Hue = Utility.RandomSkinHue();
 
-            if (Female = Utility.RandomBool()) 
+            if (Female = Utility.RandomBool())
             {
                 Body = 0x191;
                 Name = NameList.RandomName("female");
             }
-            else 
+            else
             {
                 Body = 0x190;
                 Name = NameList.RandomName("male");
-                AddItem(new ShortPants(Utility.RandomNeutralHue()));
+                SetWearable(new ShortPants(), Utility.RandomNeutralHue(), 1);
             }
 
             Title = "the ranger";
@@ -45,31 +44,34 @@ namespace Server.Mobiles
             Fame = 100;
             Karma = 125;
 
-            AddItem(new Shoes(Utility.RandomNeutralHue()));
-            AddItem(new Shirt());
+			SetWearable(new Shoes(), Utility.RandomNeutralHue(), 1);
+			SetWearable(new Shirt(), dropChance: 1);
 
             // Pick a random sword
-            switch ( Utility.Random(3)) 
+            switch (Utility.Random(3))
             {
                 case 0:
-                    AddItem(new Longsword());
+					SetWearable(new Longsword(), dropChance: 1);
                     break;
                 case 1:
-                    AddItem(new VikingSword());
+					SetWearable(new VikingSword(), dropChance: 1);
                     break;
                 case 2:
-                    AddItem(new Broadsword());
+					SetWearable(new Broadsword(), dropChance: 1);
                     break;
             }
 
-            SetWearable(new StuddedChest(), 0x59C);
-            SetWearable(new StuddedArms(), 0x59C);
-            SetWearable(new StuddedGloves(), 0x59C);
-            SetWearable(new StuddedLegs(), 0x59C);
-            SetWearable(new StuddedGorget(), 0x59C);
+            SetWearable(new StuddedChest(), 0x59C, 1);
+            SetWearable(new StuddedArms(), 0x59C, 1);
+            SetWearable(new StuddedGloves(), 0x59C, 1);
+            SetWearable(new StuddedLegs(), 0x59C, 1);
+            SetWearable(new StuddedGorget(), 0x59C, 1);
+        }
 
-            PackItem(new Arrow(20));
-            PackGold(10, 75);
+        public override void GenerateLoot()
+        {
+            AddLoot(LootPack.LootItem<Arrow>(20, true));
+            AddLoot(LootPack.LootGold(10, 75));
         }
 
         public HireRanger(Serial serial)
@@ -77,21 +79,15 @@ namespace Server.Mobiles
         {
         }
 
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
-        public override void Serialize(GenericWriter writer) 
+        public override bool ClickTitle => false;
+        public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)0);// version 
+            writer.Write(0);// version 
         }
 
-        public override void Deserialize(GenericReader reader) 
+        public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
 

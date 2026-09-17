@@ -1,5 +1,5 @@
-using System;
 using Server.Items;
+using System;
 
 namespace Server.Engines.Quests
 {
@@ -16,16 +16,10 @@ namespace Server.Engines.Quests
         {
         }
 
-        public override Type[] Quests
-        {
-            get
-            {
-                return new[]
+        public override Type[] Quests => new[]
                 {
                     typeof (UnusualGoods)
                 };
-            }
-        }
 
         public override void InitBody()
         {
@@ -39,11 +33,11 @@ namespace Server.Engines.Quests
 
         public override void InitOutfit()
         {
-            AddItem(new Backpack());
+			SetWearable(new Backpack());
 
-            AddItem(new GargishClothChest(Utility.RandomNeutralHue()));
-            AddItem(new GargishClothKilt(Utility.RandomNeutralHue()));
-            AddItem(new GargishClothLegs(Utility.RandomNeutralHue()));
+            SetWearable(new GargishClothChest(), Utility.RandomNeutralHue(), 1);
+            SetWearable(new GargishClothKilt(), Utility.RandomNeutralHue(), 1);
+			SetWearable(new GargishClothLegs(), Utility.RandomNeutralHue(), 1);
         }
 
         public override void Serialize(GenericWriter writer)
@@ -57,7 +51,7 @@ namespace Server.Engines.Quests
         {
             base.Deserialize(reader);
 
-            var version = reader.ReadInt();
+            int version = reader.ReadInt();
         }
     }
 }

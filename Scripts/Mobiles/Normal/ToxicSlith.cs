@@ -37,27 +37,17 @@ namespace Server.Mobiles
             SetSpecialAbility(SpecialAbility.DragonBreath);
         }
 
-        public override int DragonBlood { get { return 6; } }
+        public override int DragonBlood => 6;
 
         public ToxicSlith(Serial serial) : base(serial)
         {
         }
 
-        public override int Meat
-        {
-            get { return 6; }
-        }
+        public override int Meat => 6;
 
-        //public override int DragonBlood{ get{ return 6; } }
-        public override int Hides
-        {
-            get { return 11; }
-        }
+        public override int Hides => 11;
 
-        public override HideType HideType
-        {
-            get { return HideType.Horned; }
-        }
+        public override HideType HideType => HideType.Horned;
 
         public override void GenerateLoot()
         {
@@ -78,17 +68,19 @@ namespace Server.Mobiles
                     case 2:
                         c.DropItem(new SlithEye());
                         break;
-				}
+                }
             }
-			
-			if (Utility.RandomDouble() < 0.25)
+
+            if (Utility.RandomDouble() < 0.25)
             {
-				switch (Utility.Random(2))
+                switch (Utility.Random(2))
                 {
-					case 0: c.DropItem(new AncientPotteryFragments());
-						break;
-                    case 1: c.DropItem(new TatteredAncientScroll());
-						break;
+                    case 0:
+                        c.DropItem(new AncientPotteryFragments());
+                        break;
+                    case 1:
+                        c.DropItem(new TatteredAncientScroll());
+                        break;
                 }
             }
         }
@@ -102,12 +94,7 @@ namespace Server.Mobiles
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-            var version = reader.ReadInt();
-
-            if (version == 0)
-            {
-                Hue = 476;
-            }
+            int version = reader.ReadInt();
         }
     }
 }

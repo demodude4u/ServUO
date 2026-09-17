@@ -1,13 +1,12 @@
-using Server;
-using System;
-using Server.Items;
 using Server.Engines.Quests;
+using Server.Items;
+using System;
 
 namespace Server.Mobiles
 {
     public class QueenZhah : MondainQuester
     {
-        public override Type[] Quests { get { return new Type[] { typeof(JourneyToTheAthenaeumIsleQuest) }; } }
+        public override Type[] Quests => new Type[] { typeof(JourneyToTheAthenaeumIsleQuest) };
 
         [Constructable]
         public QueenZhah() : base("Zhah", "the Gargoyle Queen")
@@ -30,20 +29,14 @@ namespace Server.Mobiles
 
         public override void InitOutfit()
         {
-            ColorItem(new LeatherTalons()); // Bright Blue
-            ColorItem(new GargishLeatherChest()); // Bright Blue
-            ColorItem(new GargishLeatherLegs()); // Bright Blue
-            ColorItem(new GargishClothWingArmor()); // Bright Blue
-            ColorItem(new GargishLeatherArms()); // Bright Blue
-            ColorItem(new GargishLeatherKilt()); // Bright Blue
+            SetWearable(new LeatherTalons(), 0x4F2, 1); // Bright Blue
+            SetWearable(new GargishLeatherChest(), 0x4F2, 1); // Bright Blue
+            SetWearable(new GargishLeatherLegs(), 0x4F2, 1); // Bright Blue
+            SetWearable(new GargishClothWingArmor(), 0x4F2, 1); // Bright Blue
+            SetWearable(new GargishLeatherArms(), 0x4F2, 1); // Bright Blue
+			SetWearable(new GargishLeatherKilt(), 0x4F2, 1); // Bright Blue
 
-            AddItem(new SerpentStoneStaff());
-        }
-
-        private void ColorItem(Item item)
-        {
-            item.Hue = 0x4F2;
-            AddItem(item);
+			SetWearable(new SerpentStoneStaff(), dropChance: 1);
         }
 
         public override void Advertise()
@@ -59,7 +52,7 @@ namespace Server.Mobiles
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-            writer.Write((int)0);
+            writer.Write(0);
         }
 
         public override void Deserialize(GenericReader reader)

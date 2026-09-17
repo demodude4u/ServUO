@@ -1,4 +1,3 @@
-using System;
 using Server.Items;
 
 namespace Server.Mobiles
@@ -38,54 +37,28 @@ namespace Server.Mobiles
             Fame = 6500;
             Karma = -6500;
 
-            VirtualArmor = 56;
-
-            AddItem(new Bow());
-            PackItem(new Arrow(Utility.RandomMinMax(50, 70)));
-        }
+			SetWearable(new Bow(), dropChance: 1);
+		}
 
         public ClanSS(Serial serial)
             : base(serial)
         {
         }
 
-        public override bool CanRummageCorpses
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override int Hides
-        {
-            get
-            {
-                return 8;
-            }
-        }
-        public override HideType HideType
-        {
-            get
-            {
-                return HideType.Spined;
-            }
-        }
-		public override int TreasureMapLevel
-        {
-            get
-            {
-                return 2;
-            }
-        }
+        public override bool CanRummageCorpses => true;
+        public override int Hides => 8;
+        public override HideType HideType => HideType.Spined;
+        public override int TreasureMapLevel => 2;
         public override void GenerateLoot()
         {
             AddLoot(LootPack.Rich, 2);
+            AddLoot(LootPack.LootItem<Arrow>(Utility.RandomMinMax(50, 70)));
         }
-      
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-            writer.Write((int)0);
+            writer.Write(0);
         }
 
         public override void Deserialize(GenericReader reader)

@@ -1,681 +1,417 @@
-using System;
 using Server.Gumps;
 using Server.Items;
 using Server.Mobiles;
+using System;
 
 namespace Server.Engines.Quests
 {
     public class NewHavenAlchemistEscortQuest : BaseQuest
-    { 
+    {
         public NewHavenAlchemistEscortQuest()
             : base()
-        { 
-            AddObjective(new EscortObjective("the New Haven Alchemist"));		  
-            AddReward(new BaseReward(typeof(Gold), 500, 1062577)); 
+        {
+            AddObjective(new EscortObjective("the New Haven Alchemist"));
+            AddReward(new BaseReward(typeof(Gold), 500, 1062577));
         }
 
         /* An escort to the New Haven Alchemist in The bottled Imp */
-        public override object Title
-        {
-            get
-            {
-                return 1072314;
-            }
-        }
+        public override object Title => 1072314;
+
         /* I need some potions before I set out for a long journey. Can you take me to the alchemist in The Bottled Imp? */
-        public override object Description
-        {
-            get
-            {
-                return 1042769;
-            }
-        }
+        public override object Description => 1042769;
+
         /* I wish you would reconsider my offer.  I'll be waiting right here for someone brave enough to assist me. */
-        public override object Refuse
-        {
-            get
-            {
-                return 1072288;
-            }
-        }
+        public override object Refuse => 1072288;
+
         /* We have not yet arrived at the New Haven Alchemist in The Bottled Imp. Let's keep going. */
-        public override object Uncomplete
-        {
-            get
-            {
-                return 1072326;
-            }
-        }
+        public override object Uncomplete => 1072326;
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
             writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
             int version = reader.ReadEncodedInt();
         }
     }
 
     public class NewHavenBardEscortQuest : BaseQuest
-    { 
+    {
         public NewHavenBardEscortQuest()
             : base()
-        { 
-            AddObjective(new EscortObjective("the New Haven Bard"));		  
-            AddReward(new BaseReward(typeof(Gold), 500, 1062577)); 
+        {
+            AddObjective(new EscortObjective("the New Haven Bard"));
+            AddReward(new BaseReward(typeof(Gold), 500, 1062577));
         }
 
         /* An escort to the New Haven Bard */
-        public override object Title
-        {
-            get
-            {
-                return 1072315;
-            }
-        }
+        public override object Title => 1072315;
+
         /* I fear my talent for music is less than my desire to learn, yet still I would like to try. Can you take me 
         * to the local music shop? */
-        public override object Description
-        {
-            get
-            {
-                return 1042772;
-            }
-        }
+        public override object Description => 1042772;
+
         /* I wish you would reconsider my offer.  I'll be waiting right here for someone brave enough to assist me. */
-        public override object Refuse
-        {
-            get
-            {
-                return 1072288;
-            }
-        }
+        public override object Refuse => 1072288;
+
         /* We have not yet arrived at the New Haven Bard.  Let's keep going. */
-        public override object Uncomplete
-        {
-            get
-            {
-                return 1072327;
-            }
-        }
+        public override object Uncomplete => 1072327;
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
             writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
             int version = reader.ReadEncodedInt();
         }
     }
 
     public class NewHavenWarriorEscortQuest : BaseQuest
-    { 
+    {
         public NewHavenWarriorEscortQuest()
             : base()
-        { 
-            AddObjective(new EscortObjective("the New Haven Warrior"));		  
-            AddReward(new BaseReward(typeof(Gold), 500, 1062577)); 
+        {
+            AddObjective(new EscortObjective("the New Haven Warrior"));
+            AddReward(new BaseReward(typeof(Gold), 500, 1062577));
         }
 
         /* An escort to the New Haven Warrior */
-        public override object Title
-        {
-            get
-            {
-                return 1072316;
-            }
-        }
+        public override object Title => 1072316;
+
         /* I need someone to help me rid my home of mongbats. Please take me to the local swordfighter. */
-        public override object Description
-        {
-            get
-            {
-                return 1042787;
-            }
-        }
+        public override object Description => 1042787;
+
         /* I wish you would reconsider my offer.  I'll be waiting right here for someone brave enough to assist me. */
-        public override object Refuse
-        {
-            get
-            {
-                return 1072288;
-            }
-        }
+        public override object Refuse => 1072288;
+
         /* We have not yet arrived at the New Haven Warrior.  Let's keep going. */
-        public override object Uncomplete
-        {
-            get
-            {
-                return 1072328;
-            }
-        }
+        public override object Uncomplete => 1072328;
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
             writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
             int version = reader.ReadEncodedInt();
         }
     }
 
     public class NewHavenTailorEscortQuest : BaseQuest
-    { 
+    {
         public NewHavenTailorEscortQuest()
             : base()
-        { 
-            AddObjective(new EscortObjective("the New Haven Tailor"));		  
-            AddReward(new BaseReward(typeof(Gold), 500, 1062577)); 
+        {
+            AddObjective(new EscortObjective("the New Haven Tailor"));
+            AddReward(new BaseReward(typeof(Gold), 500, 1062577));
         }
 
         /* An escort to the New Haven Tailor */
-        public override object Title
-        {
-            get
-            {
-                return 1072317;
-            }
-        }
+        public override object Title => 1072317;
+
         /* I need new clothes for a party, and I was wondering if you could take me to the tailor? */
-        public override object Description
-        {
-            get
-            {
-                return 1042781;
-            }
-        }
+        public override object Description => 1042781;
+
         /* I wish you would reconsider my offer.  I'll be waiting right here for someone brave enough to assist me. */
-        public override object Refuse
-        {
-            get
-            {
-                return 1072288;
-            }
-        }
+        public override object Refuse => 1072288;
+
         /* We have not yet arrived at the New Haven Tailor.  Let's keep going. */
-        public override object Uncomplete
-        {
-            get
-            {
-                return 1072329;
-            }
-        }
+        public override object Uncomplete => 1072329;
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
             writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
             int version = reader.ReadEncodedInt();
         }
     }
 
     public class NewHavenCarpenterEscortQuest : BaseQuest
-    { 
+    {
         public NewHavenCarpenterEscortQuest()
             : base()
-        { 
-            AddObjective(new EscortObjective("the New Haven Carpenter"));		  
-            AddReward(new BaseReward(typeof(Gold), 500, 1062577)); 
+        {
+            AddObjective(new EscortObjective("the New Haven Carpenter"));
+            AddReward(new BaseReward(typeof(Gold), 500, 1062577));
         }
 
         /* An escort to the New Haven Carpenter */
-        public override object Title
-        {
-            get
-            {
-                return 1072318;
-            }
-        }
+        public override object Title => 1072318;
+
         /* I need a hammer and nails. Never mind for what. Take me to the local carpenter or leave me be. */
-        public override object Description
-        {
-            get
-            {
-                return 1042775;
-            }
-        }
+        public override object Description => 1042775;
+
         /* I wish you would reconsider my offer.  I'll be waiting right here for someone brave enough to assist me. */
-        public override object Refuse
-        {
-            get
-            {
-                return 1072288;
-            }
-        }
+        public override object Refuse => 1072288;
+
         /* We have not yet arrived at the New Haven Carpenter.  Let's keep going. */
-        public override object Uncomplete
-        {
-            get
-            {
-                return 1072330;
-            }
-        }
+        public override object Uncomplete => 1072330;
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
             writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
             int version = reader.ReadEncodedInt();
         }
     }
 
     public class NewHavenMapmakerEscortQuest : BaseQuest
-    { 
+    {
         public NewHavenMapmakerEscortQuest()
             : base()
-        { 
-            AddObjective(new EscortObjective("the New Haven Mapmaker"));		  
-            AddReward(new BaseReward(typeof(Gold), 500, 1062577)); 
+        {
+            AddObjective(new EscortObjective("the New Haven Mapmaker"));
+            AddReward(new BaseReward(typeof(Gold), 500, 1062577));
         }
 
         /* An escort to the New Haven Mapmaker */
-        public override object Title
-        {
-            get
-            {
-                return 1072319;
-            }
-        }
+        public override object Title => 1072319;
+
         /* Where am I? Who am I? Do you know me? Hmmm - on second thought, I think I best stick with where I am first. 
         * Do you know where I can get a map? */
-        public override object Description
-        {
-            get
-            {
-                return 1042793;
-            }
-        }
+        public override object Description => 1042793;
+
         /* I wish you would reconsider my offer.  I'll be waiting right here for someone brave enough to assist me. */
-        public override object Refuse
-        {
-            get
-            {
-                return 1072288;
-            }
-        }
+        public override object Refuse => 1072288;
+
         /* We have not yet arrived at the New Haven Mapmaker.  Let's keep going. */
-        public override object Uncomplete
-        {
-            get
-            {
-                return 1072331;
-            }
-        }
+        public override object Uncomplete => 1072331;
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
             writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
             int version = reader.ReadEncodedInt();
         }
     }
 
     public class NewHavenMageEscortQuest : BaseQuest
-    { 
+    {
         public NewHavenMageEscortQuest()
             : base()
-        { 
-            AddObjective(new EscortObjective("the New Haven Mage"));		  
-            AddReward(new BaseReward(typeof(Gold), 500, 1062577)); 
+        {
+            AddObjective(new EscortObjective("the New Haven Mage"));
+            AddReward(new BaseReward(typeof(Gold), 500, 1062577));
         }
 
         /* An escort to the New Haven Mage */
-        public override object Title
-        {
-            get
-            {
-                return 1072320;
-            }
-        }
+        public override object Title => 1072320;
+
         /* You there. Take me to see a sorcerer so I can turn a friend back in to a human. He is currently a cat 
         * and keeps demanding milk. */
-        public override object Description
-        {
-            get
-            {
-                return 1042790;
-            }
-        }
+        public override object Description => 1042790;
+
         /* I wish you would reconsider my offer.  I'll be waiting right here for someone brave enough to assist me. */
-        public override object Refuse
-        {
-            get
-            {
-                return 1072288;
-            }
-        }
+        public override object Refuse => 1072288;
+
         /* We have not yet arrived at the New Haven Mage.  Let's keep going. */
-        public override object Uncomplete
-        {
-            get
-            {
-                return 1072332;
-            }
-        }
+        public override object Uncomplete => 1072332;
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
             writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
             int version = reader.ReadEncodedInt();
         }
     }
 
     public class NewHavenInnEscortQuest : BaseQuest
-    { 
+    {
         public NewHavenInnEscortQuest()
             : base()
-        { 
-            AddObjective(new EscortObjective("the New Haven Inn"));		  
-            AddReward(new BaseReward(typeof(Gold), 500, 1062577)); 
+        {
+            AddObjective(new EscortObjective("the New Haven Inn"));
+            AddReward(new BaseReward(typeof(Gold), 500, 1062577));
         }
 
         /* An escort to the New Haven Inn */
-        public override object Title
-        {
-            get
-            {
-                return 1072321;
-            }
-        }
+        public override object Title => 1072321;
+
         /* I need something to eat. I am starving. Can you take me to the inn? */
-        public override object Description
-        {
-            get
-            {
-                return 1042796;
-            }
-        }
+        public override object Description => 1042796;
+
         /* I wish you would reconsider my offer.  I'll be waiting right here for someone brave enough to assist me. */
-        public override object Refuse
-        {
-            get
-            {
-                return 1072288;
-            }
-        }
+        public override object Refuse => 1072288;
+
         /* We have not yet arrived at the New Haven Inn.  Let's keep going. */
-        public override object Uncomplete
-        {
-            get
-            {
-                return 1072333;
-            }
-        }
+        public override object Uncomplete => 1072333;
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
             writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
             int version = reader.ReadEncodedInt();
         }
     }
 
     public class NewHavenFarmEscortQuest : BaseQuest
-    { 
+    {
         public NewHavenFarmEscortQuest()
             : base()
-        { 
-            AddObjective(new EscortObjective("the New Haven Farm"));		  
-            AddReward(new BaseReward(typeof(Gold), 500, 1062577)); 
+        {
+            AddObjective(new EscortObjective("the New Haven Farm"));
+            AddReward(new BaseReward(typeof(Gold), 500, 1062577));
         }
 
         /* An escort to the New Haven Farm */
-        public override object Title
-        {
-            get
-            {
-                return 1072322;
-            }
-        }
+        public override object Title => 1072322;
+
         /* I am hoping to swap soil stories with a local farmer, but I cannot find one. Can you take me to one? */
-        public override object Description
-        {
-            get
-            {
-                return 1042799;
-            }
-        }
+        public override object Description => 1042799;
+
         /* I wish you would reconsider my offer.  I'll be waiting right here for someone brave enough to assist me. */
-        public override object Refuse
-        {
-            get
-            {
-                return 1072288;
-            }
-        }
+        public override object Refuse => 1072288;
+
         /* We have not yet arrived at the New Haven Farm.  Let's keep going. */
-        public override object Uncomplete
-        {
-            get
-            {
-                return 1072334;
-            }
-        }
+        public override object Uncomplete => 1072334;
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
             writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
             int version = reader.ReadEncodedInt();
         }
     }
 
     public class NewHavenDocksEscortQuest : BaseQuest
-    { 
+    {
         public NewHavenDocksEscortQuest()
             : base()
-        { 
-            AddObjective(new EscortObjective("the New Haven Docks"));		  
-            AddReward(new BaseReward(typeof(Gold), 500, 1062577)); 
+        {
+            AddObjective(new EscortObjective("the New Haven Docks"));
+            AddReward(new BaseReward(typeof(Gold), 500, 1062577));
         }
 
         /* An escort to the New Haven Docks */
-        public override object Title
-        {
-            get
-            {
-                return 1072323;
-            }
-        }
+        public override object Title => 1072323;
+
         /* I have heard of a magical fish that grants wishes. I bet THAT fisherman knows where the fish is. Please take me to him. */
-        public override object Description
-        {
-            get
-            {
-                return 1042802;
-            }
-        }
+        public override object Description => 1042802;
+
         /* I wish you would reconsider my offer.  I'll be waiting right here for someone brave enough to assist me. */
-        public override object Refuse
-        {
-            get
-            {
-                return 1072288;
-            }
-        }
+        public override object Refuse => 1072288;
+
         /* We have not yet arrived at the New Haven Docks.  Let's keep going. */
-        public override object Uncomplete
-        {
-            get
-            {
-                return 1072335;
-            }
-        }
+        public override object Uncomplete => 1072335;
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
             writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
             int version = reader.ReadEncodedInt();
         }
     }
 
     public class NewHavenBowyerEscortQuest : BaseQuest
-    { 
+    {
         public NewHavenBowyerEscortQuest()
             : base()
-        { 
-            AddObjective(new EscortObjective("the New Haven Bowyer"));		  
-            AddReward(new BaseReward(typeof(Gold), 500, 1062577)); 
+        {
+            AddObjective(new EscortObjective("the New Haven Bowyer"));
+            AddReward(new BaseReward(typeof(Gold), 500, 1062577));
         }
 
         /* An escort to the New Haven Bowyer */
-        public override object Title
-        {
-            get
-            {
-                return 1072324;
-            }
-        }
+        public override object Title => 1072324;
+
         /* You there. Do you know the way to the local archer? */
-        public override object Description
-        {
-            get
-            {
-                return 1042805;
-            }
-        }
+        public override object Description => 1042805;
+
         /* I wish you would reconsider my offer.  I'll be waiting right here for someone brave enough to assist me. */
-        public override object Refuse
-        {
-            get
-            {
-                return 1072288;
-            }
-        }
+        public override object Refuse => 1072288;
+
         /* We have not yet arrived at the New Haven Bowyer.  Let's keep going. */
-        public override object Uncomplete
-        {
-            get
-            {
-                return 1072336;
-            }
-        }
+        public override object Uncomplete => 1072336;
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
             writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
             int version = reader.ReadEncodedInt();
         }
     }
 
     public class NewHavenBankEscortQuest : BaseQuest
-    { 
+    {
         public NewHavenBankEscortQuest()
             : base()
-        { 
-            AddObjective(new EscortObjective("the New Haven Bank"));		  
-            AddReward(new BaseReward(typeof(Gold), 500, 1062577)); 
+        {
+            AddObjective(new EscortObjective("the New Haven Bank"));
+            AddReward(new BaseReward(typeof(Gold), 500, 1062577));
         }
 
         /* An escort to the New Haven Bank */
-        public override object Title
-        {
-            get
-            {
-                return 1072325;
-            }
-        }
+        public override object Title => 1072325;
+
         /* I have a debt I need to pay off at the bank. Do you know the way there? */
-        public override object Description
-        {
-            get
-            {
-                return 1042784;
-            }
-        }
+        public override object Description => 1042784;
+
         /* I wish you would reconsider my offer.  I'll be waiting right here for someone brave enough to assist me. */
-        public override object Refuse
-        {
-            get
-            {
-                return 1072288;
-            }
-        }
+        public override object Refuse => 1072288;
+
         /* We have not yet arrived at the New Haven Bank.  Let's keep going. */
-        public override object Uncomplete
-        {
-            get
-            {
-                return 1072337;
-            }
-        }
+        public override object Uncomplete => 1072337;
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
             writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
             int version = reader.ReadEncodedInt();
         }
     }
@@ -718,7 +454,7 @@ namespace Server.Engines.Quests
 
         public NewHavenEscortable()
             : this(Utility.Random(12))
-        { 
+        {
         }
 
         public NewHavenEscortable(int quest)
@@ -731,27 +467,21 @@ namespace Server.Engines.Quests
         {
         }
 
-        public override Type[] Quests
-        {
-            get
-            {
-                return new Type[] { m_Quests[m_Quest] };
-            }
-        }
+        public override Type[] Quests => new Type[] { m_Quests[m_Quest] };
+
         public override void Advertise()
         {
             Say(Utility.RandomMinMax(1072301, 1072303));
         }
 
-        public override Region GetDestination()
+        public override string GetDestination()
         {
-            return QuestHelper.FindRegion(m_Destinations[m_Quest]);
+            return QuestHelper.ValidateRegion(m_Destinations[m_Quest]) ? m_Destinations[m_Quest] : null;
         }
 
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
             writer.WriteEncodedInt(0); // version
 
             writer.Write(m_Quest);
@@ -760,7 +490,6 @@ namespace Server.Engines.Quests
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
             int version = reader.ReadEncodedInt();
 
             m_Quest = reader.ReadInt();
@@ -782,54 +511,38 @@ namespace Server.Engines.Quests
         {
         }
 
-        public override bool CanTeach
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool CanTeach => true;
+
+        public override bool ClickTitle => false;
+
         public override void InitOutfit()
         {
-            if (Female)
-                AddItem(new PlainDress());
-            else
-                AddItem(new Shirt(GetRandomHue()));
-
             int lowHue = GetRandomHue();
 
-            AddItem(new ThighBoots());
+			SetWearable(new ThighBoots(), dropChance: 1);
 
             if (Female)
-                AddItem(new FancyDress(lowHue));
+				SetWearable(new FancyDress(), lowHue, 1);
             else
-                AddItem(new FancyShirt(lowHue));
-            AddItem(new LongPants(lowHue));
+				SetWearable(new FancyShirt(), lowHue, 1);
+
+			SetWearable(new LongPants(), lowHue, 1);
 
             if (!Female)
-                AddItem(new BodySash(lowHue));
+				SetWearable(new BodySash(), lowHue, 1);
 
-            PackGold(200, 250);
+            PackGold(50, 100);
         }
 
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
-            writer.WriteEncodedInt((int)0); // version
+            writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
             int version = reader.ReadEncodedInt();
         }
     }
@@ -853,47 +566,35 @@ namespace Server.Engines.Quests
         {
         }
 
-        public override bool CanTeach
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool CanTeach => true;
+
+        public override bool ClickTitle => false;
+
         public override void InitOutfit()
         {
-            AddItem(new Robe(GetRandomHue()));
+			SetWearable(new Robe(), GetRandomHue(), 1);
 
             int lowHue = GetRandomHue();
 
-            AddItem(new ShortPants(lowHue));
+			SetWearable(new ShortPants(), lowHue, 1);
 
             if (Female)
-                AddItem(new ThighBoots(lowHue));
+				SetWearable(new ThighBoots(), lowHue, 1);
             else
-                AddItem(new Boots(lowHue));
+				SetWearable(new Boots(), lowHue, 1);
 
-            PackGold(200, 250);
+            PackGold(50, 100);
         }
 
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
-            writer.WriteEncodedInt((int)0); // version
+            writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
             int version = reader.ReadEncodedInt();
         }
     }
@@ -911,59 +612,52 @@ namespace Server.Engines.Quests
         {
         }
 
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool ClickTitle => false;
+
         public override void InitOutfit()
         {
             if (Female)
-                AddItem(new PlainDress());
+				SetWearable(new PlainDress(), dropChance: 1);
             else
-                AddItem(new Shirt(GetRandomHue()));
+				SetWearable(new Shirt(), GetRandomHue(), 1);
 
             int lowHue = GetRandomHue();
 
-            AddItem(new ShortPants(lowHue));
+			SetWearable(new ShortPants(), lowHue, 1);
 
             if (Female)
-                AddItem(new Boots(lowHue));
+				SetWearable(new Boots(), lowHue, 1);
             else
-                AddItem(new Shoes(lowHue));
+				SetWearable(new Shoes(), lowHue);
 
-            switch ( Utility.Random(4) )
+            switch (Utility.Random(4))
             {
                 case 0:
-                    AddItem(new ShortHair(Utility.RandomHairHue()));
+					SetWearable(new ShortHair(Utility.RandomHairHue()));
                     break;
                 case 1:
-                    AddItem(new TwoPigTails(Utility.RandomHairHue()));
+					SetWearable(new TwoPigTails(Utility.RandomHairHue()));
                     break;
                 case 2:
-                    AddItem(new ReceedingHair(Utility.RandomHairHue()));
+					SetWearable(new ReceedingHair(Utility.RandomHairHue()));
                     break;
                 case 3:
-                    AddItem(new KrisnaHair(Utility.RandomHairHue()));
+					SetWearable(new KrisnaHair(Utility.RandomHairHue()));
                     break;
             }
 
-            PackGold(200, 250);
+            PackGold(50, 100);
         }
 
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
-            writer.WriteEncodedInt((int)0); // version
+            writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
             int version = reader.ReadEncodedInt();
         }
     }
@@ -981,50 +675,43 @@ namespace Server.Engines.Quests
         {
         }
 
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool ClickTitle => false;
+
         public override void InitOutfit()
         {
             if (Female)
-                AddItem(new FancyDress(GetRandomHue()));
+				SetWearable(new FancyDress(), GetRandomHue(), 1);
             else
-                AddItem(new FancyShirt(GetRandomHue()));
+				SetWearable(new FancyShirt(), GetRandomHue(), 1);
 
             int lowHue = GetRandomHue();
 
-            AddItem(new ShortPants(lowHue));
+			SetWearable(new ShortPants(), lowHue, 1);
 
             if (Female)
-                AddItem(new ThighBoots(lowHue));
+				SetWearable(new ThighBoots(), lowHue, 1);
             else
-                AddItem(new Boots(lowHue));
+				SetWearable(new Boots(), lowHue, 1);
 
             if (!Female)
-                AddItem(new BodySash(lowHue));
+				SetWearable(new BodySash(), lowHue, 1);
 
-            AddItem(new Cloak(GetRandomHue()));
+			SetWearable(new Cloak(), GetRandomHue(), 1);
 
-            AddItem(new Longsword());
+			SetWearable(new Longsword(), dropChance: 1);
 
-            PackGold(100, 150);
+            PackGold(50, 100);
         }
 
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
-            writer.WriteEncodedInt((int)0); // version
+            writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
             int version = reader.ReadEncodedInt();
         }
     }
@@ -1046,58 +733,46 @@ namespace Server.Engines.Quests
         {
         }
 
-        public override bool CanTeach
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool CanTeach => true;
+
+        public override bool ClickTitle => false;
+
         public override void InitOutfit()
         {
             if (Female)
-                AddItem(new FancyDress());
+				SetWearable(new FancyDress(), dropChance: 1);
             else
-                AddItem(new FancyShirt(GetRandomHue()));
+				SetWearable(new FancyShirt(), GetRandomHue(), 1);
 
             int lowHue = GetRandomHue();
 
-            AddItem(new ShortPants(lowHue));
+			SetWearable(new ShortPants(), lowHue, 1);
 
             if (Female)
-                AddItem(new ThighBoots(lowHue));
+				SetWearable(new ThighBoots(), lowHue, 1);
             else
-                AddItem(new Boots(lowHue));
+				SetWearable(new Boots(), lowHue, 1);
 
             if (!Female)
-                AddItem(new BodySash(lowHue));
+				SetWearable(new BodySash(), lowHue, 1);
 
-            AddItem(new Cloak(GetRandomHue()));
+			SetWearable(new Cloak(), GetRandomHue(), 1);
 
             if (!Female)
-                AddItem(new Longsword());
+				SetWearable(new Longsword(), dropChance: 1);
 
-            PackGold(200, 250);
+            PackGold(50, 100);
         }
 
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
-            writer.WriteEncodedInt((int)0); // version
+            writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
             int version = reader.ReadEncodedInt();
         }
     }
@@ -1118,28 +793,23 @@ namespace Server.Engines.Quests
         {
         }
 
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool ClickTitle => false;
+
         public override void InitOutfit()
         {
             if (Female)
-                AddItem(new FancyDress());
+                SetWearable(new FancyDress(), dropChance: 1);
             else
-                AddItem(new FancyShirt());
+				SetWearable(new FancyShirt(), dropChance: 1);
 
             int lowHue = GetRandomHue();
 
-            AddItem(new LongPants(lowHue));
+			SetWearable(new LongPants(), lowHue, 1);
 
             if (Female)
-                AddItem(new Shoes(lowHue));
+				SetWearable(new Shoes(), lowHue, 1);
             else
-                AddItem(new Boots(lowHue));
+				SetWearable(new Boots(), lowHue, 1);
 
             if (Utility.RandomBool())
                 HairItemID = 0x203B;
@@ -1148,20 +818,18 @@ namespace Server.Engines.Quests
 
             HairHue = Race.RandomHairHue();
 
-            PackGold(200, 250);
+            PackGold(50, 100);
         }
 
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
-            writer.WriteEncodedInt((int)0); // version
+            writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
             int version = reader.ReadEncodedInt();
         }
     }
@@ -1179,45 +847,38 @@ namespace Server.Engines.Quests
         {
         }
 
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool ClickTitle => false;
+
         public override void InitOutfit()
         {
             if (Female)
-                AddItem(new PlainDress());
+                SetWearable(new PlainDress(), dropChance: 1);
             else
-                AddItem(new Shirt(GetRandomHue()));
+				SetWearable(new Shirt(), GetRandomHue(), 1);
 
             int lowHue = GetRandomHue();
 
-            AddItem(new ShortPants(lowHue));
+			SetWearable(new ShortPants(), lowHue, 1);
 
             if (Female)
-                AddItem(new Boots(lowHue));
+				SetWearable(new Boots(), lowHue, 1);
             else
-                AddItem(new Shoes(lowHue));
+				SetWearable(new Shoes(), lowHue, 1);
 
             Utility.AssignRandomHair(this);
 
-            PackGold(200, 250);
+            PackGold(50, 100);
         }
 
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
-            writer.WriteEncodedInt((int)0); // version
+            writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
             int version = reader.ReadEncodedInt();
         }
     }
@@ -1235,7 +896,7 @@ namespace Server.Engines.Quests
             AI = AIType.AI_Mage;
             ActiveSpeed = 0.2;
             PassiveSpeed = 0.8;
-            RangePerception = BaseCreature.DefaultRangePerception;
+            RangePerception = DefaultRangePerception;
             FightMode = FightMode.Aggressor;
 
             SpeechHue = 0;
@@ -1266,10 +927,6 @@ namespace Server.Engines.Quests
 
             Fame = 1000;
             Karma = 10000;
-
-            PackItem(new Bandage(Utility.RandomMinMax(5, 10)));
-            PackItem(new HealPotion());
-            PackItem(new CurePotion());
         }
 
         public NewHavenHealer(Serial serial)
@@ -1277,27 +934,12 @@ namespace Server.Engines.Quests
         {
         }
 
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
-        public override bool CanTeach
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public virtual bool HealsYoungPlayers
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool ClickTitle => false;
+
+        public override bool CanTeach => true;
+
+        public virtual bool HealsYoungPlayers => true;
+
         public override bool CheckTeach(SkillName skill, Mobile from)
         {
             if (!base.CheckTeach(skill, from))
@@ -1312,9 +954,9 @@ namespace Server.Engines.Quests
 
         public override void InitOutfit()
         {
-            AddItem(new Sandals(GetShoeHue()));
-            AddItem(new Robe(Utility.RandomYellowHue()));
-            AddItem(new GnarledStaff());
+            SetWearable(new Sandals(), GetShoeHue(), 1);
+            SetWearable(new Robe(), Utility.RandomYellowHue(), 1);
+            SetWearable(new GnarledStaff(), dropChance: 1);
         }
 
         public virtual bool CheckResurrect(Mobile m)
@@ -1391,14 +1033,12 @@ namespace Server.Engines.Quests
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
-            writer.WriteEncodedInt((int)0); // version
+            writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
             int version = reader.ReadEncodedInt();
         }
     }

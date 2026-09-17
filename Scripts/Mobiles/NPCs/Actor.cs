@@ -1,73 +1,64 @@
-using System;
 using Server.Items;
 
-namespace Server.Mobiles 
-{ 
-    public class Actor : BaseCreature 
-    { 
-        [Constructable] 
+namespace Server.Mobiles
+{
+    public class Actor : BaseCreature
+    {
+        [Constructable]
         public Actor()
-            : base(AIType.AI_Animal, FightMode.None, 10, 1, 0.2, 0.4)
-        { 
-            this.InitStats(31, 41, 51); 
+            : base(AIType.AI_Melee, FightMode.None, 10, 1, 0.2, 0.4)
+        {
+            InitStats(31, 41, 51);
 
-            this.SpeechHue = Utility.RandomDyedHue(); 
+            SpeechHue = Utility.RandomDyedHue();
 
-            this.Hue = Utility.RandomSkinHue(); 
+            Hue = Utility.RandomSkinHue();
 
-            if (this.Female = Utility.RandomBool()) 
-            { 
-                this.Body = 0x191; 
-                this.Name = NameList.RandomName("female");
-                this.AddItem(new FancyDress(Utility.RandomDyedHue())); 
-                this.Title = "the actress"; 
+            if (Female = Utility.RandomBool())
+            {
+                Body = 0x191;
+                Name = NameList.RandomName("female");
+				SetWearable(new FancyDress(), Utility.RandomDyedHue(), 1);
+                Title = "the actress";
             }
-            else 
-            { 
-                this.Body = 0x190; 
-                this.Name = NameList.RandomName("male");
-                this.AddItem(new LongPants(Utility.RandomNeutralHue())); 
-                this.AddItem(new FancyShirt(Utility.RandomDyedHue()));
-                this.Title = "the actor";
+            else
+            {
+                Body = 0x190;
+                Name = NameList.RandomName("male");
+				SetWearable(new LongPants(), Utility.RandomNeutralHue(), 1);
+				SetWearable(new FancyShirt(), Utility.RandomDyedHue(), 1);
+                Title = "the actor";
             }
 
-            this.AddItem(new Boots(Utility.RandomNeutralHue()));
+            SetWearable(new Boots(), Utility.RandomNeutralHue(), 1);
 
             Utility.AssignRandomHair(this);
 
-            Container pack = new Backpack(); 
+            Container pack = new Backpack();
 
-            pack.DropItem(new Gold(250, 300)); 
+            pack.DropItem(new Gold(250, 300));
 
-            pack.Movable = false; 
-
-            this.AddItem(pack); 
+            SetWearable(pack);
         }
 
         public Actor(Serial serial)
             : base(serial)
-        { 
-        }
-
-        public override bool ClickTitle
         {
-            get
-            {
-                return false;
-            }
-        }
-        public override void Serialize(GenericWriter writer) 
-        { 
-            base.Serialize(writer); 
-
-            writer.Write((int)0); // version 
         }
 
-        public override void Deserialize(GenericReader reader) 
-        { 
-            base.Deserialize(reader); 
+        public override bool ClickTitle => false;
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
 
-            int version = reader.ReadInt(); 
+            writer.Write(0); // version 
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+
+            int version = reader.ReadInt();
         }
     }
 }

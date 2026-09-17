@@ -1,5 +1,3 @@
-using System;
-using Server;
 using Server.Gumps;
 using Server.Items;
 
@@ -62,7 +60,7 @@ namespace Server.Multis
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-            writer.Write((int)6); // version
+            writer.Write(6); // version
 
             writer.Write(MultiID);
             writer.Write(Offset);
@@ -100,7 +98,7 @@ namespace Server.Multis
             {
                 from.SendLocalizedMessage(1042001); // That must be in your pack for you to use it.
             }
-            else if (Core.HS && BaseBoat.HasBoat(from))
+            else if (BaseBoat.HasBoat(from))
             {
                 from.SendLocalizedMessage(1116758); //You already have a ship deployed!
             }
@@ -122,14 +120,6 @@ namespace Server.Multis
         {
             base.GetProperties(list);
             list.Add(LabelNumber);
-        }
-
-        public override void OnSingleClick(Mobile from)
-        {
-            if (ShipName != null)
-                LabelTo(from, ShipName);
-            else
-                base.OnSingleClick(from);
         }
 
         public void OnPlacement(Mobile from, Point3D p, int itemID, Direction d)
@@ -177,7 +167,7 @@ namespace Server.Multis
 
                     boat.OnAfterPlacement(false);
 
-                    var addon = LighthouseAddon.GetLighthouse(from);
+                    LighthouseAddon addon = LighthouseAddon.GetLighthouse(from);
 
                     if (addon != null)
                     {

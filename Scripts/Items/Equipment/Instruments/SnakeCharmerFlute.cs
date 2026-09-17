@@ -1,37 +1,23 @@
+using Server.Engines.Craft;
+using Server.Mobiles;
+using Server.Network;
+using Server.Targeting;
 using System;
 using System.Linq;
-
-using Server;
-using Server.Network;
-using Server.Mobiles;
-using Server.Targeting;
-using Server.Engines.Craft;
 
 namespace Server.Items
 {
     public class SnakeCharmerFlute : BambooFlute
     {
-        public override int LabelNumber { get { return 1112174; } } // snake charmer flute
+        public override int LabelNumber => 1112174;  // snake charmer flute
 
-        public override int InitMinUses
-        {
-            get
-            {
-                return 50;
-            }
-        }
-        public override int InitMaxUses
-        {
-            get
-            {
-                return 80;
-            }
-        }
+        public override int InitMinUses => 50;
+        public override int InitMaxUses => 80;
 
         [Constructable]
         public SnakeCharmerFlute()
         {
-            this.Hue = 0x187;
+            Hue = 0x187;
         }
 
         public SnakeCharmerFlute(Serial serial)
@@ -54,7 +40,7 @@ namespace Server.Items
 
         private class CharmTarget : Target
         {
-            private SnakeCharmerFlute m_Flute;
+            private readonly SnakeCharmerFlute m_Flute;
 
             public CharmTarget(SnakeCharmerFlute flute)
                 : base(12, false, TargetFlags.None)
@@ -86,8 +72,8 @@ namespace Server.Items
 
             private class InternalTarget : Target
             {
-                private BaseCreature m_Snake;
-                private SnakeCharmerFlute m_Flute;
+                private readonly BaseCreature m_Snake;
+                private readonly SnakeCharmerFlute m_Flute;
 
                 public InternalTarget(BaseCreature snake, SnakeCharmerFlute flute)
                     : base(10, true, TargetFlags.None)
@@ -114,8 +100,7 @@ namespace Server.Items
 
                             from.BeginAction(typeof(SnakeCharmerFlute));
 
-                            Timer.DelayCall(TimeSpan.FromSeconds(5.0), new TimerCallback(
-                                delegate { from.EndAction(typeof(SnakeCharmerFlute)); }));
+                            Timer.DelayCall(TimeSpan.FromSeconds(5.0), delegate { from.EndAction(typeof(SnakeCharmerFlute)); });
 
                             m_Flute.PlayInstrumentWell(from);
                             m_Flute.UsesRemaining--;
@@ -137,7 +122,7 @@ namespace Server.Items
             return m_SnakeTypes.Any(t => t == bc.GetType());
         }
 
-        private static Type[] m_SnakeTypes = new Type[]
+        private static readonly Type[] m_SnakeTypes = new Type[]
         {
             typeof(LavaSnake),    typeof(Snake),
             typeof(CoralSnake),   typeof(GiantSerpent),
@@ -156,7 +141,7 @@ namespace Server.Items
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-            writer.Write((int)0); // version
+            writer.Write(0); // version
         }
 
         public override void Deserialize(GenericReader reader)

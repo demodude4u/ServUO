@@ -1,4 +1,3 @@
-using System;
 using Server.Items;
 
 namespace Server.Mobiles
@@ -41,22 +40,6 @@ namespace Server.Mobiles
 
             Fame = 10500;
             Karma = -10500;
-
-            VirtualArmor = 16;
-            switch (Utility.Random(16))
-            {
-                case 0: PackItem(new BloodOathScroll()); break;
-                case 1: PackItem(new CurseWeaponScroll()); break;
-                case 2: PackItem(new StrangleScroll()); break;
-                case 3: PackItem(new LichFormScroll()); break;
-            }
-            PackReg(23);
-
-            // Randomly pack either Shoes or Sandals
-            if (Utility.RandomBool())
-                PackItem(new Shoes());
-            else
-                PackItem(new Sandals());
         }
 
         public override int GetDeathSound()
@@ -74,68 +57,23 @@ namespace Server.Mobiles
         {
         }
 
-        public override bool CanRummageCorpses
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override bool AlwaysMurderer
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override int Meat
-        {
-            get
-            {
-                return 1;
-            }
-        }
-        public override int TreasureMapLevel
-        {
-            get
-            {
-                return Core.AOS ? 2 : 0;
-            }
-        }
+        public override bool CanRummageCorpses => true;
+        public override bool AlwaysMurderer => true;
+        public override int Meat => 1;
+        public override int TreasureMapLevel => 2;
         public override void GenerateLoot()
         {
             AddLoot(LootPack.Average);
             AddLoot(LootPack.Meager);
             AddLoot(LootPack.MedScrolls, 2);
-        }
-
-        public override void OnDeath(Container c)
-        {
-            base.OnDeath(c);
-
-            // Find the pair of sandals in the container, if present
-            foreach (Item item in c.Items)
-            {
-                if (item is Sandals)
-                {
-                    Sandals sandals = (Sandals)item;
-
-                    // 10% chance to apply a random hue
-                    if (Utility.RandomDouble() < 0.35) // 35% chance
-                    {
-                        sandals.Hue = Utility.RandomMinMax(1, 100);
-                    }
-
-                    // Break after finding the first pair of sandals
-                    break;
-                }
-            }
+            AddLoot(LootPack.MageryRegs, 23);
+            AddLoot(LootPack.RandomLootItem(new[] { typeof(BloodOathScroll), typeof(CurseWeaponScroll), typeof(StrangleScroll), typeof(LichFormScroll) }, 25.0, 1, false, true));
         }
 
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-            writer.Write((int)0);
+            writer.Write(0);
         }
 
         public override void Deserialize(GenericReader reader)

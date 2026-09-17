@@ -1,6 +1,6 @@
-using System;
 using Server.Items;
 using Server.Mobiles;
+using System;
 
 namespace Server.Engines.Quests
 {
@@ -18,10 +18,7 @@ namespace Server.Engines.Quests
         {
         }
 
-        public override Type[] Quests
-        {
-            get { return new Type[]  { typeof(TheQuestionsQuest) }; }
-        }
+        public override Type[] Quests => new Type[] { typeof(TheQuestionsQuest) };
 
         public override void OnOfferFailed()
         {
@@ -42,11 +39,11 @@ namespace Server.Engines.Quests
 
         public override void InitOutfit()
         {
-            AddItem(new Backpack());
-            AddItem(new Boots());
-            AddItem(new BodySash());
-            AddItem(new FancyShirt(6));
-            AddItem(new LongPants());
+            SetWearable(new Backpack());
+            SetWearable(new Boots(), dropChance :1);
+            SetWearable(new BodySash(), dropChance :1);
+            SetWearable(new FancyShirt(), 6, 1);
+			SetWearable(new LongPants(), dropChance :1);
         }
 
         private DateTime m_NextTalk;
@@ -75,7 +72,7 @@ namespace Server.Engines.Quests
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-            writer.Write((int)0); // version
+            writer.Write(0); // version
         }
 
         public override void Deserialize(GenericReader reader)

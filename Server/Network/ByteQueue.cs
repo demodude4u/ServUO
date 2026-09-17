@@ -12,7 +12,7 @@ namespace Server.Network
 
 		private byte[] m_Buffer;
 
-		public int Length { get { return m_Size; } }
+		public int Length => m_Size;
 
 		public ByteQueue()
 		{
@@ -80,15 +80,13 @@ namespace Server.Network
 				return 0;
 			}
 
-            if (buffer != null)
-            {
-                if (m_Head < m_Tail)
-                {
-                    Buffer.BlockCopy(m_Buffer, m_Head, buffer, offset, size);
-                }
-                else
-                {
-                    int rightLength = (m_Buffer.Length - m_Head);
+			if (m_Head < m_Tail)
+			{
+				Buffer.BlockCopy(m_Buffer, m_Head, buffer, offset, size);
+			}
+			else
+			{
+				var rightLength = m_Buffer.Length - m_Head;
 
                     if (rightLength >= size)
                     {
@@ -123,7 +121,7 @@ namespace Server.Network
 
 			if (m_Head < m_Tail)
 			{
-				int rightLength = (m_Buffer.Length - m_Tail);
+				var rightLength = m_Buffer.Length - m_Tail;
 
 				if (rightLength >= size)
 				{

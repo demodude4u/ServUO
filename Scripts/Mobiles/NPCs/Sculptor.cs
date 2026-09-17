@@ -1,4 +1,3 @@
-using System;
 using Server.Items;
 
 namespace Server.Mobiles
@@ -7,29 +6,29 @@ namespace Server.Mobiles
     {
         [Constructable]
         public Sculptor()
-            : base(AIType.AI_Animal, FightMode.None, 10, 1, 0.2, 0.4)
+            : base(AIType.AI_Melee, FightMode.None, 10, 1, 0.2, 0.4)
         {
-            this.InitStats(31, 41, 51);
+            InitStats(31, 41, 51);
 
-            this.SpeechHue = Utility.RandomDyedHue();
-            this.Title = "the sculptor";
-            this.Hue = Utility.RandomSkinHue();
+            SpeechHue = Utility.RandomDyedHue();
+            Title = "the sculptor";
+            Hue = Utility.RandomSkinHue();
 
-            if (this.Female = Utility.RandomBool())
+            if (Female = Utility.RandomBool())
             {
-                this.Body = 0x191;
-                this.Name = NameList.RandomName("female");
-                this.AddItem(new Kilt(Utility.RandomNeutralHue()));
+                Body = 0x191;
+                Name = NameList.RandomName("female");
+				SetWearable(new Kilt(), Utility.RandomNeutralHue(), 1);
             }
             else
             {
-                this.Body = 0x190;
-                this.Name = NameList.RandomName("male");
-                this.AddItem(new LongPants(Utility.RandomNeutralHue()));
+                Body = 0x190;
+                Name = NameList.RandomName("male");
+				SetWearable(new LongPants(), Utility.RandomNeutralHue(), 1);
             }
 
-            this.AddItem(new Doublet(Utility.RandomNeutralHue()));
-            this.AddItem(new HalfApron());
+			SetWearable(new Doublet(), Utility.RandomNeutralHue(), 1);
+			SetWearable(new HalfApron(), dropChance: 1);
 
             Utility.AssignRandomHair(this);
 
@@ -37,9 +36,7 @@ namespace Server.Mobiles
 
             pack.DropItem(new Gold(250, 300));
 
-            pack.Movable = false;
-
-            this.AddItem(pack);
+			SetWearable(pack);
         }
 
         public Sculptor(Serial serial)
@@ -47,18 +44,12 @@ namespace Server.Mobiles
         {
         }
 
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool ClickTitle => false;
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)0); // version 
+            writer.Write(0); // version 
         }
 
         public override void Deserialize(GenericReader reader)

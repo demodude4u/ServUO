@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using Server.Items;
 
 namespace Server.Mobiles
 {
@@ -17,20 +17,8 @@ namespace Server.Mobiles
         {
         }
 
-        public override VendorShoeType ShoeType
-        {
-            get
-            {
-                return VendorShoeType.ThighBoots;
-            }
-        }
-        protected override List<SBInfo> SBInfos
-        {
-            get
-            {
-                return m_SBInfos;
-            }
-        }
+        public override VendorShoeType ShoeType => VendorShoeType.ThighBoots;
+        protected override List<SBInfo> SBInfos => m_SBInfos;
         public override void InitSBInfo()
         {
             m_SBInfos.Add(new SBGardener());
@@ -45,13 +33,13 @@ namespace Server.Mobiles
         {
             base.InitOutfit();
 
-            AddItem(new Items.WideBrimHat(Utility.RandomNeutralHue()));
+            SetWearable(new WideBrimHat(), Utility.RandomNeutralHue(), 1);
         }
 
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-            writer.Write((int)0); // version
+            writer.Write(0); // version
         }
 
         public override void Deserialize(GenericReader reader)

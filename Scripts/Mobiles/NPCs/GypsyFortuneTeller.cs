@@ -16,29 +16,23 @@ namespace Server.Mobiles
 		public GypsyFortuneTeller(Serial serial)
 			: base(serial)
 		{ }
-		
-		public override bool IsInvulnerable
-        {
-            get
-            {
-                return true;
-            }
-        }
-		
-		public override void InitOutfit()
+
+        public override bool IsInvulnerable => true;
+
+        public override void InitOutfit()
 		{
 			base.InitOutfit();
 
 			switch (Utility.Random(4))
 			{
 				case 0:
-					AddItem(new JesterHat(Utility.RandomBrightHue()));
+					SetWearable(new JesterHat(), Utility.RandomBrightHue(), 1);
 					break;
 				case 1:
-					AddItem(new Bandana(Utility.RandomBrightHue()));
+					SetWearable(new Bandana(), Utility.RandomBrightHue(), 1);
 					break;
 				case 2:
-					AddItem(new SkullCap(Utility.RandomBrightHue()));
+					SetWearable(new SkullCap(), Utility.RandomBrightHue(), 1);
 					break;
 			}
 

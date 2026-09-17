@@ -1,7 +1,7 @@
-using System;
 using Server.Items;
 using Server.Mobiles;
 using Server.Targeting;
+using System;
 using System.Linq;
 
 namespace Server.Engines.Harvest
@@ -59,7 +59,7 @@ namespace Server.Engines.Harvest
             oreAndStone.ConsumedPerFeluccaHarvest = 2;
 
             // The digging effect
-            oreAndStone.EffectActions = new int[] { Core.SA ? 3 : 11 };
+            oreAndStone.EffectActions = new int[] { 3 };
             oreAndStone.EffectSounds = new int[] { 0x125, 0x126 };
             oreAndStone.EffectCounts = new int[] { 1 };
             oreAndStone.EffectDelay = TimeSpan.FromSeconds(1.6);
@@ -76,8 +76,8 @@ namespace Server.Engines.Harvest
             res = new HarvestResource[]
             {
                 new HarvestResource(00.0, 00.0, 100.0, 1007072, typeof(IronOre), typeof(Granite)),
-                new HarvestResource(65.0, 25.0, 105.0, 1007073, typeof(DullCopperOre),	typeof(DullCopperGranite), typeof(DullCopperElemental)),
-                new HarvestResource(70.0, 30.0, 110.0, 1007074, typeof(ShadowIronOre),	typeof(ShadowIronGranite), typeof(ShadowIronElemental)),
+                new HarvestResource(65.0, 25.0, 105.0, 1007073, typeof(DullCopperOre),  typeof(DullCopperGranite), typeof(DullCopperElemental)),
+                new HarvestResource(70.0, 30.0, 110.0, 1007074, typeof(ShadowIronOre),  typeof(ShadowIronGranite), typeof(ShadowIronElemental)),
                 new HarvestResource(75.0, 35.0, 115.0, 1007075, typeof(CopperOre), typeof(CopperGranite), typeof(CopperElemental)),
                 new HarvestResource(80.0, 40.0, 120.0, 1007076, typeof(BronzeOre), typeof(BronzeGranite), typeof(BronzeElemental)),
                 new HarvestResource(85.0, 45.0, 125.0, 1007077, typeof(GoldOre), typeof(GoldGranite), typeof(GoldenElemental)),
@@ -96,30 +96,27 @@ namespace Server.Engines.Harvest
                 new HarvestVein(05.6, 0.5, res[5], res[0]), // Gold
                 new HarvestVein(04.2, 0.5, res[6], res[0]), // Agapite
                 new HarvestVein(02.8, 0.5, res[7], res[0]), // Verite
-                new HarvestVein(01.4, 0.5, res[8], res[0])// Valorite
+                new HarvestVein(01.4, 0.5, res[8], res[0]), // Valorite
             };
 
             oreAndStone.Resources = res;
             oreAndStone.Veins = veins;
 
-            if (Core.ML)
+            oreAndStone.BonusResources = new BonusHarvestResource[]
             {
-                oreAndStone.BonusResources = new BonusHarvestResource[]
-                {
-                    new BonusHarvestResource(0, 99.2, null, null), //Nothing
-                    new BonusHarvestResource(100, .1, 1072562, typeof(BlueDiamond)),
-                    new BonusHarvestResource(100, .1, 1072567, typeof(DarkSapphire)),
-                    new BonusHarvestResource(100, .1, 1072570, typeof(EcruCitrine)),
-                    new BonusHarvestResource(100, .1, 1072564, typeof(FireRuby)),
-                    new BonusHarvestResource(100, .1, 1072566, typeof(PerfectEmerald)),
-                    new BonusHarvestResource(100, .1, 1072568, typeof(Turquoise)),
-                    new BonusHarvestResource(100, .1, 1077180, typeof(SmallPieceofBlackrock)),
-                    new BonusHarvestResource(100, .1, 1113344, typeof(CrystallineBlackrock), Map.TerMur)
-				};
-            }
+                new BonusHarvestResource(0, 99.2, null, null), //Nothing
+                new BonusHarvestResource(100, .1, 1072562, typeof(BlueDiamond)),
+                new BonusHarvestResource(100, .1, 1072567, typeof(DarkSapphire)),
+                new BonusHarvestResource(100, .1, 1072570, typeof(EcruCitrine)),
+                new BonusHarvestResource(100, .1, 1072564, typeof(FireRuby)),
+                new BonusHarvestResource(100, .1, 1072566, typeof(PerfectEmerald)),
+                new BonusHarvestResource(100, .1, 1072568, typeof(Turquoise)),
+                new BonusHarvestResource(100, .1, 1077180, typeof(SmallPieceofBlackrock)),
+                new BonusHarvestResource(100, .1, 1113344, typeof(CrystallineBlackrock), Map.TerMur)
+            };
 
-            oreAndStone.RaceBonus = Core.ML;
-            oreAndStone.RandomizeVeins = false;
+            oreAndStone.RaceBonus = true;
+            oreAndStone.RandomizeVeins = true;
 
             Definitions.Add(oreAndStone);
             #endregion
@@ -153,7 +150,7 @@ namespace Server.Engines.Harvest
             sand.ConsumedPerFeluccaHarvest = 2;
 
             // The digging effect
-            sand.EffectActions = new int[] { Core.SA ? 3 : 11 };
+            sand.EffectActions = new int[] { 3 };
             sand.EffectSounds = new int[] { 0x125, 0x126 };
             sand.EffectCounts = new int[] { 6 };
             sand.EffectDelay = TimeSpan.FromSeconds(1.6);
@@ -240,9 +237,9 @@ namespace Server.Engines.Harvest
                 from.SendLocalizedMessage(1112233); // You carefully extract a glistening gem from the vein!
             else if (item != null)
             {
-                foreach (var res in OreAndStone.Resources.Where(r => r.Types != null))
+                foreach (HarvestResource res in OreAndStone.Resources.Where(r => r.Types != null))
                 {
-                    foreach (var type in res.Types)
+                    foreach (Type type in res.Types)
                     {
                         if (item.GetType() == type)
                         {
@@ -342,7 +339,7 @@ namespace Server.Engines.Harvest
                         if (map == null)
                             return;
 
-                        if (Activator.CreateInstance(res.Types[2], new object[] { 25 }) is BaseCreature spawned)
+                        if (Activator.CreateInstance(res.Types[2]) is BaseCreature spawned)
                         {
                             int offset = Utility.Random(8) * 2;
 
@@ -377,8 +374,9 @@ namespace Server.Engines.Harvest
                             spawned.Combatant = from;
                         }
                     }
-                    catch
+                    catch (Exception e)
                     {
+                        Diagnostics.ExceptionLogging.LogException(e);
                     }
                 }
             }
@@ -387,9 +385,6 @@ namespace Server.Engines.Harvest
         #region High Seas
         public override bool SpecialHarvest(Mobile from, Item tool, HarvestDefinition def, Map map, Point3D loc)
         {
-            if (!Core.HS)
-                return base.SpecialHarvest(from, tool, def, map, loc);
-
             HarvestBank bank = def.GetBank(map, loc.X, loc.Y);
 
             if (bank == null)
@@ -423,7 +418,7 @@ namespace Server.Engines.Harvest
 
                     if (!dungeon)
                     {
-                        niter.MoveToWorld(new Point3D(loc.X, loc.Y, from.Z + 3), from.Map);
+                        niter.MoveToWorld(new Point3D(loc.X, loc.Y, from.Z), from.Map);
                         from.SendLocalizedMessage(1149918, niter.Size.ToString()); //You have uncovered a ~1_SIZE~ deposit of niter! Mine it to obtain saltpeter.
                         NiterDeposit.AddBank(bank);
                         return true;
@@ -481,8 +476,7 @@ namespace Server.Engines.Harvest
         {
             base.OnHarvestStarted(from, tool, def, toHarvest);
 
-            if (Core.ML)
-                from.RevealingAction();
+            from.RevealingAction();
         }
 
         public override void OnBadHarvestTarget(Mobile from, Item tool, object toHarvest)
@@ -490,7 +484,7 @@ namespace Server.Engines.Harvest
             if (toHarvest is LandTarget)
             {
                 from.SendLocalizedMessage(501862); // You can't mine there.
-            }            
+            }
             else if (!(toHarvest is LandTarget))
             {
                 from.SendLocalizedMessage(501863); // You can't mine that.
@@ -509,7 +503,7 @@ namespace Server.Engines.Harvest
             244, 245, 246, 247, 252, 253, 254, 255, 256, 257,
             258, 259, 260, 261, 262, 263, 268, 269, 270, 271,
             272, 273, 274, 275, 276, 277, 278, 279, 286, 287,
-            288, 289, 290, 291, 292, 293, 294, 296, 296, 297,
+            288, 289, 290, 291, 292, 293, 294, 295, 296, 297,
             321, 322, 323, 324, 467, 468, 469, 470, 471, 472,
             473, 474, 476, 477, 478, 479, 480, 481, 482, 483,
             484, 485, 486, 487, 492, 493, 494, 495, 543, 544,

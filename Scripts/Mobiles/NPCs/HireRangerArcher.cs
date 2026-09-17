@@ -1,23 +1,22 @@
-using System;
 using Server.Items;
 
-namespace Server.Mobiles 
+namespace Server.Mobiles
 {
-    public class HireRangerArcher : BaseHire 
+    public class HireRangerArcher : BaseHire
     {
-        [Constructable] 
+        [Constructable]
         public HireRangerArcher()
             : base(AIType.AI_Archer)
         {
             SpeechHue = Utility.RandomDyedHue();
             Hue = Utility.RandomSkinHue();
 
-            if (Female = Utility.RandomBool()) 
+            if (Female = Utility.RandomBool())
             {
                 Body = 0x191;
                 Name = NameList.RandomName("female");
             }
-            else 
+            else
             {
                 Body = 0x190;
                 Name = NameList.RandomName("male");
@@ -45,28 +44,30 @@ namespace Server.Mobiles
             Fame = 100;
             Karma = 125;
 
-            AddItem(new Shoes(Utility.RandomNeutralHue()));
-            AddItem(new Shirt());
+            SetWearable(new Shoes(), Utility.RandomNeutralHue(), 1);
+			SetWearable(new Shirt(), dropChance: 1);
 
             // Pick a random sword
-            switch ( Utility.Random(2)) 
+            switch (Utility.Random(2))
             {
                 case 0:
-                    AddItem(new Bow());
+					SetWearable(new Bow(), dropChance: 1);
                     break;
                 case 1:
-                    AddItem(new CompositeBow());
+					SetWearable(new CompositeBow(), dropChance: 1);
                     break;
             }
 
-            AddItem(new RangerChest());
-            AddItem(new RangerArms());
-            AddItem(new RangerGloves());
-            AddItem(new RangerGorget());
-            AddItem(new RangerLegs());
+			SetWearable(new RangerChest(), dropChance: 1);
+			SetWearable(new RangerArms(), dropChance: 1);
+			SetWearable(new RangerGloves(), dropChance: 1);
+			SetWearable(new RangerGorget(), dropChance: 1);
+			SetWearable(new RangerLegs(), dropChance: 1);
+        }
 
-            PackItem(new Arrow(20));
-            PackGold(10, 75);
+        public override void GenerateLoot()
+        {
+            AddLoot(LootPack.LootItem<Arrow>(100.0, 20, false, true));
         }
 
         public HireRangerArcher(Serial serial)
@@ -74,21 +75,15 @@ namespace Server.Mobiles
         {
         }
 
-        public override bool ClickTitle
-        {
-            get
-            {
-                return false;
-            }
-        }
-        public override void Serialize(GenericWriter writer) 
+        public override bool ClickTitle => false;
+        public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)0);// version 
+            writer.Write(0);// version 
         }
 
-        public override void Deserialize(GenericReader reader) 
+        public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
 

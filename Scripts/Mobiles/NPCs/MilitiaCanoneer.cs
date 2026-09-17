@@ -1,4 +1,3 @@
-using System;
 using Server.Items;
 using Server.Mobiles;
 
@@ -47,14 +46,13 @@ namespace Server.Engines.Quests.Haven
             Utility.AssignRandomHair(this);
             Utility.AssignRandomFacialHair(this, HairHue);
 
-            AddItem(new PlateChest());
-            AddItem(new PlateArms());
-            AddItem(new PlateGloves());
-            AddItem(new PlateLegs());
+            SetWearable(new PlateChest(), dropChance: 1);
+            SetWearable(new PlateArms(), dropChance: 1);
+            SetWearable(new PlateGloves(), dropChance: 1);
+			SetWearable(new PlateLegs(), dropChance: 1);
 
-            Torch torch = new Torch();
-            torch.Movable = false;
-            AddItem(torch);
+			Torch torch = new Torch();
+			SetWearable(torch);
             torch.Ignite();
         }
 
@@ -100,9 +98,9 @@ namespace Server.Engines.Quests.Haven
         {
             base.Serialize(writer);
 
-            writer.Write((int)0); // version
+            writer.Write(0); // version
 
-            writer.Write((bool)m_Active);
+            writer.Write(m_Active);
         }
 
         public override void Deserialize(GenericReader reader)

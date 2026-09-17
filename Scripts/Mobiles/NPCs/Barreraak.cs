@@ -1,57 +1,49 @@
-using System;
-using Server;
 using Server.Items;
-using Server.Mobiles;
+using System;
 
 namespace Server.Engines.Quests
-{	
-	public class SomethingFishy : BaseQuest
-	{				
-		/* SomethingFishy */
-		public override object Title{ get{ return 1095059; } }
-		
-		public override object Description{ get{ return 1095043; } }
-		
-		public override object Refuse{ get{ return 1095044; } }
-		
-		public override object Uncomplete{ get{ return 1095045; } }
+{
+    public class SomethingFishy : BaseQuest
+    {
+        /* SomethingFishy */
+        public override object Title => 1095059;
 
-        public override object Complete { get { return 1095048; } }
-	
-		public SomethingFishy() : base()
-		{
+        public override object Description => 1095043;
+
+        public override object Refuse => 1095044;
+
+        public override object Uncomplete => 1095045;
+
+        public override object Complete => 1095048;
+
+        public SomethingFishy() : base()
+        {
             AddObjective(new ObtainObjective(typeof(RedHerring), "Red Herring", 1, 0x9cc));
-					
-			AddReward( new BaseReward( typeof( BarreraaksRing ), 1095049 ) );
-		}
-		
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
 
-			writer.Write( (int) 0 ); // version
-		}
-		
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
+            AddReward(new BaseReward(typeof(BarreraaksRing), 1095049));
+        }
 
-			int version = reader.ReadInt();
-		}		
-	}
-		
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+
+            writer.Write(0); // version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+
+            int version = reader.ReadInt();
+        }
+    }
+
     public class Barreraak : MondainQuester
     {
-        public override Type[] Quests
-        {
-            get
+        public override Type[] Quests => new Type[]
             {
-                return new Type[] 
-			{ 
-				typeof( SomethingFishy )			
-			};
-            }
-        }
+                typeof( SomethingFishy )
+            };
 
         [Constructable]
         public Barreraak()
@@ -72,11 +64,11 @@ namespace Server.Engines.Quests
 
         public override void InitOutfit()
         {
-            AddItem(new Backpack());
-            AddItem(new Boots());
-            AddItem(new LongPants(0x6C7));
-            AddItem(new FancyShirt(0x6BB));
-            AddItem(new Cloak(0x59));
+            SetWearable(new Backpack(), dropChance: 1);
+            SetWearable(new Boots(), dropChance: 1);
+            SetWearable(new LongPants(), 0x6C7, 1);
+            SetWearable(new FancyShirt(), 0x6BB, 1);
+            SetWearable(new Cloak(), 0x59, 1);
         }
 
         public Barreraak(Serial serial)
@@ -88,7 +80,7 @@ namespace Server.Engines.Quests
         {
             base.Serialize(writer);
 
-            writer.Write((int)0); // version
+            writer.Write(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
@@ -97,5 +89,5 @@ namespace Server.Engines.Quests
 
             int version = reader.ReadInt();
         }
-	}
+    }
 }

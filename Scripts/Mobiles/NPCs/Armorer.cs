@@ -1,7 +1,7 @@
+using Server.Engines.BulkOrders;
+using Server.Items;
 using System;
 using System.Collections.Generic;
-
-using Server.Engines.BulkOrders;
 
 namespace Server.Mobiles
 {
@@ -22,23 +22,11 @@ namespace Server.Mobiles
         {
         }
 
-        public override VendorShoeType ShoeType
-        {
-            get
-            {
-                return VendorShoeType.Boots;
-            }
-        }
-        protected override List<SBInfo> SBInfos
-        {
-            get
-            {
-                return m_SBInfos;
-            }
-        }
+        public override VendorShoeType ShoeType => VendorShoeType.Boots;
+        protected override List<SBInfo> SBInfos => m_SBInfos;
         public override void InitSBInfo()
         {
-            switch ( Utility.Random(4))
+            switch (Utility.Random(4))
             {
                 case 0:
                     {
@@ -77,13 +65,13 @@ namespace Server.Mobiles
             }
             if (IsTokunoVendor)
             {
-                m_SBInfos.Add(new SBSELeatherArmor());	
+                m_SBInfos.Add(new SBSELeatherArmor());
                 m_SBInfos.Add(new SBSEArmor());
             }
         }
 
         #region Bulk Orders
-        public override BODType BODType { get { return BODType.Smith; } }
+        public override BODType BODType => BODType.Smith;
 
         public override Item CreateBulkOrder(Mobile from, bool fromContextMenu)
         {
@@ -129,7 +117,7 @@ namespace Server.Mobiles
 
         public override void OnSuccessfulBulkOrderReceive(Mobile from)
         {
-            if (Core.SE && from is PlayerMobile)
+            if (from is PlayerMobile)
                 ((PlayerMobile)from).NextSmithBulkOrder = TimeSpan.Zero;
         }
 
@@ -139,15 +127,15 @@ namespace Server.Mobiles
         {
             base.InitOutfit();
 
-            AddItem(new Server.Items.HalfApron(Utility.RandomYellowHue()));
-            AddItem(new Server.Items.Bascinet());
+            SetWearable(new HalfApron(), Utility.RandomYellowHue(), 1);
+            SetWearable(new Bascinet(), dropChance: 1);
         }
 
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)1); // version
+            writer.Write(1); // version
         }
 
         public override void Deserialize(GenericReader reader)
