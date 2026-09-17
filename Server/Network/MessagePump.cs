@@ -234,14 +234,10 @@ namespace Server.Network
 
 					if (handler == null)
 					{
-#if DEBUG
-                        var data = new byte[length];
+						var data = new byte[length];
 						length = buffer.Dequeue(data, 0, length);
 						new PacketReader(data, length, false).Trace(ns);
-#else
-                        buffer.Dequeue(null, 0, length);
-#endif
-                        return;
+						return;
 					}
 
 					var packetLength = handler.Length;
@@ -342,9 +338,6 @@ namespace Server.Network
 						var r = new PacketReader(packetBuffer, packetLength, handler.Length != 0);
 
 						handler.OnReceive(ns, r);
-
-                        ns.SetPacketTime((byte)packetID);
-
 						if (BufferSize >= packetLength)
 						{
 							m_Buffers.ReleaseBuffer(packetBuffer);

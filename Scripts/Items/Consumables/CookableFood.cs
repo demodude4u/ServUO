@@ -648,7 +648,6 @@ namespace Server.Items
             reader.ReadInt();
         }
     }
-    #endregion CakeMix
     #region RawFishSteak
     public class RawFishSteak : CookableFood, ICommodity
     {

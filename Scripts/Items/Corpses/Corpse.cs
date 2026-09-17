@@ -290,7 +290,6 @@ namespace Server.Items
             ColUtility.Free(stackables);
             ColUtility.Free(unstackables);
         }
-        */
         public void AddCarvedItem(Item carved, Mobile carver)
         {
             DropItem(carved);

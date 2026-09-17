@@ -1479,9 +1479,6 @@ namespace Server.Items
     }
     #endregion ChickenLeg
     #region CharredChickenLeg
-    public class CharredChickenLeg : Food
-    {
-        public override ItemQuality Quality { get { return ItemQuality.Normal; } set { } }
 
     [Flipable(0xC74, 0xC75)]
     public class HoneydewMelon : Food
@@ -2059,4 +2056,6 @@ namespace Server.Items
 
         }
     }
+
+    #endregion PulledPorkSandwich
 }

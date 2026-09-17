@@ -97,8 +97,7 @@ namespace Server.Network
                         Buffer.BlockCopy(m_Buffer, m_Head, buffer, offset, rightLength);
                         Buffer.BlockCopy(m_Buffer, 0, buffer, offset + rightLength, size - rightLength);
                     }
-                }
-            }
+			}
 
 			m_Head = (m_Head + size) % m_Buffer.Length;
 			m_Size -= size;
