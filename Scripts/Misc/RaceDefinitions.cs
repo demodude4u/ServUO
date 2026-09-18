@@ -19,6 +19,7 @@ namespace Server.Misc
             RegisterRace(new Human(0, 0));
             RegisterRace(new Elf(1, 1));
             RegisterRace(new Gargoyle(2, 2));
+            RegisterRace(new Orc(3, 3));
         }
 
         public static void RegisterRace(Race race)
@@ -468,6 +469,79 @@ namespace Server.Misc
             public override int ClipFaceHue(int hue)
             {
                 return ClipSkinHue(hue);
+            }
+
+            public override int RandomFaceHue()
+            {
+                return RandomSkinHue();
+            }
+        }
+
+        private class Orc : Race
+        {
+            public Orc(int raceID, int raceIndex)
+                : base(raceID, raceIndex, "Orc", "Orcs", 0x11, 0x12, 0x11, 0x12)
+            {
+            }
+
+            public override bool ValidateHair(bool female, int itemID)
+            {
+                return itemID == 0;
+            }
+
+            public override int RandomHair(bool female)
+            {
+                return 0;
+            }
+
+            public override bool ValidateFacialHair(bool female, int itemID)
+            {
+                return itemID == 0;
+            }
+
+            public override int RandomFacialHair(bool female)
+            {
+                return 0;
+            }
+
+            public override bool ValidateFace(bool female, int itemID)
+            {
+                return itemID == 0;
+            }
+
+            public override int RandomFace(bool female)
+            {
+                return 0;
+            }
+
+            public override bool ValidateEquipment(Item item)
+            {
+                return true;
+            }
+
+            public override int ClipSkinHue(int hue)
+            {
+                return hue;
+            }
+
+            public override int RandomSkinHue()
+            {
+                return Utility.Random(2202, 20) | 0x8000;
+            }
+
+            public override int ClipHairHue(int hue)
+            {
+                return hue;
+            }
+
+            public override int RandomHairHue()
+            {
+                return 0;
+            }
+
+            public override int ClipFaceHue(int hue)
+            {
+                return hue;
             }
 
             public override int RandomFaceHue()

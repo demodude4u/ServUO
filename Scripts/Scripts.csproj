@@ -42,5 +42,10 @@
     <Compile Remove="!Customs\Systems\Barber Shop\Limited Hair Dyes\HairDye.cs" />
     <Compile Remove="!Customs\Systems\Barber Shop\Limited Hair Dyes\SpecialHairDye.cs" />
     <Compile Remove="!Customs\Systems\Barber Shop\Limited Hair Dyes\SpecialBeardDye.cs" />
+    <Compile Remove="!Customs\Systems\Race Gates\Barber Shop\**\*.cs" />
+    <Compile Remove="!Customs\Systems\Race Gates\Newbie Items\Skill Balls\**\*.cs" />
+    <Compile Remove="!Customs\Systems\Race Gates\Race Faces\**\*.cs" />
+    <Compile Remove="!Customs\Systems\Race Gates\Race Gates\OrcRaceGate.cs" />
+    <Compile Remove="!Customs\Systems\Race Gates\Skin Hues\OrcSkinDye.cs" />
   </ItemGroup>
 </Project>
