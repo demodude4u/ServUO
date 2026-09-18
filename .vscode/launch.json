@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch ServUO (Debug)",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/ServUO.exe",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "stopAtEntry": false,
+            "preLaunchTask": "build ServUO (Debug)"
+        }
+    ]
+}
