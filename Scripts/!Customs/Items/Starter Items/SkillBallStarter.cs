@@ -11,6 +11,72 @@ namespace Server
     public class SkilllimPickGump : Gump
     {
 
+        private static string GetSkillDisplayName(SkillName skill)
+        {
+            switch (skill)
+            {
+                case SkillName.Alchemy: return "Alchemy";
+                case SkillName.Anatomy: return "Anatomy";
+                case SkillName.AnimalLore: return "Animal Lore";
+                case SkillName.ItemID: return "Item Identification";
+                case SkillName.ArmsLore: return "Arms Lore";
+                case SkillName.Parry: return "Parrying";
+                case SkillName.Begging: return "Begging";
+                case SkillName.Blacksmith: return "Blacksmithy";
+                case SkillName.Fletching: return "Fletching";
+                case SkillName.Peacemaking: return "Peacemaking";
+                case SkillName.Camping: return "Camping";
+                case SkillName.Carpentry: return "Carpentry";
+                case SkillName.Cartography: return "Cartography";
+                case SkillName.Cooking: return "Cooking";
+                case SkillName.DetectHidden: return "Detect Hidden";
+                case SkillName.Discordance: return "Discordance";
+                case SkillName.EvalInt: return "Evaluating Intelligence";
+                case SkillName.Healing: return "Healing";
+                case SkillName.Fishing: return "Fishing";
+                case SkillName.Forensics: return "Forensic Evaluation";
+                case SkillName.Herding: return "Herding";
+                case SkillName.Hiding: return "Hiding";
+                case SkillName.Provocation: return "Provocation";
+                case SkillName.Inscribe: return "Inscription";
+                case SkillName.Lockpicking: return "Lockpicking";
+                case SkillName.Magery: return "Magery";
+                case SkillName.MagicResist: return "Resisting Spells";
+                case SkillName.Tactics: return "Tactics";
+                case SkillName.Snooping: return "Snooping";
+                case SkillName.Musicianship: return "Musicianship";
+                case SkillName.Poisoning: return "Poisoning";
+                case SkillName.Archery: return "Archery";
+                case SkillName.SpiritSpeak: return "Spirit Speak";
+                case SkillName.Stealing: return "Stealing";
+                case SkillName.Tailoring: return "Tailoring";
+                case SkillName.AnimalTaming: return "Animal Taming";
+                case SkillName.TasteID: return "Taste Identification";
+                case SkillName.Tinkering: return "Tinkering";
+                case SkillName.Tracking: return "Tracking";
+                case SkillName.Veterinary: return "Veterinary";
+                case SkillName.Swords: return "Swordsmanship";
+                case SkillName.Macing: return "Mace Fighting";
+                case SkillName.Fencing: return "Fencing";
+                case SkillName.Wrestling: return "Wrestling";
+                case SkillName.Lumberjacking: return "Lumberjacking";
+                case SkillName.Mining: return "Mining";
+                case SkillName.Meditation: return "Meditation";
+                case SkillName.Stealth: return "Stealth";
+                case SkillName.RemoveTrap: return "Remove Trap";
+                case SkillName.Necromancy: return "Necromancy";
+                case SkillName.Focus: return "Focus";
+                case SkillName.Chivalry: return "Chivalry";
+                case SkillName.Bushido: return "Bushido";
+                case SkillName.Ninjitsu: return "Ninjitsu";
+                case SkillName.Spellweaving: return "Spellweaving";
+                case SkillName.Mysticism: return "Mysticism";
+                case SkillName.Imbuing: return "Imbuing";
+                case SkillName.Throwing: return "Throwing";
+                default: return skill.ToString();
+            }
+        }
+
 
         private int switches = 7;
         private SkillBallStarter m_SkillBall;
@@ -58,23 +124,23 @@ namespace Server
             this.AddCheck(55, 415, 210, 211, false, (int)SkillName.DetectHidden);
             this.AddCheck(55, 440, 210, 211, false, (int)SkillName.Discordance);
             this.AddCheck(55, 465, 210, 211, false, (int)SkillName.EvalInt);
-            this.AddLabel(80, 65, 0, SkillName.Alchemy.ToString());         
-            this.AddLabel(80, 90, 0, SkillName.Anatomy.ToString());         
-            this.AddLabel(80, 115, 0, SkillName.AnimalLore.ToString());   
-            this.AddLabel(80, 140, 0, SkillName.AnimalTaming.ToString());         
-            this.AddLabel(80, 165, 0, SkillName.Archery.ToString());        
-            this.AddLabel(80, 190, 0, SkillName.ArmsLore.ToString());    
-            this.AddLabel(80, 215, 0, SkillName.Begging.ToString());           
-            this.AddLabel(80, 240, 0, SkillName.Blacksmith.ToString());      
-            this.AddLabel(80, 265, 0, SkillName.Bushido.ToString());       
-            this.AddLabel(80, 290, 0, SkillName.Camping.ToString());     
-            this.AddLabel(80, 315, 0, SkillName.Carpentry.ToString()); 
-            this.AddLabel(80, 340, 0, SkillName.Cartography.ToString()); 
-            this.AddLabel(80, 365, 0, SkillName.Chivalry.ToString()); 
-            this.AddLabel(80, 390, 0, SkillName.Cooking.ToString()); 
-            this.AddLabel(80, 415, 0, SkillName.DetectHidden.ToString()); 
-            this.AddLabel(80, 440, 0, SkillName.Discordance.ToString());    
-            this.AddLabel(80, 465, 0, SkillName.EvalInt.ToString());
+            this.AddLabel(80, 65, 0, GetSkillDisplayName(SkillName.Alchemy));
+            this.AddLabel(80, 90, 0, GetSkillDisplayName(SkillName.Anatomy));
+            this.AddLabel(80, 115, 0, GetSkillDisplayName(SkillName.AnimalLore));
+            this.AddLabel(80, 140, 0, GetSkillDisplayName(SkillName.AnimalTaming));
+            this.AddLabel(80, 165, 0, GetSkillDisplayName(SkillName.Archery));
+            this.AddLabel(80, 190, 0, GetSkillDisplayName(SkillName.ArmsLore));
+            this.AddLabel(80, 215, 0, GetSkillDisplayName(SkillName.Begging));
+            this.AddLabel(80, 240, 0, GetSkillDisplayName(SkillName.Blacksmith));
+            this.AddLabel(80, 265, 0, GetSkillDisplayName(SkillName.Bushido));
+            this.AddLabel(80, 290, 0, GetSkillDisplayName(SkillName.Camping));
+            this.AddLabel(80, 315, 0, GetSkillDisplayName(SkillName.Carpentry));
+            this.AddLabel(80, 340, 0, GetSkillDisplayName(SkillName.Cartography));
+            this.AddLabel(80, 365, 0, GetSkillDisplayName(SkillName.Chivalry));
+            this.AddLabel(80, 390, 0, GetSkillDisplayName(SkillName.Cooking));
+            this.AddLabel(80, 415, 0, GetSkillDisplayName(SkillName.DetectHidden));
+            this.AddLabel(80, 440, 0, GetSkillDisplayName(SkillName.Discordance));
+            this.AddLabel(80, 465, 0, GetSkillDisplayName(SkillName.EvalInt));
             
             // ********************************************************
             
@@ -95,23 +161,23 @@ namespace Server
             this.AddCheck(240, 415, 210, 211, false, (int)SkillName.Magery);
             this.AddCheck(240, 440, 210, 211, false, (int)SkillName.MagicResist);
             this.AddCheck(240, 465, 210, 211, false, (int)SkillName.Meditation);
-            this.AddLabel(265, 65, 0, SkillName.Fencing.ToString());     
-            this.AddLabel(265, 90, 0, SkillName.Fishing.ToString());         
-            this.AddLabel(265, 115, 0, SkillName.Fletching.ToString());   
-            this.AddLabel(265, 140, 0, SkillName.Focus.ToString()); 
-            this.AddLabel(265, 165, 0, SkillName.Forensics.ToString());     
-            this.AddLabel(265, 190, 0, SkillName.Healing.ToString());          
-            this.AddLabel(265, 215, 0, SkillName.Herding.ToString());         
-            this.AddLabel(265, 240, 0, SkillName.Hiding.ToString());
-            this.AddLabel(265, 265, 0, SkillName.Imbuing.ToString());
-            this.AddLabel(265, 290, 0, SkillName.Inscribe.ToString());       
-            this.AddLabel(265, 315, 0, SkillName.ItemID.ToString()); 
-            this.AddLabel(265, 340, 0, SkillName.Lockpicking.ToString());        
-            this.AddLabel(265, 365, 0, SkillName.Lumberjacking.ToString());        
-            this.AddLabel(265, 390, 0, SkillName.Macing.ToString());   
-            this.AddLabel(265, 415, 0, SkillName.Magery.ToString()); 
-            this.AddLabel(265, 440, 0, SkillName.MagicResist.ToString()); 
-            this.AddLabel(265, 465, 0, SkillName.Meditation.ToString());
+            this.AddLabel(265, 65, 0, GetSkillDisplayName(SkillName.Fencing));
+            this.AddLabel(265, 90, 0, GetSkillDisplayName(SkillName.Fishing));
+            this.AddLabel(265, 115, 0, GetSkillDisplayName(SkillName.Fletching));
+            this.AddLabel(265, 140, 0, GetSkillDisplayName(SkillName.Focus));
+            this.AddLabel(265, 165, 0, GetSkillDisplayName(SkillName.Forensics));
+            this.AddLabel(265, 190, 0, GetSkillDisplayName(SkillName.Healing));
+            this.AddLabel(265, 215, 0, GetSkillDisplayName(SkillName.Herding));
+            this.AddLabel(265, 240, 0, GetSkillDisplayName(SkillName.Hiding));
+            this.AddLabel(265, 265, 0, GetSkillDisplayName(SkillName.Imbuing));
+            this.AddLabel(265, 290, 0, GetSkillDisplayName(SkillName.Inscribe));
+            this.AddLabel(265, 315, 0, GetSkillDisplayName(SkillName.ItemID));
+            this.AddLabel(265, 340, 0, GetSkillDisplayName(SkillName.Lockpicking));
+            this.AddLabel(265, 365, 0, GetSkillDisplayName(SkillName.Lumberjacking));
+            this.AddLabel(265, 390, 0, GetSkillDisplayName(SkillName.Macing));
+            this.AddLabel(265, 415, 0, GetSkillDisplayName(SkillName.Magery));
+            this.AddLabel(265, 440, 0, GetSkillDisplayName(SkillName.MagicResist));
+            this.AddLabel(265, 465, 0, GetSkillDisplayName(SkillName.Meditation));
             
             // ********************************************************
             
@@ -132,23 +198,23 @@ namespace Server
             this.AddCheck(425, 415, 210, 211, false, (int)SkillName.Stealth);
             this.AddCheck(425, 440, 210, 211, false, (int)SkillName.Swords);
             this.AddCheck(425, 465, 210, 211, false, (int)SkillName.Tactics);
-            this.AddLabel(450, 65, 0, SkillName.Mining.ToString());
-            this.AddLabel(450, 90, 0, SkillName.Musicianship.ToString());
-            this.AddLabel(450, 115, 0, SkillName.Mysticism.ToString());    
-            this.AddLabel(450, 140, 0, SkillName.Necromancy.ToString());         
-            this.AddLabel(450, 165, 0, SkillName.Ninjitsu.ToString());   
-            this.AddLabel(450, 190, 0, SkillName.Parry.ToString()); 
-            this.AddLabel(450, 215, 0, SkillName.Peacemaking.ToString());     
-            this.AddLabel(450, 240, 0, SkillName.Poisoning.ToString());         
-            this.AddLabel(450, 265, 0, SkillName.Provocation.ToString());         
-            this.AddLabel(450, 290, 0, SkillName.RemoveTrap.ToString());       
-            this.AddLabel(450, 315, 0, SkillName.Snooping.ToString());      
-            this.AddLabel(450, 340, 0, SkillName.Spellweaving.ToString()); 
-            this.AddLabel(450, 365, 0, SkillName.SpiritSpeak.ToString());       
-            this.AddLabel(450, 390, 0, SkillName.Stealing.ToString());        
-            this.AddLabel(450, 415, 0, SkillName.Stealth.ToString());   
-            this.AddLabel(450, 440, 0, SkillName.Swords.ToString()); 
-            this.AddLabel(450, 465, 0, SkillName.Tactics.ToString()); 
+            this.AddLabel(450, 65, 0, GetSkillDisplayName(SkillName.Mining));
+            this.AddLabel(450, 90, 0, GetSkillDisplayName(SkillName.Musicianship));
+            this.AddLabel(450, 115, 0, GetSkillDisplayName(SkillName.Mysticism));
+            this.AddLabel(450, 140, 0, GetSkillDisplayName(SkillName.Necromancy));
+            this.AddLabel(450, 165, 0, GetSkillDisplayName(SkillName.Ninjitsu));
+            this.AddLabel(450, 190, 0, GetSkillDisplayName(SkillName.Parry));
+            this.AddLabel(450, 215, 0, GetSkillDisplayName(SkillName.Peacemaking));
+            this.AddLabel(450, 240, 0, GetSkillDisplayName(SkillName.Poisoning));
+            this.AddLabel(450, 265, 0, GetSkillDisplayName(SkillName.Provocation));
+            this.AddLabel(450, 290, 0, GetSkillDisplayName(SkillName.RemoveTrap));
+            this.AddLabel(450, 315, 0, GetSkillDisplayName(SkillName.Snooping));
+            this.AddLabel(450, 340, 0, GetSkillDisplayName(SkillName.Spellweaving));
+            this.AddLabel(450, 365, 0, GetSkillDisplayName(SkillName.SpiritSpeak));
+            this.AddLabel(450, 390, 0, GetSkillDisplayName(SkillName.Stealing));
+            this.AddLabel(450, 415, 0, GetSkillDisplayName(SkillName.Stealth));
+            this.AddLabel(450, 440, 0, GetSkillDisplayName(SkillName.Swords));
+            this.AddLabel(450, 465, 0, GetSkillDisplayName(SkillName.Tactics));
 
             //**********************************************************
 
@@ -159,13 +225,13 @@ namespace Server
             this.AddCheck(610, 165, 210, 211, false, (int)SkillName.Tracking);
             this.AddCheck(610, 190, 210, 211, false, (int)SkillName.Veterinary);
             this.AddCheck(610, 215, 210, 211, false, (int)SkillName.Wrestling); 
-            this.AddLabel(635, 65, 0, SkillName.Tailoring.ToString());
-            this.AddLabel(635, 90, 0, SkillName.TasteID.ToString());
-            this.AddLabel(635, 115, 0, SkillName.Throwing.ToString());
-            this.AddLabel(635, 140, 0, SkillName.Tinkering.ToString());     
-            this.AddLabel(635, 165, 0, SkillName.Tracking.ToString());         
-            this.AddLabel(635, 190, 0, SkillName.Veterinary.ToString());   
-            this.AddLabel(635, 215, 0, SkillName.Wrestling.ToString());
+            this.AddLabel(635, 65, 0, GetSkillDisplayName(SkillName.Tailoring));
+            this.AddLabel(635, 90, 0, GetSkillDisplayName(SkillName.TasteID));
+            this.AddLabel(635, 115, 0, GetSkillDisplayName(SkillName.Throwing));
+            this.AddLabel(635, 140, 0, GetSkillDisplayName(SkillName.Tinkering));
+            this.AddLabel(635, 165, 0, GetSkillDisplayName(SkillName.Tracking));
+            this.AddLabel(635, 190, 0, GetSkillDisplayName(SkillName.Veterinary));
+            this.AddLabel(635, 215, 0, GetSkillDisplayName(SkillName.Wrestling));
             
             //**********************************************************
         }
@@ -195,7 +261,7 @@ namespace Server
                         else if (info.Switches.Length > switches)
                         {
                             m.SendGump(new SkilllimPickGump(m_SkillBall));
-                            m.SendMessage(0, "Please get rid of {0} skills, you have exceeded the 9 skills that are allowed.", info.Switches.Length - switches);
+                            m.SendMessage(0, "Please get rid of {0} skills, you have exceeded the 7 skills that are allowed.", info.Switches.Length - switches);
                             break;
 
                         }
@@ -229,7 +295,7 @@ namespace Server
         {
             Weight = 1.0;
             Hue = 1161;
-            Name = "Quick Start 9x Skill Booster";
+            Name = "Quick Start 7x Skill Booster";
             Movable =  true;
         }
         public override void OnDoubleClick( Mobile m )
