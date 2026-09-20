@@ -1,6 +1,7 @@
 #region References
 using Server.ContextMenus;
 using Server.Engines.PartySystem;
+using Server.Engines.EnvironmentalHazards;
 using Server.Engines.Quests.Doom;
 using Server.Engines.VvV;
 using Server.Items;
@@ -4507,6 +4508,7 @@ namespace Server.Mobiles
 
         protected override void OnMapChange(Map oldMap)
         {
+            EnvironmentalHazardSystem.Check(this);
             CheckAIActive();
 
             base.OnMapChange(oldMap);
@@ -4514,6 +4516,7 @@ namespace Server.Mobiles
 
         protected override void OnLocationChange(Point3D oldLocation)
         {
+            EnvironmentalHazardSystem.Check(this);
             CheckAIActive();
 
             base.OnLocationChange(oldLocation);

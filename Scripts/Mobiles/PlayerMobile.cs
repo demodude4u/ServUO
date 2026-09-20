@@ -6,6 +6,7 @@ using Server.Engines.CannedEvil;
 using Server.Engines.CityLoyalty;
 using Server.Engines.Craft;
 using Server.Engines.Help;
+using Server.Engines.EnvironmentalHazards;
 using Server.Engines.PartySystem;
 using Server.Engines.Points;
 using Server.Engines.Quests;
@@ -3444,6 +3445,8 @@ namespace Server.Mobiles
 
         protected override void OnLocationChange(Point3D oldLocation)
         {
+            EnvironmentalHazardSystem.Check(this);
+
             CheckLightLevels(false);
 
             DesignContext context = m_DesignContext;
@@ -3504,6 +3507,7 @@ namespace Server.Mobiles
 
         protected override void OnMapChange(Map oldMap)
         {
+            EnvironmentalHazardSystem.Check(this);
             ViceVsVirtueSystem.OnMapChange(this);
 
             if (NetState != null && NetState.IsEnhancedClient)
