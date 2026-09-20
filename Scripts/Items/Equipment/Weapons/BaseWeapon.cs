@@ -2,6 +2,7 @@
 using Server.ContextMenus;
 using Server.Engines.Craft;
 using Server.Mobiles;
+using Server.RacialTraits;
 using Server.Network;
 using Server.Services.Virtues;
 using Server.Spells;
@@ -2426,6 +2427,11 @@ namespace Server.Items
             if (a != null)
             {
                 a.OnHit(attacker, defender, damage);
+            }
+
+            if (damageGiven > 0)
+            {
+                SavageStrikes.TryProc(attacker, defender, this, damageGiven);
             }
 
             ForceOfNature.OnHit(attacker, defender);

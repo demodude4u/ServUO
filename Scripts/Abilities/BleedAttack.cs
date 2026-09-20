@@ -23,6 +23,31 @@ namespace Server.Items
             return m_BleedTable.ContainsKey(m);
         }
 
+        public static bool CanBeginBleed(Mobile defender)
+        {
+            if (defender == null || !defender.Alive || defender.Deleted)
+            {
+                return false;
+            }
+
+            TransformContext context = TransformationSpellHelper.GetContext(defender);
+
+            return !((context != null && (context.Type == typeof(LichFormSpell) || context.Type == typeof(WraithFormSpell))) ||
+                (defender is BaseCreature && ((BaseCreature)defender).BleedImmune) ||
+                Spells.Mysticism.StoneFormSpell.CheckImmunity(defender));
+        }
+
+        public static bool TryBeginBleed(Mobile defender, Mobile attacker)
+        {
+            if (!CanBeginBleed(defender) || IsBleeding(defender))
+            {
+                return false;
+            }
+
+            BeginBleed(defender, attacker);
+            return true;
+        }
+
         public static void BeginBleed(Mobile m, Mobile from, bool splintering = false)
         {
             BleedTimer timer = null;
@@ -120,10 +145,7 @@ namespace Server.Items
             ClearCurrentAbility(attacker);
 
             // Necromancers under Lich or Wraith Form are immune to Bleed Attacks.
-            TransformContext context = TransformationSpellHelper.GetContext(defender);
-
-            if ((context != null && (context.Type == typeof(LichFormSpell) || context.Type == typeof(WraithFormSpell))) ||
-                (defender is BaseCreature && ((BaseCreature)defender).BleedImmune) || Spells.Mysticism.StoneFormSpell.CheckImmunity(defender))
+            if (!CanBeginBleed(defender))
             {
                 attacker.SendLocalizedMessage(1062052); // Your target is not affected by the bleed attack!
                 return;
