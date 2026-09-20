@@ -72,6 +72,7 @@ namespace Server.Commands
             Register("ReplaceBankers", AccessLevel.Administrator, ReplaceBankers_OnCommand);
 
             Register("SpeedBoost", AccessLevel.Counselor, SpeedBoost_OnCommand);
+            Register("RememberStaffPreferences", AccessLevel.Counselor, RememberStaffPreferences_OnCommand);
         }
 
         public static void Register(string command, AccessLevel access, CommandEventHandler handler)
@@ -523,21 +524,50 @@ namespace Server.Commands
 
             if (e.Length <= 1)
             {
-                if (e.Length == 1 && !e.GetBoolean(0))
+                bool enabled = e.Length == 0 || e.GetBoolean(0);
+
+                if (from is PlayerMobile player)
                 {
-                    from.Send(SpeedControl.Disable);
-                    from.SendMessage("Speed boost has been disabled.");
+                    player.SetStaffSpeedBoost(enabled, true);
                 }
                 else
                 {
-                    from.Send(SpeedControl.MountSpeed);
-                    from.SendMessage("Speed boost has been enabled.");
+                    from.Send(enabled ? SpeedControl.MountSpeed : SpeedControl.Disable);
+                    from.SendMessage(enabled ? "Speed boost has been enabled." : "Speed boost has been disabled.");
                 }
             }
             else
             {
                 from.SendMessage("Format: SpeedBoost [true|false]");
             }
+        }
+
+        [Usage("RememberStaffPreferences [true|false]")]
+        [Description("Controls whether hidden and speed boost preferences are restored at login.")]
+        private static void RememberStaffPreferences_OnCommand(CommandEventArgs e)
+        {
+            if (!(e.Mobile is PlayerMobile player))
+            {
+                e.Mobile.SendMessage("This command can only be used by player characters.");
+                return;
+            }
+
+            if (e.Length == 0)
+            {
+                player.SendMessage("Remember staff preferences is currently {0}.",
+                    player.RememberStaffPreferences ? "enabled" : "disabled");
+                return;
+            }
+
+            if (e.Length != 1)
+            {
+                player.SendMessage("Format: RememberStaffPreferences [true|false]");
+                return;
+            }
+
+            player.RememberStaffPreferences = e.GetBoolean(0);
+            player.SendMessage("Remember staff preferences has been {0}.",
+                player.RememberStaffPreferences ? "enabled" : "disabled");
         }
 
         private static void PlaySound(Mobile m, int index, bool toAll)

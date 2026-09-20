@@ -987,6 +987,12 @@ namespace Server.Items
 
         public override bool CanEquip(Mobile m)
         {
+            if (m.Race == Race.Orc)
+            {
+                m.SendMessage("as an orc, you have no need to disguise yourself as your own kin!");
+                return false;
+            }
+
             if (!base.CanEquip(m))
                 return false;
 

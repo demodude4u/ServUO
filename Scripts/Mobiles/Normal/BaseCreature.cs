@@ -1185,6 +1185,8 @@ namespace Server.Mobiles
         // Tribe Opposition (Replaces Opposition Group
         public virtual TribeType Tribe => TribeType.None; // What opposition list am I in?
 
+        public virtual bool UsesOrcRacialRelations => Tribe == TribeType.Orc && !Controlled && !Summoned;
+
         public virtual bool IsTribeEnemy(Mobile m)
         {
             // Target must be BaseCreature
@@ -1278,6 +1280,11 @@ namespace Server.Mobiles
                 {
                     return false;
                 }
+            }
+
+            if (UsesOrcRacialRelations && OrcRelations.IsFriendlyToOrcs(m))
+            {
+                return false;
             }
 
             if (Tribe != TribeType.None && IsTribeEnemy(m))
@@ -4139,6 +4146,15 @@ namespace Server.Mobiles
 
         public override void AggressiveAction(Mobile aggressor, bool criminal)
         {
+            BaseCreature aggressiveCreature = aggressor as BaseCreature;
+
+            // Controlled and summoned creatures are attributed below to their player master.
+            // Register only that recursive player call so one pet action produces one refresh/message.
+            if (aggressiveCreature == null || aggressiveCreature.GetMaster() == null)
+            {
+                OrcRelations.RegisterHostileAction(this, aggressor);
+            }
+
             if (ControlMaster != null && ControlMaster != aggressor)
             {
                 var master = ControlMaster;

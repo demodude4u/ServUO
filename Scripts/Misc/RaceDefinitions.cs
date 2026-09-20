@@ -480,7 +480,7 @@ namespace Server.Misc
         private class Orc : Race
         {
             public Orc(int raceID, int raceIndex)
-                : base(raceID, raceIndex, "Orc", "Orcs", 0x11, 0x12, 0x11, 0x12)
+                : base(raceID, raceIndex, "Orc", "Orcs", 400, 401, 402, 403)
             {
             }
 
@@ -516,7 +516,7 @@ namespace Server.Misc
 
             public override bool ValidateEquipment(Item item)
             {
-                return true;
+                return !(item is OrcishKinMask);
             }
 
             public override int ClipSkinHue(int hue)

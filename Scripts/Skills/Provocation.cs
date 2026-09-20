@@ -1,6 +1,7 @@
 #region References
 using Server.Engines.Quests;
 using Server.Items;
+using Server.Misc;
 using Server.Mobiles;
 using Server.Targeting;
 using System;
@@ -161,6 +162,13 @@ namespace Server.SkillHandlers
                                     m_Instrument.PlayInstrumentWell(from);
                                     m_Instrument.ConsumeUse(from);
                                     m_Creature.Provoke(from, target, true);
+
+                                    if (from is PlayerMobile player && player.Race == Race.Orc &&
+                                        (m_Creature.UsesOrcRacialRelations ||
+                                         (creature != null && creature.UsesOrcRacialRelations)))
+                                    {
+                                        player.MarkEnemyOfOrcs();
+                                    }
 
                                     #region Bard Mastery Quest
                                     if (questTargets)

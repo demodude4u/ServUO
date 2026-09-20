@@ -1099,7 +1099,174 @@ namespace Server.Mobiles
             UpdateResistances();
         }
 
-		public override int MaxWeight
+        private DateTime m_EnemyOfOrcsUntil;
+        private bool m_RememberStaffPreferences;
+        private bool m_StaffHiddenPreference;
+        private bool m_StaffSpeedBoostPreference;
+
+        [CommandProperty(AccessLevel.Administrator)]
+        public bool RememberStaffPreferences
+        {
+            get => m_RememberStaffPreferences;
+            set
+            {
+                m_RememberStaffPreferences = value;
+
+                if (value && AccessLevel >= AccessLevel.Counselor)
+                {
+                    m_StaffHiddenPreference = Hidden;
+                }
+            }
+        }
+
+        [CommandProperty(AccessLevel.Administrator)]
+        public bool StaffHiddenPreference => m_StaffHiddenPreference;
+
+        [CommandProperty(AccessLevel.Administrator)]
+        public bool StaffSpeedBoostPreference => m_StaffSpeedBoostPreference;
+
+        public void SetStaffSpeedBoost(bool enabled, bool message)
+        {
+            m_StaffSpeedBoostPreference = enabled;
+
+            if (NetState != null)
+            {
+                Send(enabled ? SpeedControl.MountSpeed : SpeedControl.Disable);
+            }
+
+            if (message)
+            {
+                SendMessage(enabled ? "Speed boost has been enabled." : "Speed boost has been disabled.");
+            }
+        }
+
+        private void RestoreStaffPreferences()
+        {
+            if (!m_RememberStaffPreferences || AccessLevel < AccessLevel.Counselor)
+            {
+                return;
+            }
+
+            Hidden = m_StaffHiddenPreference;
+            SetStaffSpeedBoost(m_StaffSpeedBoostPreference, false);
+        }
+
+        [CommandProperty(AccessLevel.GameMaster, AccessLevel.Administrator)]
+        public bool EnemyOfOrcs
+        {
+            get => Race == Race.Orc && m_EnemyOfOrcsUntil > DateTime.UtcNow;
+            set
+            {
+                if (value)
+                {
+                    SetEnemyOfOrcsDuration(OrcRelations.EnemyDuration, true);
+                }
+                else
+                {
+                    ClearEnemyOfOrcs(true);
+                }
+            }
+        }
+
+        [CommandProperty(AccessLevel.GameMaster, AccessLevel.Administrator)]
+        public TimeSpan EnemyOfOrcsTimeRemaining
+        {
+            get
+            {
+                TimeSpan remaining = m_EnemyOfOrcsUntil - DateTime.UtcNow;
+
+                return remaining > TimeSpan.Zero ? remaining : TimeSpan.Zero;
+            }
+            set => SetEnemyOfOrcsDuration(value, true);
+        }
+
+        public void MarkEnemyOfOrcs()
+        {
+            bool refresh = EnemyOfOrcs;
+
+            SetEnemyOfOrcsDuration(OrcRelations.EnemyDuration, false);
+
+            SendMessage(refresh
+                ? "Your hostility toward the Orcs has renewed their enmity toward you."
+                : "Your actions have made you an enemy of the Orcs.");
+        }
+
+        public void SetEnemyOfOrcsDuration(TimeSpan duration, bool message)
+        {
+            if (duration <= TimeSpan.Zero)
+            {
+                ClearEnemyOfOrcs(message);
+                return;
+            }
+
+            DateTime now = DateTime.UtcNow;
+            TimeSpan maximum = DateTime.MaxValue - now;
+            DateTime expiration = now + (duration < maximum ? duration : maximum);
+
+            m_EnemyOfOrcsUntil = expiration;
+            ScheduleEnemyOfOrcsExpiration(expiration);
+            ScheduleEnemyOfOrcsTooltipUpdate(expiration);
+            InvalidateProperties();
+
+            if (message)
+            {
+                SendMessage("Your Enemy of the Orcs duration has been set to {0}.", EnemyOfOrcsTimeRemaining);
+            }
+        }
+
+        public void ClearEnemyOfOrcs(bool message)
+        {
+            bool wasActive = m_EnemyOfOrcsUntil > DateTime.UtcNow;
+
+            m_EnemyOfOrcsUntil = DateTime.MinValue;
+            InvalidateProperties();
+
+            if (message)
+            {
+                SendMessage(wasActive
+                    ? "The Orcs no longer consider you their enemy."
+                    : "You are not currently an enemy of the Orcs.");
+            }
+        }
+
+        private void ScheduleEnemyOfOrcsExpiration(DateTime expiration)
+        {
+            TimeSpan delay = expiration - DateTime.UtcNow;
+
+            if (delay <= TimeSpan.Zero)
+            {
+                m_EnemyOfOrcsUntil = DateTime.MinValue;
+                return;
+            }
+
+            Timer.DelayCall(delay, () =>
+            {
+                if (!Deleted && m_EnemyOfOrcsUntil == expiration && DateTime.UtcNow >= expiration)
+                {
+                    m_EnemyOfOrcsUntil = DateTime.MinValue;
+                    InvalidateProperties();
+
+                    if (NetState != null)
+                    {
+                        SendMessage("The Orcs no longer consider you their enemy.");
+                    }
+                }
+            });
+        }
+
+        private void ScheduleEnemyOfOrcsTooltipUpdate(DateTime expiration)
+        {
+            Timer.DelayCall(TimeSpan.FromSeconds(1.0), () =>
+            {
+                if (!Deleted && m_EnemyOfOrcsUntil == expiration && DateTime.UtcNow < expiration)
+                {
+                    InvalidateProperties();
+                    ScheduleEnemyOfOrcsTooltipUpdate(expiration);
+                }
+            });
+        }
+
+		private int NormalMaxWeight
 		{
 			get
 			{
@@ -1108,10 +1275,35 @@ namespace Server.Mobiles
 				if (Race == Race.Human)
 				{
 					baseCarryWeight += Config.Get("CarryWeight.HumanBonusToCarryWeight", 60);
-
 				}
 
 				return baseCarryWeight + (int)(Config.Get("CarryWeight.CarryWeightPerStr", 3.5) * Str);
+			}
+		}
+
+		[CommandProperty(AccessLevel.Administrator, true)]
+		public int BrutishStrengthCarryBonus
+		{
+			get
+			{
+				if (Race != Race.Orc)
+				{
+					return 0;
+				}
+
+				return (int)(NormalMaxWeight * (Config.Get("CarryWeight.OrcCarryWeightBonusPercent", 25) / 100.0));
+			}
+		}
+
+		public override int MaxWeight
+		{
+			get
+			{
+				int normalMaxWeight = NormalMaxWeight;
+
+				// Brutish Strength modifies personal encumbrance, not backpack or container capacity.
+				// The unchanged backpack weight limit is intentional.
+				return normalMaxWeight + BrutishStrengthCarryBonus;
 			}
 		}
 
@@ -1272,6 +1464,7 @@ namespace Server.Mobiles
 
             if (pm != null)
             {
+                pm.RestoreStaffPreferences();
                 pm.ClaimAutoStabledPets();
                 pm.ValidateEquipment();
 
@@ -1548,6 +1741,11 @@ namespace Server.Mobiles
 
             if (pm == null)
                 return;
+
+            if (pm.m_RememberStaffPreferences && pm.AccessLevel >= AccessLevel.Counselor)
+            {
+                pm.m_StaffHiddenPreference = pm.Hidden;
+            }
 
             #region Scroll of Alacrity
             if (pm.AcceleratedStart > DateTime.UtcNow)
@@ -4263,6 +4461,14 @@ namespace Server.Mobiles
 
             switch (version)
             {
+                case 44: // Persisted staff login preferences
+                    m_RememberStaffPreferences = reader.ReadBool();
+                    m_StaffHiddenPreference = reader.ReadBool();
+                    m_StaffSpeedBoostPreference = reader.ReadBool();
+                    goto case 43;
+                case 43: // Enemy of the Orcs racial status
+                    m_EnemyOfOrcsUntil = reader.ReadDateTime();
+                    goto case 42;
                 case 42: // upgraded quest serialization
                 case 41: // removed PeacedUntil - no need to serialize this
                 case 40: // Version 40, moved gauntlet points, virtua artys and TOT convert to PointsSystem
@@ -4704,6 +4910,16 @@ namespace Server.Mobiles
                 },
                 _BlessedItem);
             }
+
+            if (m_EnemyOfOrcsUntil > DateTime.UtcNow)
+            {
+                ScheduleEnemyOfOrcsExpiration(m_EnemyOfOrcsUntil);
+                ScheduleEnemyOfOrcsTooltipUpdate(m_EnemyOfOrcsUntil);
+            }
+            else
+            {
+                m_EnemyOfOrcsUntil = DateTime.MinValue;
+            }
         }
 
         public override void Serialize(GenericWriter writer)
@@ -4731,7 +4947,13 @@ namespace Server.Mobiles
 
             base.Serialize(writer);
 
-            writer.Write(42); // version
+            writer.Write(44); // version
+
+            writer.Write(m_RememberStaffPreferences);
+            writer.Write(m_StaffHiddenPreference);
+            writer.Write(m_StaffSpeedBoostPreference);
+
+            writer.Write(m_EnemyOfOrcsUntil);
 
             writer.Write(NextGemOfSalvationUse);
 
@@ -5026,6 +5248,15 @@ namespace Server.Mobiles
         public override void GetProperties(ObjectPropertyList list)
         {
             base.GetProperties(list);
+
+            if (EnemyOfOrcs)
+            {
+                TimeSpan remaining = EnemyOfOrcsTimeRemaining;
+                int totalMinutes = Math.Max(0, (int)remaining.TotalMinutes);
+                int seconds = Math.Max(0, remaining.Seconds);
+
+                list.Add("Enemy of the Orcs: {0:D2}:{1:D2} remaining", totalMinutes, seconds);
+            }
 
             Engines.JollyRoger.JollyRogerData.DisplayTitle(this, list);
 

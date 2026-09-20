@@ -9,6 +9,8 @@ namespace Server.Mobiles
     [CorpseName("an orcish corpse")]
     public class OrcEngineer : Orc
     {
+        public override bool UsesOrcRacialRelations => false;
+
         public static List<OrcEngineer> Instances { get; set; }
 
         [Constructable]

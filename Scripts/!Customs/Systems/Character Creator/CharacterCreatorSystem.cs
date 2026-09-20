@@ -17,7 +17,60 @@ namespace Server.CharacterCreator
             EventSink.Login += new LoginEventHandler(EventSink_Login);
             EventSink.ServerList += EventSink_ServerList;
             CommandSystem.Register("CCCheat", AccessLevel.GameMaster, CharacterCreatorCheat_OnCommand);
+            CommandSystem.Register("ToggleCharacterCreator", AccessLevel.GameMaster, ToggleCharacterCreator_OnCommand);
             
+        }
+
+        [Usage("ToggleCharacterCreator")]
+        [Description("Opens or closes the custom Character Creator for staff testing.")]
+        public static void ToggleCharacterCreator_OnCommand(CommandEventArgs e)
+        {
+            ToggleCharacterCreator(e.Mobile);
+        }
+
+        public static void ToggleCharacterCreator(Mobile from)
+        {
+            if (from == null)
+            {
+                return;
+            }
+
+            if (HasCharacterCreatorGump(from))
+            {
+                CloseCharacterCreatorGumps(from);
+                from.SendMessage("Character Creator testing has been closed.");
+            }
+            else
+            {
+                from.SendGump(new CharacterCreatorGump(from));
+                from.SendMessage("Character Creator testing has been opened.");
+            }
+        }
+
+        private static bool HasCharacterCreatorGump(Mobile from)
+        {
+            return from.HasGump(typeof(CharacterCreatorGump)) ||
+                   from.HasGump(typeof(CharacterCreatorHairGump)) ||
+                   from.HasGump(typeof(CharacterCreatorFacialHairGump)) ||
+                   from.HasGump(typeof(CharacterCreatorSkillsGump)) ||
+                   from.HasGump(typeof(CharacterCreatorSkillDisplayGump)) ||
+                   from.HasGump(typeof(CharacterCreatorAdvancedSkillsGump)) ||
+                   from.HasGump(typeof(CharacterCreatorEquipmentGump)) ||
+                   from.HasGump(typeof(CharacterCreatorHumbleGump)) ||
+                   from.HasGump(typeof(CharacterCreatorMapGump));
+        }
+
+        private static void CloseCharacterCreatorGumps(Mobile from)
+        {
+            from.CloseGump(typeof(CharacterCreatorGump));
+            from.CloseGump(typeof(CharacterCreatorHairGump));
+            from.CloseGump(typeof(CharacterCreatorFacialHairGump));
+            from.CloseGump(typeof(CharacterCreatorSkillsGump));
+            from.CloseGump(typeof(CharacterCreatorSkillDisplayGump));
+            from.CloseGump(typeof(CharacterCreatorAdvancedSkillsGump));
+            from.CloseGump(typeof(CharacterCreatorEquipmentGump));
+            from.CloseGump(typeof(CharacterCreatorHumbleGump));
+            from.CloseGump(typeof(CharacterCreatorMapGump));
         }
 
         [Usage("CCCheat NAME")]

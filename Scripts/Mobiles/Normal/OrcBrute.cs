@@ -1,4 +1,5 @@
 using Server.Items;
+using Server.Misc;
 
 namespace Server.Mobiles
 {
@@ -65,7 +66,7 @@ namespace Server.Mobiles
 
         public override bool IsEnemy(Mobile m)
         {
-            if (m.Player && m.FindItemOnLayer(Layer.Helm) is OrcishKinMask)
+            if (m.Player && m.FindItemOnLayer(Layer.Helm) is OrcishKinMask && !OrcRelations.IsEnemyOfOrcs(m))
                 return false;
 
             return base.IsEnemy(m);

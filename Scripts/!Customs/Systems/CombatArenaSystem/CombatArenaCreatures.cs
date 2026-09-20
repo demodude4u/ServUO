@@ -807,6 +807,7 @@ namespace Server.Mobiles
 
     public class ArenaOrc : Orc, IArenaCreature
     {
+        public override bool UsesOrcRacialRelations => false;
         public override bool CanBeParagon { get { return false; } }
         public override bool AllowMaleTamer { get { return false; } }
         public override bool AllowFemaleTamer { get { return false; } }
@@ -826,6 +827,7 @@ namespace Server.Mobiles
 
     public class ArenaOrcBomber : OrcBomber, IArenaCreature
     {
+        public override bool UsesOrcRacialRelations => false;
         public override bool CanBeParagon { get { return false; } }
         public override bool AllowMaleTamer { get { return false; } }
         public override bool AllowFemaleTamer { get { return false; } }
@@ -845,6 +847,7 @@ namespace Server.Mobiles
 
     public class ArenaOrcBrute : OrcBrute, IArenaCreature
     {
+        public override bool UsesOrcRacialRelations => false;
         public override bool CanBeParagon { get { return false; } }
         public override bool AllowMaleTamer { get { return false; } }
         public override bool AllowFemaleTamer { get { return false; } }
@@ -864,6 +867,7 @@ namespace Server.Mobiles
 
     public class ArenaOrcCaptain : OrcCaptain, IArenaCreature
     {
+        public override bool UsesOrcRacialRelations => false;
         public override bool CanBeParagon { get { return false; } }
         public override bool AllowMaleTamer { get { return false; } }
         public override bool AllowFemaleTamer { get { return false; } }
@@ -883,6 +887,7 @@ namespace Server.Mobiles
 
     public class ArenaOrcScout : OrcScout, IArenaCreature
     {
+        public override bool UsesOrcRacialRelations => false;
         public override bool CanBeParagon { get { return false; } }
         public override bool AllowMaleTamer { get { return false; } }
         public override bool AllowFemaleTamer { get { return false; } }
@@ -902,6 +907,7 @@ namespace Server.Mobiles
 
     public class ArenaOrcishLord : OrcishLord, IArenaCreature
     {
+        public override bool UsesOrcRacialRelations => false;
         public override bool CanBeParagon { get { return false; } }
         public override bool AllowMaleTamer { get { return false; } }
         public override bool AllowFemaleTamer { get { return false; } }
@@ -921,6 +927,7 @@ namespace Server.Mobiles
 
     public class ArenaOrcishMage : OrcishMage, IArenaCreature
     {
+        public override bool UsesOrcRacialRelations => false;
         public override bool CanBeParagon { get { return false; } }
         public override bool AllowMaleTamer { get { return false; } }
         public override bool AllowFemaleTamer { get { return false; } }
