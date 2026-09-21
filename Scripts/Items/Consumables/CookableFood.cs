@@ -60,8 +60,9 @@ namespace Server.Items
         }
     }
 
-    public class RawRibs : CookableFood
+    public class RawRibs : PrimitiveAppetiteRawFood
     {
+        protected override int AppetiteFillFactor => 2;
         [Constructable]
         public RawRibs()
             : this(1)
@@ -95,8 +96,9 @@ namespace Server.Items
         }
     }
 
-    public class RawDinoRibs : CookableFood
+    public class RawDinoRibs : PrimitiveAppetiteRawFood
     {
+        protected override int AppetiteFillFactor => 2;
         public override int LabelNumber => 1126045; // raw dino ribs
         public override double DefaultWeight => 0.1;
 
@@ -132,8 +134,9 @@ namespace Server.Items
         }
     }
 
-    public class RawSeaSerpentSteak : CookableFood
+    public class RawSeaSerpentSteak : PrimitiveAppetiteRawFood
     {
+        protected override int AppetiteFillFactor => 2;
         public override int LabelNumber => 1126041; // raw serpent steak
         public override double DefaultWeight => 0.1;
 
@@ -169,8 +172,9 @@ namespace Server.Items
         }
     }
 
-    public class RawLambLeg : CookableFood
+    public class RawLambLeg : PrimitiveAppetiteRawFood
     {
+        protected override int AppetiteFillFactor => 2;
         [Constructable]
         public RawLambLeg()
             : this(1)
@@ -203,8 +207,9 @@ namespace Server.Items
         }
     }
 
-    public class RawChickenLeg : CookableFood
+    public class RawChickenLeg : PrimitiveAppetiteRawFood
     {
+        protected override int AppetiteFillFactor => 2;
         [Constructable]
         public RawChickenLeg()
             : base(0x1607)
@@ -231,8 +236,9 @@ namespace Server.Items
         }
     }
 
-    public class RawBird : CookableFood
+    public class RawBird : PrimitiveAppetiteRawFood
     {
+        protected override int AppetiteFillFactor => 2;
         [Constructable]
         public RawBird()
             : this(1)
@@ -649,8 +655,9 @@ namespace Server.Items
         }
     }
     #region RawFishSteak
-    public class RawFishSteak : CookableFood, ICommodity
+    public class RawFishSteak : PrimitiveAppetiteRawFood, ICommodity
     {
+        protected override int AppetiteFillFactor => 2;
         public override double DefaultWeight => 0.1;
 
         [Constructable]
@@ -689,8 +696,9 @@ namespace Server.Items
     }
     #endregion RawFishSteak
     #region RawRotwormMeat
-    public class RawRotwormMeat : CookableFood
+    public class RawRotwormMeat : PrimitiveAppetiteRawFood
     {
+        protected override int AppetiteFillFactor => 2;
         [Constructable]
         public RawRotwormMeat()
             : this(1)

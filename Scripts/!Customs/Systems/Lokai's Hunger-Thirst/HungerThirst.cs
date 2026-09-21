@@ -39,32 +39,10 @@ namespace Server.Misc
 		
 		public static void CheckHunger(Mobile mobile)
 		{
-			string hunger = "";
-			if (mobile.Hunger == 0) hunger = "You are starving and will find it very hard to learn new skills!";
-			else if (mobile.Hunger < 5) hunger = "You are extremely hungry and will have trouble learning skills.";
-			else if (mobile.Hunger < 10) hunger = "You are very hungry and might have a bit of trouble with skills.";
-			else if (mobile.Hunger < 15) hunger = "You are hungry and a bit distracted.";
-			else if (mobile.Hunger > 95) hunger = "You are stuffed, but satisfied!";
-			if (mobile.Hunger < 15 || mobile.Hunger > 95) mobile.SendMessage(hunger);
-			
-			string thirst = "";
-			if (mobile.Thirst == 0) thirst = "You are dying of thirst and will find it very hard to learn new skills!";
-			else if (mobile.Thirst < 5) thirst = "You are extremely thirsty and will have trouble learning skills.";
-			else if (mobile.Thirst < 10) thirst = "You are very thirsty and might have a bit of trouble with skills.";
-			else if (mobile.Thirst < 15) thirst = "You are thirsty and a bit distracted.";
-			else if (mobile.Thirst > 95) thirst = "You can't drink another drop, but you are satisfied!";
-			if (mobile.Thirst < 15 || mobile.Thirst > 95) mobile.SendMessage(thirst);
 		}
 		
 		public static void CheckThirst(Mobile mobile)
 		{
-			string thirst = "";
-			if (mobile.Thirst == 0) thirst = "You are dying of thirst and will find it very hard to learn new skills!";
-			else if (mobile.Thirst < 5) thirst = "You are extremely thirsty and will have trouble learning skills.";
-			else if (mobile.Thirst < 10) thirst = "You are very thirsty and might have a bit of trouble with skills.";
-			else if (mobile.Thirst < 15) thirst = "You are thirsty and a bit distracted.";
-			else if (mobile.Thirst > 95) thirst = "You can't drink another drop, but you are satisfied!";
-			if (mobile.Thirst < 15 || mobile.Thirst > 95) mobile.SendMessage(thirst);
 		}
     }
 
@@ -164,10 +142,19 @@ namespace Server.Misc
 			AddHtml(85, 350, 170, 20, String.Format("<BASEFONT COLOR=#00FFFF>Thirst level: </BASEFONT>"), false, false);
             AddLabel(210, 350, from.Thirst < 15 ? RedHue : GreenHue, String.Format("{0} / 100", from.Thirst));
             AddLabel(85, 370, from.Thirst < 15 ? RedHue : GreenHue, thirst);
+
+            // Refresh the snapshot without returning to the context menu.
+            AddButton(35, 390, 4005, 4007, 1, GumpButtonType.Reply, 0);
+            AddLabel(65, 390, 1153, "Refresh");
         }
 
         public override void OnResponse(Network.NetState sender, RelayInfo info)
         {
+            if (info.ButtonID == 1 && m_GM != null && m_From != null && !m_GM.Deleted && !m_From.Deleted)
+            {
+                m_GM.CloseGump(typeof(HungerGump));
+                m_GM.SendGump(new HungerGump(m_GM, m_From));
+            }
         }
     }
 }

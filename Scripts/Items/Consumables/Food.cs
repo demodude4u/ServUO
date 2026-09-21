@@ -137,6 +137,9 @@ namespace Server.Items
         {
             base.AddNameProperty(list);
 
+            // Show the hunger restored by this food directly in its tooltip.
+            list.Add("Fill Factor: {0}", FillFactor);
+
             if (!string.IsNullOrEmpty(EngravedText))
             {
                 list.Add(1072305, Utility.FixHtml(EngravedText)); // Engraved: ~1_INSCRIPTION~
@@ -425,7 +428,7 @@ namespace Server.Items
         public FishSteak(int amount)
             : base(amount, 0x97B)
         {
-            FillFactor = 3;
+            FillFactor = 8;
         }
 
         public FishSteak(Serial serial)
@@ -473,7 +476,7 @@ namespace Server.Items
         {
             Name = "Charred Fish Steak";
             Hue = 0x3D0;
-            FillFactor = 1;
+            FillFactor = 4;
         }
 
         public CharredFishSteak(Serial serial)
@@ -702,7 +705,7 @@ namespace Server.Items
             : base(amount, 0x9B7)
         {
             Weight = 1.0;
-            FillFactor = 5;
+            FillFactor = 8;
         }
 
         public CookedBird(Serial serial)
@@ -743,7 +746,7 @@ namespace Server.Items
             Name = "Charred Cooked Bird";
             Hue = 0x3D0;
             Weight = 1.0;
-            FillFactor = 3;
+            FillFactor = 4;
         }
 
         public CharredCookedBird(Serial serial)
@@ -925,7 +928,7 @@ namespace Server.Items
             : base(amount, 0x9F2)
         {
             Weight = 1.0;
-            FillFactor = 5;
+            FillFactor = 8;
         }
 
         public Ribs(Serial serial)
@@ -966,7 +969,7 @@ namespace Server.Items
             Name = "charred cut of ribs";
             Hue = 0x3D0;
             Weight = 1.0;
-            FillFactor = 2;
+            FillFactor = 4;
         }
 
         public CharredRibs(Serial serial)
@@ -1375,7 +1378,7 @@ namespace Server.Items
             : base(amount, 0x160a)
         {
             Weight = 2.0;
-            FillFactor = 5;
+            FillFactor = 8;
         }
 
         public LambLeg(Serial serial)
@@ -1416,7 +1419,7 @@ namespace Server.Items
             Name = "Charred Leg of Lamb";
             Hue = 0x3D0;
             Weight = 2.0;
-            FillFactor = 2;
+            FillFactor = 4;
         }
 
         public CharredLambLeg(Serial serial)
@@ -1455,7 +1458,7 @@ namespace Server.Items
             : base(amount, 0x1608)
         {
             Weight = 1.0;
-            FillFactor = 4;
+            FillFactor = 8;
         }
 
         public ChickenLeg(Serial serial)
@@ -1497,7 +1500,7 @@ namespace Server.Items
             Name = "charred chicken leg";
             Hue = 0x3D0;
             Weight = 1.0;
-            FillFactor = 2;
+            FillFactor = 4;
         }
 
         public CharredChickenLeg(Serial serial)
@@ -2010,7 +2013,7 @@ namespace Server.Items
         public GrilledSerpentSteak()
             : base(1, 0xA422)
         {
-            FillFactor = 3;
+            FillFactor = 8;
             Stackable = false;
         }
 
@@ -2041,7 +2044,7 @@ namespace Server.Items
         public BBQDinoRibs()
             : base(1, 0xA426)
         {
-            FillFactor = 3;
+            FillFactor = 8;
             Stackable = false;
         }
 
