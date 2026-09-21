@@ -249,6 +249,11 @@ namespace Server.Gumps
 			Add(new GumpImage(x, y, gumpID, hue));
 		}
 
+		public void AddSecondRenaissanceImage(int x, int y, uint logicalID, int hue = 0)
+		{
+			Add(new GumpSecondRenaissanceImage(x, y, logicalID, hue));
+		}
+
 		public void AddImageTiled(int x, int y, int width, int height, int gumpID)
 		{
 			Add(new GumpImageTiled(x, y, width, height, gumpID));
