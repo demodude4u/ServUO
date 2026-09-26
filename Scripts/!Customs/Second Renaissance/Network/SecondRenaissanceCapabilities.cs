@@ -9,7 +9,8 @@ namespace Server.SecondRenaissance
     public enum SecondRenaissanceCapability : ulong
     {
         None = 0,
-        ExplicitGumpLayout = 1UL << 0
+        ExplicitGumpLayout = 1UL << 0,
+        ExplicitStaticArtwork = 1UL << 1
     }
 
     public sealed class SecondRenaissanceClientCapabilities
@@ -54,7 +55,8 @@ namespace Server.SecondRenaissance
         public const int CapabilityPayloadLength = sizeof(ulong);
 
         public const SecondRenaissanceCapability SupportedCapabilities =
-            SecondRenaissanceCapability.ExplicitGumpLayout;
+            SecondRenaissanceCapability.ExplicitGumpLayout
+            | SecondRenaissanceCapability.ExplicitStaticArtwork;
 
         private sealed class ConnectionCapabilities
         {
@@ -107,6 +109,11 @@ namespace Server.SecondRenaissance
             );
 
             _ByConnection.GetValue(state, _ => new ConnectionCapabilities()).Value = negotiated;
+
+            if ((supported & SecondRenaissanceCapability.ExplicitStaticArtwork) != 0)
+            {
+                SecondRenaissanceWorldAssets.Resynchronize(state);
+            }
         }
 
         internal static bool TryParse(

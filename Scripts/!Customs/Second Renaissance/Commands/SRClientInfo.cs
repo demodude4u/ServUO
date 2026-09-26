@@ -36,6 +36,9 @@ namespace Server.SecondRenaissance
             bool supportsExplicitGumpLayout = capabilities.Supports(
                 SecondRenaissanceCapability.ExplicitGumpLayout
             );
+            bool supportsExplicitStaticArtwork = capabilities.Supports(
+                SecondRenaissanceCapability.ExplicitStaticArtwork
+            );
 
             e.Mobile.SendMessage("Second Renaissance capabilities: negotiated.");
             e.Mobile.SendMessage("SR protocol version: {0}", capabilities.ProtocolVersion);
@@ -51,6 +54,10 @@ namespace Server.SecondRenaissance
             e.Mobile.SendMessage(
                 "ExplicitGumpLayout supported: {0}",
                 supportsExplicitGumpLayout ? "Yes" : "No"
+            );
+            e.Mobile.SendMessage(
+                "ExplicitStaticArtwork supported: {0}",
+                supportsExplicitStaticArtwork ? "Yes" : "No"
             );
         }
     }
