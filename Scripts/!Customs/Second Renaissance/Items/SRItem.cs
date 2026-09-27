@@ -45,6 +45,12 @@ namespace Server.SecondRenaissance
 
         public SecondRenaissanceAssetReference ArtworkReference => _ArtworkReference;
 
+        /// <summary>Resolves this item's explicit SR identity through the centralized WorldReady gate.</summary>
+        public bool TryGetWorldReadyMetadata(out SecondRenaissanceStaticMetadataView metadata)
+        {
+            return SecondRenaissanceMetadataConsumption.TryGetWorldReady(_ArtworkReference, out metadata);
+        }
+
         public override string DefaultName => $"Second Renaissance static {_ArtworkReference.LogicalId}";
 
         public override void SendInfoTo(NetState state, bool sendOplPacket)

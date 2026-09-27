@@ -10,7 +10,8 @@ namespace Server.SecondRenaissance
     {
         None = 0,
         ExplicitGumpLayout = 1UL << 0,
-        ExplicitStaticArtwork = 1UL << 1
+        ExplicitStaticArtwork = 1UL << 1,
+        MetadataNegotiation = 1UL << 2
     }
 
     public sealed class SecondRenaissanceClientCapabilities
@@ -56,7 +57,8 @@ namespace Server.SecondRenaissance
 
         public const SecondRenaissanceCapability SupportedCapabilities =
             SecondRenaissanceCapability.ExplicitGumpLayout
-            | SecondRenaissanceCapability.ExplicitStaticArtwork;
+            | SecondRenaissanceCapability.ExplicitStaticArtwork
+            | SecondRenaissanceCapability.MetadataNegotiation;
 
         private sealed class ConnectionCapabilities
         {
@@ -109,6 +111,11 @@ namespace Server.SecondRenaissance
             );
 
             _ByConnection.GetValue(state, _ => new ConnectionCapabilities()).Value = negotiated;
+
+            SecondRenaissanceMetadataNegotiation.OnCapabilities(
+                state,
+                (supported & SecondRenaissanceCapability.MetadataNegotiation) != 0
+            );
 
             if ((supported & SecondRenaissanceCapability.ExplicitStaticArtwork) != 0)
             {

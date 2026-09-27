@@ -39,6 +39,9 @@ namespace Server.SecondRenaissance
             bool supportsExplicitStaticArtwork = capabilities.Supports(
                 SecondRenaissanceCapability.ExplicitStaticArtwork
             );
+            bool supportsMetadataNegotiation = capabilities.Supports(
+                SecondRenaissanceCapability.MetadataNegotiation
+            );
 
             e.Mobile.SendMessage("Second Renaissance capabilities: negotiated.");
             e.Mobile.SendMessage("SR protocol version: {0}", capabilities.ProtocolVersion);
@@ -59,6 +62,9 @@ namespace Server.SecondRenaissance
                 "ExplicitStaticArtwork supported: {0}",
                 supportsExplicitStaticArtwork ? "Yes" : "No"
             );
+            e.Mobile.SendMessage("MetadataNegotiation supported: {0}", supportsMetadataNegotiation ? "Yes" : "No");
+            SecondRenaissanceMetadataSession metadata = SecondRenaissanceMetadataNegotiation.GetSession(state);
+            e.Mobile.SendMessage("Metadata compatibility: {0}", metadata.Compatibility);
         }
     }
 }
