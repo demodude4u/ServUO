@@ -1,6 +1,7 @@
 #region References
 using Server.Items;
 using Server.Mobiles;
+using Server.SecondRenaissance;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,11 @@ namespace Server.Movement
 
         private static bool IsOk(Mobile m, Item item, int ourZ, int ourTop, bool ignoreDoors, bool ignoreSpellFields)
         {
+            if (SecondRenaissanceMovementSemantics.TryGetImpassableCollision(item, out int srCollisionHeight))
+            {
+                return item.Z + srCollisionHeight <= ourZ || ourTop <= item.Z;
+            }
+
             int itemID = item.ItemID & TileData.MaxItemValue;
             ItemData itemData = TileData.ItemTable[itemID];
 
@@ -493,12 +499,14 @@ namespace Server.Movement
                 return false;
             }
 
-            if (ignoreMovableImpassables && item.Movable && item.ItemData.Impassable)
+            bool srImpassable = SecondRenaissanceMovementSemantics.TryGetImpassableCollision(item, out _);
+
+            if (ignoreMovableImpassables && item.Movable && (srImpassable || item.ItemData.Impassable))
             {
                 return false;
             }
 
-            if ((item.ItemData.Flags & reqFlags) == 0)
+            if (!srImpassable && (item.ItemData.Flags & reqFlags) == 0)
             {
                 return false;
             }

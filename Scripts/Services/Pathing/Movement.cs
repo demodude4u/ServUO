@@ -1,5 +1,6 @@
 using Server.Items;
 using Server.Mobiles;
+using Server.SecondRenaissance;
 using System;
 using System.Collections.Generic;
 
@@ -54,6 +55,15 @@ namespace Server.Movement
             for (int i = 0; i < items.Count; ++i)
             {
                 Item item = items[i];
+
+                if (SecondRenaissanceMovementSemantics.TryGetImpassableCollision(item, out int srCollisionHeight))
+                {
+                    int srTop = item.Z + srCollisionHeight;
+                    if (srTop > ourZ && ourTop > item.Z)
+                        return false;
+                    continue;
+                }
+
                 int itemID = item.ItemID & TileData.MaxItemValue;
                 ItemData itemData = TileData.ItemTable[itemID];
                 TileFlag flags = itemData.Flags;
@@ -105,6 +115,17 @@ namespace Server.Movement
             new List<Mobile>(), new List<Mobile>(),
             new List<Mobile>(),
         };
+
+        private static bool IsMovementRelevant(Item item, TileFlag reqFlags, bool ignoreMovableImpassables)
+        {
+            bool srImpassable = SecondRenaissanceMovementSemantics.TryGetImpassableCollision(item, out _);
+            bool officialRelevant = (item.ItemData.Flags & reqFlags) != 0;
+
+            if (ignoreMovableImpassables && item.Movable && (srImpassable || officialRelevant))
+                return false;
+
+            return srImpassable || officialRelevant;
+        }
 
         private readonly List<Sector> m_Sectors = new List<Sector>();
 
@@ -401,10 +422,7 @@ namespace Server.Movement
                     {
                         Item item = sector.Items[j];
 
-                        if (ignoreMovableImpassables && item.Movable && (item.ItemData.Flags & ImpassableSurface) != 0)
-                            continue;
-
-                        if ((item.ItemData.Flags & reqFlags) == 0)
+                        if (!IsMovementRelevant(item, reqFlags, ignoreMovableImpassables))
                             continue;
 
                         if (sector == sectorStart && item.AtWorldPoint(xStart, yStart) && !(item is BaseMulti) && item.ItemID <= TileData.MaxItemValue)
@@ -447,10 +465,7 @@ namespace Server.Movement
                     {
                         Item item = sectorStart.Items[i];
 
-                        if (ignoreMovableImpassables && item.Movable && (item.ItemData.Flags & ImpassableSurface) != 0)
-                            continue;
-
-                        if ((item.ItemData.Flags & reqFlags) == 0)
+                        if (!IsMovementRelevant(item, reqFlags, ignoreMovableImpassables))
                             continue;
 
                         if (item.AtWorldPoint(xStart, yStart) && !(item is BaseMulti) && item.ItemID <= TileData.MaxItemValue)
@@ -465,10 +480,7 @@ namespace Server.Movement
                     {
                         Item item = sectorForward.Items[i];
 
-                        if (ignoreMovableImpassables && item.Movable && (item.ItemData.Flags & ImpassableSurface) != 0)
-                            continue;
-
-                        if ((item.ItemData.Flags & reqFlags) == 0)
+                        if (!IsMovementRelevant(item, reqFlags, ignoreMovableImpassables))
                             continue;
 
                         if (item.AtWorldPoint(xForward, yForward) && !(item is BaseMulti) && item.ItemID <= TileData.MaxItemValue)
@@ -479,10 +491,7 @@ namespace Server.Movement
                     {
                         Item item = sectorStart.Items[i];
 
-                        if (ignoreMovableImpassables && item.Movable && (item.ItemData.Flags & ImpassableSurface) != 0)
-                            continue;
-
-                        if ((item.ItemData.Flags & reqFlags) == 0)
+                        if (!IsMovementRelevant(item, reqFlags, ignoreMovableImpassables))
                             continue;
 
                         if (item.AtWorldPoint(xStart, yStart) && !(item is BaseMulti) && item.ItemID <= TileData.MaxItemValue)

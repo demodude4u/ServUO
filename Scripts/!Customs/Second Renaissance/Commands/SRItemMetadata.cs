@@ -44,7 +44,9 @@ namespace Server.SecondRenaissance
                 from.SendMessage("Record Found: {0}", found ? "Yes" : "No");
                 from.SendMessage("Readiness: {0}", found ? raw.Readiness.ToString() : "Missing");
                 from.SendMessage("WorldReady: {0}", eligible ? "Yes" : "No");
-                from.SendMessage("Applied Fields: None (Stage 6 binding only)");
+                from.SendMessage("Metadata Impassable: {0}", found && (raw.Flags & SecondRenaissanceStaticMetadataFlags.Impassable) != 0 ? "Yes" : "No");
+                from.SendMessage("Metadata Collision Height: {0}", found ? raw.CollisionHeight.ToString() : "(none)");
+                from.SendMessage("Applied Fields: {0}", SecondRenaissanceMovementSemantics.TryGetImpassableCollision(item, out _) ? "Impassable" : "None");
             }
         }
     }
