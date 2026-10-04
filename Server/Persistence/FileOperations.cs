@@ -52,14 +52,12 @@ namespace Server
 				options |= FileOptions.Asynchronous;
 			}
 
-			if (unbuffered)
-			{
-				options |= NoBuffering;
-			}
-			else
+			if (!unbuffered || Core.Unix)
 			{
 				return new FileStream(path, mode, access, share, bufferSize, options);
 			}
+
+			options |= NoBuffering;
 
 			var fileHandle = CreateFile(path, (int)access, share, IntPtr.Zero, mode, (int)options, IntPtr.Zero);
 
